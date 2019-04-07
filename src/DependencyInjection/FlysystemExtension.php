@@ -80,6 +80,7 @@ class FlysystemExtension extends Extension
 
             if ($config['default_filesystem'] === $fsName) {
                 $container->setAlias(FilesystemInterface::class, 'flysystem.filesystem.'.$fsName)->setPublic(false);
+                $container->setAlias('flysystem', 'flysystem.filesystem.'.$fsName)->setPublic(false);
             }
         }
     }

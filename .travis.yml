@@ -5,9 +5,9 @@ sudo: false
 matrix:
     include:
         - php: 7.1
-          env: SYMFONY_VERSION="4.1.*" COMPOSER_FLAGS="--prefer-lowest"
+          env: SYMFONY_VERSION="4.2.*" COMPOSER_FLAGS="--prefer-lowest"
         - php: 7.2
-          env: SYMFONY_VERSION="4.1.*" CS_FIXER=1
+          env: SYMFONY_VERSION="4.2.*" CS_FIXER=1
         - php: 7.3
           env: SYMFONY_VERSION="4.2.*"
     fast_finish: true
