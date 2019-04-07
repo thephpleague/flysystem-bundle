@@ -16,7 +16,6 @@
 
         <service id="flysystem.adapter.null" class="League\Flysystem\Adapter\NullAdapter" />
 
-
         <!-- Cache -->
         <service id="flysystem.cache.memory" class="League\Flysystem\Cached\Storage\Memory" />
 
