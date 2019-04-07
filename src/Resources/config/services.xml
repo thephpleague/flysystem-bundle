@@ -1,0 +1,27 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <defaults public="false" />
+
+        <!-- Adapters -->
+        <service id="flysystem.adapter.local" class="League\Flysystem\Adapter\Local">
+            <argument>%flysystem.default_local_directory%</argument>
+        </service>
+
+        <service id="flysystem.adapter.memory" class="League\Flysystem\Memory\MemoryAdapter" />
+
+        <service id="flysystem.adapter.null" class="League\Flysystem\Adapter\NullAdapter" />
+
+
+        <!-- Cache -->
+        <service id="flysystem.cache.memory" class="League\Flysystem\Cached\Storage\Memory" />
+
+        <service id="flysystem.cache.app" class="League\Flysystem\Cached\Storage\Psr6Cache">
+            <argument type="service" id="cache.app" />
+        </service>
+    </services>
+</container>
