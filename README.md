@@ -17,7 +17,7 @@ flysystem-bundle requires PHP 7.1+ and Symfony 4.2+.
 You can install the bundle using Symfony Flex:
 
 ```
-composer require tgalopin/flysystem-bundle
+composer require thephpleague/flysystem-bundle
 ```
 
 ## Documentation
