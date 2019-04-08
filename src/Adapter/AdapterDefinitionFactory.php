@@ -31,11 +31,15 @@ class AdapterDefinitionFactory
         $this->builders = [
             new Builder\AwsAdapterDefinitionBuilder($this),
             new Builder\AzureAdapterDefinitionBuilder($this),
+            new Builder\CacheAdapterDefinitionBuilder($this),
             new Builder\DropboxAdapterDefinitionBuilder($this),
+            new Builder\FtpAdapterDefinitionBuilder($this),
             new Builder\GcloudAdapterDefinitionBuilder($this),
             new Builder\LocalAdapterDefinitionBuilder($this),
             new Builder\PhpcrAdapterDefinitionBuilder($this),
             new Builder\RackspaceAdapterDefinitionBuilder($this),
+            new Builder\ReplicateAdapterDefinitionBuilder($this),
+            new Builder\SftpAdapterDefinitionBuilder($this),
             new Builder\WebdavAdapterDefinitionBuilder($this),
             new Builder\ZipAdapterDefinitionBuilder($this),
         ];
