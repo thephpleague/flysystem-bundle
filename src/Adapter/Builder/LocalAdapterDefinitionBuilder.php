@@ -1,0 +1,66 @@
+<?php
+
+/*
+ * This file is part of the flysystem-bundle project.
+ *
+ * (c) Titouan Galopin <galopintitouan@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace League\FlysystemBundle\Adapter\Builder;
+
+use League\Flysystem\Adapter\Local;
+use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+
+/**
+ * @author Titouan Galopin <galopintitouan@gmail.com>
+ */
+class LocalAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
+{
+    public function getName(): string
+    {
+        return 'local';
+    }
+
+    protected function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setRequired('directory');
+        $resolver->setAllowedTypes('directory', 'string');
+
+        $resolver->setDefault('lock', 0);
+        $resolver->setAllowedTypes('lock', 'int');
+
+        $resolver->setDefault('skip_links', false);
+        $resolver->setAllowedTypes('skip_links', 'boolean');
+
+        $resolver->setDefault('permissions', function (OptionsResolver $subResolver) {
+            $subResolver->setDefault('file', function (OptionsResolver $permsResolver) {
+                $permsResolver->setDefault('public', 0644);
+                $permsResolver->setAllowedTypes('public', 'int');
+
+                $permsResolver->setDefault('private', 0600);
+                $permsResolver->setAllowedTypes('private', 'int');
+            });
+
+            $subResolver->setDefault('dir', function (OptionsResolver $permsResolver) {
+                $permsResolver->setDefault('public', 0755);
+                $permsResolver->setAllowedTypes('public', 'int');
+
+                $permsResolver->setDefault('private', 0700);
+                $permsResolver->setAllowedTypes('private', 'int');
+            });
+        });
+    }
+
+    protected function configureDefinition(Definition $definition, array $options)
+    {
+        $definition->setClass(Local::class);
+        $definition->setArgument(0, $options['directory']);
+        $definition->setArgument(1, $options['lock']);
+        $definition->setArgument(2, $options['skip_links'] ? Local::SKIP_LINKS : Local::DISALLOW_LINKS);
+        $definition->setArgument(3, $options['permissions']);
+    }
+}

@@ -8,13 +8,13 @@
         <defaults public="false" />
 
         <!-- Adapters -->
-        <service id="flysystem.adapter.local" class="League\Flysystem\Adapter\Local">
+        <service id="flysystem.adapter.local" class="League\Flysystem\Adapter\Local" abstract="true">
             <argument>%flysystem.default_local_directory%</argument>
         </service>
 
-        <service id="flysystem.adapter.memory" class="League\Flysystem\Memory\MemoryAdapter" />
+        <service id="flysystem.adapter.memory" class="League\Flysystem\Memory\MemoryAdapter" abstract="true" />
 
-        <service id="flysystem.adapter.null" class="League\Flysystem\Adapter\NullAdapter" />
+        <service id="flysystem.adapter.null" class="League\Flysystem\Adapter\NullAdapter" abstract="true" />
 
         <!-- Cache -->
         <service id="flysystem.cache.memory" class="League\Flysystem\Cached\Storage\Memory" />
