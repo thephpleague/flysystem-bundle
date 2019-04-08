@@ -12,7 +12,6 @@
 namespace League\FlysystemBundle\Adapter;
 
 use League\FlysystemBundle\Adapter\Builder\AdapterDefinitionBuilderInterface;
-use League\FlysystemBundle\Adapter\Builder\LocalAdapterDefinitionBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 
 /**
@@ -30,7 +29,15 @@ class AdapterDefinitionFactory
     public function __construct()
     {
         $this->builders = [
-            new LocalAdapterDefinitionBuilder($this),
+            new Builder\AwsAdapterDefinitionBuilder($this),
+            new Builder\AzureAdapterDefinitionBuilder($this),
+            new Builder\DropboxAdapterDefinitionBuilder($this),
+            new Builder\GcloudAdapterDefinitionBuilder($this),
+            new Builder\LocalAdapterDefinitionBuilder($this),
+            new Builder\PhpcrAdapterDefinitionBuilder($this),
+            new Builder\RackspaceAdapterDefinitionBuilder($this),
+            new Builder\WebdavAdapterDefinitionBuilder($this),
+            new Builder\ZipAdapterDefinitionBuilder($this),
         ];
     }
 
