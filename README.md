@@ -27,9 +27,17 @@ composer require league/flysystem-bundle
 ## Documentation
 
 1. [Getting started](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/1-getting-started.md)
-2. [Caching](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/2-caching.md)
-3. [Using the mount manager](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/3-using-mount-manager.md)
-4. [Configuration reference](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/4-configuration-reference.md)
+2. Cloud storage providers:
+   [Azure](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/2-cloud-storage-providers.md#azure),
+   [AWS S3](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/2-cloud-storage-providers.md#aws),
+   [DigitalOcean Spaces](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/2-cloud-storage-providers.md#digitalocean-spaces),
+   [Scaleway Object Storage](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/2-cloud-storage-providers.md#scaleway-object-storage),
+   [Google Cloud Storage](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/2-cloud-storage-providers.md#google-cloud-storage),
+   [Rackspace](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/2-cloud-storage-providers.md#rackspace),
+   [WebDAV](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/2-cloud-storage-providers.md#webdav)
+3. [Interacting with FTP and SFTP servers](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/3-interacting-with-ftp-and-sftp-servers.md)
+4. [Caching metadata in Symfony cache](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/4-caching-metadata-in-symfony-cache.md)
+5. [Configuration reference](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/5-configuration-reference.md)
 
 ## Security Issues
 
