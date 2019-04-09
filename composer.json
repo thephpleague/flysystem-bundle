@@ -21,14 +21,14 @@
     },
     "require": {
         "php": ">=7.1",
-        "league/flysystem": "^1.0.26",
+        "league/flysystem": "^1.0.40",
         "symfony/framework-bundle": "^4.2",
         "symfony/options-resolver": "^4.2"
     },
     "require-dev": {
-        "league/flysystem-aws-s3-v3": "^1.0",
+        "league/flysystem-aws-s3-v3": "^1.0.22",
         "league/flysystem-azure-blob-storage": "^0.1.5",
-        "league/flysystem-cached-adapter": "^1.0",
+        "league/flysystem-cached-adapter": "^1.0.9",
         "league/flysystem-memory": "^1.0",
         "league/flysystem-rackspace": "^1.0",
         "league/flysystem-replicate-adapter": "^1.0",
@@ -40,6 +40,10 @@
         "superbalist/flysystem-google-storage": "^7.2",
         "symfony/var-dumper": "^4.1",
         "symfony/yaml": "^4.2"
+    },
+    "conflict": {
+        "league/flysystem-aws-s3-v3": "<1.0.22",
+        "league/flysystem-cached-adapter": "<1.0.9"
     },
     "config": {
         "preferred-install": {
