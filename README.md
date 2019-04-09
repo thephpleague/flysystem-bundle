@@ -1,7 +1,5 @@
 # flysystem-bundle
 
-> This bundle is currently in active development and not released yet.
-
 [![Build Status](https://travis-ci.org/thephpleague/flysystem-bundle.svg?branch=master)](https://travis-ci.org/thephpleague/flysystem-bundle)
 
 [![SymfonyInsight](https://insight.symfony.com/projects/525fdfa3-d482-4218-b4b9-3c2efc305fac/big.svg)](https://insight.symfony.com/projects/525fdfa3-d482-4218-b4b9-3c2efc305fac)
