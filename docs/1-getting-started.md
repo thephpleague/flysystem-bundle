@@ -79,6 +79,10 @@ This means you have two way of using the defined storages:
 
 * or using manual injection, by injecting the service named `default.storage` inside 
   your services.
+  
+Once you have a FilesystemInterface, you can call methods from the
+[Filesystem API](https://flysystem.thephpleague.com/docs/usage/filesystem-api/)
+to interact with your storage.
 
 
 ## Using multiple storages to improve readability
