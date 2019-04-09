@@ -58,10 +58,16 @@ fs_local:
                 public: 0755
                 private: 0700
 
+fs_memory:
+    adapter: 'memory'
+
+fs_null:
+    adapter: 'null'
+
 fs_rackspace:
     adapter: 'rackspace'
     options:
-        client: 'rackspace_container_service'
+        container: 'rackspace_container_service'
         prefix: 'optional/path/prefix'
 
 fs_replicate:

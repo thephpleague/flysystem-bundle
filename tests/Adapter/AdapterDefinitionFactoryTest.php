@@ -23,7 +23,7 @@ class AdapterDefinitionFactoryTest extends TestCase
         $config = Yaml::parseFile(__DIR__.'/options.yaml');
 
         foreach ($config as $fs) {
-            yield $fs['adapter'] => [$fs['adapter'], $fs['options']];
+            yield $fs['adapter'] => [$fs['adapter'], $fs['options'] ?? []];
         }
     }
 

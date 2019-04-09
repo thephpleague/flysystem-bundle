@@ -27,9 +27,12 @@ class Configuration implements ConfigurationInterface
         $rootNode = $this->getRootNode($treeBuilder, 'flysystem');
 
         $rootNode
+            ->fixXmlConfig('storage')
             ->children()
                 ->arrayNode('storages')
+                    ->useAttributeAsKey('name')
                     ->arrayPrototype()
+                        ->performNoDeepMerging()
                         ->children()
                             ->scalarNode('adapter')->isRequired()->end()
                             ->arrayNode('options')

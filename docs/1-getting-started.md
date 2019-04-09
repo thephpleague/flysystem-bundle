@@ -2,7 +2,8 @@
 
 - [Installation](#installation)
 - [Basic usage](#basic-usage)
-- [Defining multiple filesystems](#defining-multiple-filesystems)
+- [Using multiple storages to improve readability](#using-multiple-storages-to-improve-readability)
+- [Using memory storage in tests](#using-memory-storage-in-tests)
 
 ## Installation
 
@@ -11,7 +12,7 @@ flysystem-bundle requires PHP 7.1+ and Symfony 4.2+.
 You can install the bundle using Symfony Flex:
 
 ```
-composer require thephpleague/flysystem-bundle
+composer require league/flysystem-bundle
 ```
 
 ## Basic usage
@@ -23,90 +24,136 @@ use Flysystem in your application as soon as you install the bundle:
 # config/packages/flysystem.yaml
 
 flysystem:
-    default_filesystem: 'default.storage'
-    filesystems:
+    storages:
         default.storage:
-            adapter: 'flysystem.adapter.local'
+            adapter: 'local'
+            options:
+                directory: '%kernel.project_dir%/storage'
 ```
 
-This configuration creates a single filesystem service, configured using the local adapter in the `storge` directory, 
-and provides this service for autowiring using the `League\Flysystem\FilesystemInterface` interface. 
-This autowiring will target the default filesystem defined in the bundle configuration.
- 
-This means that if you are using autowiring, you can typehint `League\Flysystem\FilesystemInterface` in any
-of your services to get the default filesystem:
+This configuration defines a single storage service (`default.storage`) based on the local adapter
+and configured to use the `%kernel.project_dir%/storage` directory.
+
+For each storage defined under `flysystem.storages`, an associated service is created using the
+name you provide (in this case, a service `default.storage` will be created). The bundle also
+creates a named alias for each of these services.
+
+This means you have two way of using the defined storages:
+
+* either using autowiring, by typehinting against the `FilesystemInterface` and using the
+  variable name matching one of your storages:
+
+    ```php
+    use League\Flysystem\FilesystemInterface;
+    
+    class MyService
+    {
+        private $storage;
+        
+        // The variable name $defaultStorage matters: it needs to be the camelized version
+        // of the name of your storage. 
+        public function __construct(FilesystemInterface $defaultStorage)
+        {
+            $this->storage = $defaultStorage;
+        }
+        
+        // ...
+    }
+    ```
+    
+  The same goes for controllers:
+    
+    ```php
+    use League\Flysystem\FilesystemInterface;
+    
+    class MyController
+    {
+        // The variable name $defaultStorage matters: it needs to be the camelized version
+        // of the name of your storage. 
+        public function index(FilesystemInterface $defaultStorage)
+        {
+            // ...
+        }
+    }
+    ```
+
+* or using manual injection, by injecting the service named `default.storage` inside 
+  your services.
+
+
+## Using multiple storages to improve readability
+
+While using the default storage can be enough, it is usually recommended to create multiple
+storages, even if behind the scene you may rely on the same adapter.
+
+The reason for this is the added readability this provides to your project code: by naming
+your storages using their **intents**, your will naturally increase the readability of your
+autowired arguments. For example:
+
+```yaml
+# config/packages/flysystem.yaml
+
+flysystem:
+    storages:
+        users.storage:
+            adapter: 'local'
+            options:
+                directory: '%kernel.project_dir%/storage/users'
+                
+        projects.storage:
+            adapter: 'local'
+            options:
+                directory: '%kernel.project_dir%/storage/projects'
+``` 
 
 ```php
 use League\Flysystem\FilesystemInterface;
 
 class MyService
 {
-    private $storage;
+    private $usersStorage;
+    private $projectsStorage;
     
-    public function __construct(FilesystemInterface $storage)
+    public function __construct(FilesystemInterface $usersStorage, FilesystemInterface $projectsStorage)
     {
-        $this->storage = $storage;
+        $this->usersStorage = $usersStorage;
+        $this->projectsStorage = $projectsStorage;
     }
     
     // ...
 }
 ```
 
-The same goes for controllers:
 
-```php
-use League\Flysystem\FilesystemInterface;
+## Using memory storage in tests
 
-class MyController
-{
-    public function index(FilesystemInterface $storage)
-    {
-        // ...
-    }
-}
-```
+One of the best reason to use a filesystem abstraction in your project is the ability
+it gives you to swap the actual implementation during tests.
 
-If you are not using autowiring, you can inject the `flysystem` service into your services
-manually to get the default filesystem.
+More specifically, it can be useful to swap from a persisted storage to a memory one during 
+tests, both to ensure the state is reset between tests and to increase tests speed.
 
-## Defining multiple filesystems
-
-Using a single filesystem is good way to get up and running quickly, but it is often useful to
-create multiple instances of Flysystem in order to manage different filesystems.
-
-This bundle provides this ability using `named aliases`: by leveraging the variable name in addition to
-the interface name, autowiring is able to inject the proper filesystem you want in your services.
-
-This means that if you are using autowiring, you can create multiple filesystems in the configuration of the
-bundle and typehint `League\Flysystem\FilesystemInterface` with a variable having the same name as your filesystem 
-name to get this specific filesystem:
+To achieve this, you can overwrite your storages in the test environment:
 
 ```yaml
 # config/packages/flysystem.yaml
 
 flysystem:
-    default_filesystem: 'app'
-    filesystems:
-        upload.storage:
+    storages:
+        users.storage:
             adapter: 'local'
             options:
-                directory: '%kernel.project_dir%/storage'
+                directory: '%kernel.project_dir%/storage/users'
+``` 
 
-        tmp.storage:
-            adapter: 'flysystem.adapter.local'
-            options:
-                directory: '/tmp'
+```yaml
+# config/packages/test/flysystem.yaml
+
+flysystem:
+    storages:
+        users.storage:
+            adapter: 'memory'
 ```
 
-```php
-use League\Flysystem\FilesystemInterface;
-
-class MyController
-{
-    public function index(FilesystemInterface $fs, FilesystemInterface $tmpStorage)
-    {
-        // $fs is referencing the default filesystem ("app") because the variable name is not a filesystem name
-        // $tmpStorage is referencing the "tmp.storage" filesystem
-    }
-}
-```
+This configuration will swap every reference to the `users.storage` service (or to the
+`FilesystemInterface $usersStorage` typehint) from a local adapter to a memory one during tests.

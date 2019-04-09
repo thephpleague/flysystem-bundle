@@ -25,11 +25,11 @@ class RackspaceAdapterDefinitionBuilderTest extends AbstractAdapterDefinitionBui
     public function provideValidOptions()
     {
         yield 'minimal' => [[
-            'client' => 'my_client',
+            'container' => 'my_client',
         ]];
 
         yield 'prefix' => [[
-            'client' => 'my_client',
+            'container' => 'my_client',
             'prefix' => 'prefix/path',
         ]];
     }
@@ -45,7 +45,7 @@ class RackspaceAdapterDefinitionBuilderTest extends AbstractAdapterDefinitionBui
     public function testOptionsBehavior()
     {
         $definition = $this->createBuilder()->createDefinition([
-            'client' => 'my_client',
+            'container' => 'my_client',
             'prefix' => 'prefix/path',
         ]);
 

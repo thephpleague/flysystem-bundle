@@ -36,6 +36,8 @@ class AdapterDefinitionFactory
             new Builder\FtpAdapterDefinitionBuilder($this),
             new Builder\GcloudAdapterDefinitionBuilder($this),
             new Builder\LocalAdapterDefinitionBuilder($this),
+            new Builder\MemoryAdapterDefinitionBuilder($this),
+            new Builder\NullAdapterDefinitionBuilder($this),
             new Builder\RackspaceAdapterDefinitionBuilder($this),
             new Builder\ReplicateAdapterDefinitionBuilder($this),
             new Builder\SftpAdapterDefinitionBuilder($this),

@@ -14,6 +14,8 @@ services:
     flysystem.test.fs_ftp: { alias: 'fs_ftp' }
     flysystem.test.fs_gcloud: { alias: 'fs_gcloud' }
     flysystem.test.fs_local: { alias: 'fs_local' }
+    flysystem.test.fs_memory: { alias: 'fs_memory' }
+    flysystem.test.fs_null: { alias: 'fs_null' }
     flysystem.test.fs_rackspace: { alias: 'fs_rackspace' }
     flysystem.test.fs_replicate: { alias: 'fs_replicate' }
     flysystem.test.fs_sftp: { alias: 'fs_sftp' }

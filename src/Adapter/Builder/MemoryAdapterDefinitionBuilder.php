@@ -11,9 +11,8 @@
 
 namespace League\FlysystemBundle\Adapter\Builder;
 
-use League\Flysystem\Rackspace\RackspaceAdapter;
+use League\Flysystem\Memory\MemoryAdapter;
 use Symfony\Component\DependencyInjection\Definition;
-use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -21,26 +20,19 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  *
  * @internal
  */
-class RackspaceAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
+class MemoryAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
 {
     public function getName(): string
     {
-        return 'rackspace';
+        return 'memory';
     }
 
     protected function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setRequired('container');
-        $resolver->setAllowedTypes('container', 'string');
-
-        $resolver->setDefault('prefix', '');
-        $resolver->setAllowedTypes('prefix', 'string');
     }
 
     protected function configureDefinition(Definition $definition, array $options)
     {
-        $definition->setClass(RackspaceAdapter::class);
-        $definition->setArgument(0, new Reference($options['container']));
-        $definition->setArgument(1, $options['prefix']);
+        $definition->setClass(MemoryAdapter::class);
     }
 }
