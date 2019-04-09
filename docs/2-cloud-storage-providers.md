@@ -4,6 +4,14 @@ One of the core feature of Flysystem is its ability to interact easily with remo
 including many cloud storage providers. This bundle provides the same level of support for these
 cloud providers by providing corresponding adapters in the configuration.
 
+* [Azure](#azure)
+* [AWS S3](#aws-s3)
+* [DigitalOcean Spaces](#digitalocean-spaces)
+* [Scaleway Object Storage](#scaleway-object-storage)
+* [Google Cloud Storage](#google-cloud-storage)
+* [Rackspace](#rackspace)
+* [WebDAV](#webdav)
+
 ## Azure
 
 ### Installation
@@ -27,7 +35,7 @@ flysystem:
                 prefix: 'optional/path/prefix'
 ```
 
-## AWS
+## AWS S3
 
 ### Installation
 
@@ -150,3 +158,7 @@ flysystem:
                 prefix: 'optional/path/prefix'
                 use_stream_copy: false
 ```
+
+## Next
+
+[Interacting with FTP and SFTP servers](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/3-interacting-with-ftp-and-sftp-servers.md)

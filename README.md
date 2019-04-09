@@ -11,8 +11,10 @@ library into Symfony applications. It provides an efficient abstraction for the 
 for instance to use local files in development and a cloud storage in production or to use a memory
 filesystem in tests to increase their speed.
 
-This bundle relies on **named aliases** (introduced in Symfony 4.2) in order to create and configure
-multiple filesystems and still follow the best practices of software architecture (SOLID principles). 
+This bundle relies on 
+[named aliases](https://symfony.com/doc/current/service_container/autowiring.html#dealing-with-multiple-implementations-of-the-same-type) 
+(introduced in Symfony 4.2) in order to create and configure multiple filesystems while still 
+following the best practices of software architecture (SOLID principles). 
 
 ## Installation
 
@@ -29,7 +31,7 @@ composer require league/flysystem-bundle
 1. [Getting started](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/1-getting-started.md)
 2. Cloud storage providers:
    [Azure](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/2-cloud-storage-providers.md#azure),
-   [AWS S3](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/2-cloud-storage-providers.md#aws),
+   [AWS S3](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/2-cloud-storage-providers.md#aws-s3),
    [DigitalOcean Spaces](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/2-cloud-storage-providers.md#digitalocean-spaces),
    [Scaleway Object Storage](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/2-cloud-storage-providers.md#scaleway-object-storage),
    [Google Cloud Storage](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/2-cloud-storage-providers.md#google-cloud-storage),
@@ -37,7 +39,10 @@ composer require league/flysystem-bundle
    [WebDAV](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/2-cloud-storage-providers.md#webdav)
 3. [Interacting with FTP and SFTP servers](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/3-interacting-with-ftp-and-sftp-servers.md)
 4. [Caching metadata in Symfony cache](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/4-caching-metadata-in-symfony-cache.md)
-5. [Configuration reference](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/5-configuration-reference.md)
+5. [Creating a custom adapter](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/5-creating-a-custom-adapter.md)
+
+A. [Security issue disclosure procedure](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/A-security-disclosure-procedure.md)
+B. [Configuration reference](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/B-configuration-reference.md)
 
 ## Security Issues
 

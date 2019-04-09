@@ -157,3 +157,7 @@ flysystem:
 
 This configuration will swap every reference to the `users.storage` service (or to the
 `FilesystemInterface $usersStorage` typehint) from a local adapter to a memory one during tests.
+
+## Next
+
+[Cloud storage providers](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/2-cloud-storage-providers.md)
