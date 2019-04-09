@@ -11,7 +11,6 @@
 
 namespace Tests\League\FlysystemBundle\Adapter\Builder;
 
-use League\Flysystem\Cached\CachedAdapter;
 use League\Flysystem\Replicate\ReplicateAdapter;
 use League\FlysystemBundle\Adapter\Builder\ReplicateAdapterDefinitionBuilder;
 use Symfony\Component\DependencyInjection\Reference;

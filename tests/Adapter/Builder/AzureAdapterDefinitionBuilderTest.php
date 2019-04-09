@@ -11,7 +11,6 @@
 
 namespace Tests\League\FlysystemBundle\Adapter\Builder;
 
-use League\Flysystem\AwsS3v3\AwsS3Adapter;
 use League\Flysystem\AzureBlobStorage\AzureBlobStorageAdapter;
 use League\FlysystemBundle\Adapter\Builder\AzureAdapterDefinitionBuilder;
 use Symfony\Component\DependencyInjection\Reference;
