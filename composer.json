@@ -1,6 +1,6 @@
 {
-    "name": "thephpleague/flysystem-bundle",
-    "description": "",
+    "name": "league/flysystem-bundle",
+    "description": "Symfony bundle integrating Flysystem into Symfony 4.2+ applications",
     "type": "symfony-bundle",
     "license": "MIT",
     "authors": [

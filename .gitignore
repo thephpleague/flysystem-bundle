@@ -1,5 +1,3 @@
 vendor
 composer.lock
-tests/Fixtures/*/cache
-tests/Fixtures/*/logs
 .php_cs.cache
