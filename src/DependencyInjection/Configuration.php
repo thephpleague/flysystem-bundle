@@ -28,8 +28,7 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-                ->scalarNode('default_filesystem')->isRequired()->end()
-                ->arrayNode('filesystems')
+                ->arrayNode('storages')
                     ->arrayPrototype()
                         ->children()
                             ->scalarNode('adapter')->isRequired()->end()

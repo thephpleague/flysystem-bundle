@@ -15,6 +15,8 @@ use Symfony\Component\DependencyInjection\Definition;
 
 /**
  * @author Titouan Galopin <galopintitouan@gmail.com>
+ *
+ * @internal
  */
 interface AdapterDefinitionBuilderInterface
 {

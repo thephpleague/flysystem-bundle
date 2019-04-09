@@ -1,6 +1,5 @@
 flysystem:
-    default_filesystem: 'fs_cache'
-    filesystems:
+    storages:
         fs_aws:
             adapter: 'aws'
             options:

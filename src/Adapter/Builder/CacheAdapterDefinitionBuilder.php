@@ -19,6 +19,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * @author Titouan Galopin <galopintitouan@gmail.com>
+ *
+ * @internal
  */
 class CacheAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
 {

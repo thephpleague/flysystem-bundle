@@ -31,40 +31,27 @@ class FlysystemExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        $this->registerFilesystems($container, $config['filesystems']);
-
-        // Create default filesystem alias
-        if (!isset($config['filesystems'][$config['default_filesystem']])) {
-            throw new \LogicException('Default filesystem "'.$config['default_filesystem'].'" is not defined in the "flysystem.filesystems" configuration key.');
-        }
-
-        $container->setAlias(FilesystemInterface::class, $config['default_filesystem'])->setPublic(false);
-        $container->setAlias('flysystem', $config['default_filesystem'])->setPublic(false);
-    }
-
-    private function registerFilesystems(ContainerBuilder $container, array $filesystems)
-    {
         $adapterFactory = new AdapterDefinitionFactory();
 
-        foreach ($filesystems as $fsName => $fsConfig) {
+        foreach ($config['storages'] as $storageName => $storageConfig) {
             // Create adapter service definition
-            if ($adapter = $adapterFactory->createDefinition($fsConfig['adapter'], $fsConfig['options'])) {
+            if ($adapter = $adapterFactory->createDefinition($storageConfig['adapter'], $storageConfig['options'])) {
                 // Native adapter
-                $container->setDefinition('flysystem.adapter.'.$fsName, $adapter)->setPublic(false);
+                $container->setDefinition('flysystem.adapter.'.$storageName, $adapter)->setPublic(false);
             } else {
                 // Custom adapter
-                $container->setAlias('flysystem.adapter.'.$fsName, $fsConfig['adapter'])->setPublic(false);
+                $container->setAlias('flysystem.adapter.'.$storageName, $storageConfig['adapter'])->setPublic(false);
             }
 
-            // Create filesystem service definition
-            $definition = $this->createFilesystemDefinition(new Reference('flysystem.adapter.'.$fsName), $fsConfig);
+            // Create storage service definition
+            $definition = $this->createStorageDefinition(new Reference('flysystem.adapter.'.$storageName), $storageConfig);
 
-            $container->setDefinition($fsName, $definition);
-            $container->registerAliasForArgument($fsName, FilesystemInterface::class, $fsName)->setPublic(false);
+            $container->setDefinition($storageName, $definition);
+            $container->registerAliasForArgument($storageName, FilesystemInterface::class, $storageName)->setPublic(false);
         }
     }
 
-    private function createFilesystemDefinition(Reference $adapter, array $config)
+    private function createStorageDefinition(Reference $adapter, array $config)
     {
         $definition = new Definition(Filesystem::class);
         $definition->setPublic(false);

@@ -30,10 +30,8 @@ class FrameworkAppKernel extends Kernel
     {
         $loader->load(function (ContainerBuilder $container) {
             $container->loadFromExtension('framework', ['secret' => '$ecret']);
-
             $container->loadFromExtension('flysystem', [
-                'default_filesystem' => 'uploads.storage',
-                'filesystems' => ['uploads.storage' => ['adapter' => 'local', 'options' => ['directory' => __DIR__]]],
+                'storages' => ['uploads.storage' => ['adapter' => 'local', 'options' => ['directory' => __DIR__]]],
             ]);
         });
     }

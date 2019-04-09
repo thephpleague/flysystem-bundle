@@ -12,6 +12,7 @@
 namespace Tests\League\FlysystemBundle\DependencyInjection;
 
 use Aws\S3\S3Client;
+use Google\Cloud\Storage\Bucket;
 use Google\Cloud\Storage\StorageClient;
 use League\Flysystem\FilesystemInterface;
 use MicrosoftAzure\Storage\Blob\BlobRestProxy;
@@ -42,11 +43,14 @@ class FlysytemExtensionTest extends TestCase
 
     private function getClientMocks()
     {
+        $gcloud = $this->createMock(StorageClient::class);
+        $gcloud->method('bucket')->willReturn($this->createMock(Bucket::class));
+
         return [
             'aws_client_service' => $this->createMock(S3Client::class),
             'azure_client_service' => $this->createMock(BlobRestProxy::class),
             'dropbox_client_service' => $this->createMock(DropboxClient::class),
-            'gcloud_client_service' => $this->createMock(StorageClient::class),
+            'gcloud_client_service' => $gcloud,
             'rackspace_container_service' => $this->createMock(Container::class),
             'webdav_client_service' => $this->createMock(WebDAVClient::class),
         ];
@@ -57,6 +61,17 @@ class FlysytemExtensionTest extends TestCase
         return [
             'fs_aws',
             'fs_azure',
+            'fs_cache',
+            'fs_custom',
+            'fs_dropbox',
+            'fs_ftp',
+            'fs_gcloud',
+            'fs_local',
+            'fs_rackspace',
+            'fs_replicate',
+            'fs_sftp',
+            'fs_webdav',
+            'fs_zip',
         ];
     }
 }
