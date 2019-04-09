@@ -11,7 +11,6 @@
 
 namespace League\FlysystemBundle\Adapter\Builder;
 
-use League\Flysystem\Adapter\Ftp;
 use League\Flysystem\Sftp\SftpAdapter;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\OptionsResolver\OptionsResolver;

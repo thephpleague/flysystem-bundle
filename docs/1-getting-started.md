@@ -23,9 +23,9 @@ use Flysystem in your application as soon as you install the bundle:
 # config/packages/flysystem.yaml
 
 flysystem:
-    default_filesystem: 'app'
+    default_filesystem: 'default.storage'
     filesystems:
-        app:
+        default.storage:
             adapter: 'flysystem.adapter.local'
 ```
 
@@ -41,11 +41,11 @@ use League\Flysystem\FilesystemInterface;
 
 class MyService
 {
-    private $filesystem;
+    private $storage;
     
-    public function __construct(FilesystemInterface $filesystem)
+    public function __construct(FilesystemInterface $storage)
     {
-        $this->filesystem = $filesystem;
+        $this->storage = $storage;
     }
     
     // ...
@@ -59,7 +59,7 @@ use League\Flysystem\FilesystemInterface;
 
 class MyController
 {
-    public function index(FilesystemInterface $filesystem)
+    public function index(FilesystemInterface $storage)
     {
         // ...
     }
@@ -87,12 +87,15 @@ name to get this specific filesystem:
 flysystem:
     default_filesystem: 'app'
     filesystems:
-        app:
-            adapter: 'flysystem.adapter.local'
+        upload.storage:
+            adapter: 'local'
+            options:
+                directory: '%kernel.project_dir%/storage'
 
-        # Defines an additional filesystem named "myFilesystem"
-        myFilesystem:
+        tmp.storage:
             adapter: 'flysystem.adapter.local'
+            options:
+                directory: '/tmp'
 ```
 
 ```php
@@ -100,13 +103,10 @@ use League\Flysystem\FilesystemInterface;
 
 class MyController
 {
-    public function index(FilesystemInterface $fs, FilesystemInterface $myFilesystem)
+    public function index(FilesystemInterface $fs, FilesystemInterface $tmpStorage)
     {
         // $fs is referencing the default filesystem ("app") because the variable name is not a filesystem name
-        // $myFilesystem is referencing the "myFilesystem" filesystem
+        // $tmpStorage is referencing the "tmp.storage" filesystem
     }
 }
 ```
-
-If you are not using autowiring, you can inject the `flysystem.filesystem.<filesystem-name>` service into 
-your services manually to get a specific filesystem (for instance here: `flysystem.filesystem.myFilesystem`).

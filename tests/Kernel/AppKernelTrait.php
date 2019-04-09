@@ -9,9 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Tests\League\FlysystemBundle;
+namespace Tests\League\FlysystemBundle\Kernel;
 
-trait AppKernelTestTrait
+trait AppKernelTrait
 {
     public function getCacheDir()
     {

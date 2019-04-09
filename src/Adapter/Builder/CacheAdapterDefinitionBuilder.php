@@ -12,6 +12,7 @@
 namespace League\FlysystemBundle\Adapter\Builder;
 
 use League\Flysystem\Cached\CachedAdapter;
+use League\Flysystem\Cached\Storage\Psr6Cache;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -39,6 +40,6 @@ class CacheAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
     {
         $definition->setClass(CachedAdapter::class);
         $definition->setArgument(0, new Reference('flysystem.adapter.'.$options['source']));
-        $definition->setArgument(1, new Reference($options['store']));
+        $definition->setArgument(1, new Definition(Psr6Cache::class, [new Reference($options['store'])]));
     }
 }

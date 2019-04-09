@@ -11,7 +11,6 @@
 
 namespace Tests\League\FlysystemBundle\Adapter\Builder;
 
-use League\Flysystem\AwsS3v3\AwsS3Adapter;
 use League\FlysystemBundle\Adapter\Builder\GcloudAdapterDefinitionBuilder;
 use Superbalist\Flysystem\GoogleStorage\GoogleStorageAdapter;
 use Symfony\Component\DependencyInjection\Definition;

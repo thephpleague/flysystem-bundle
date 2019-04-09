@@ -20,7 +20,7 @@ class AdapterDefinitionFactoryTest extends TestCase
 {
     public function provideConfigOptions()
     {
-        $config = Yaml::parseFile(__DIR__.'/Fixtures/full_config.yaml');
+        $config = Yaml::parseFile(__DIR__.'/options.yaml');
 
         foreach ($config as $fs) {
             yield $fs['adapter'] => [$fs['adapter'], $fs['options']];

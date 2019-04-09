@@ -12,10 +12,10 @@ fs_azure:
         container: 'container_name'
         prefix: 'optional/path/prefix'
 
-fs_cached:
+fs_cache:
     adapter: 'cache'
     options:
-        store: 'flysystem.cache.memory'
+        store: 'memory'
         source: 'fs_local'
 
 fs_dropbox:
@@ -57,12 +57,6 @@ fs_local:
             dir:
                 public: 0755
                 private: 0700
-
-fs_phpcr:
-    adapter: 'phpcr'
-    options:
-        session: 'phpcr_session_service'
-        root: '/root'
 
 fs_rackspace:
     adapter: 'rackspace'

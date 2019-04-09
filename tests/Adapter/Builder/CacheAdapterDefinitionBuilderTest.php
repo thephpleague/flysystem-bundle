@@ -12,7 +12,9 @@
 namespace Tests\League\FlysystemBundle\Adapter\Builder;
 
 use League\Flysystem\Cached\CachedAdapter;
+use League\Flysystem\Cached\Storage\Psr6Cache;
 use League\FlysystemBundle\Adapter\Builder\CacheAdapterDefinitionBuilder;
+use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
 class CacheAdapterDefinitionBuilderTest extends AbstractAdapterDefinitionBuilderTest
@@ -48,7 +50,11 @@ class CacheAdapterDefinitionBuilderTest extends AbstractAdapterDefinitionBuilder
         $this->assertSame(CachedAdapter::class, $definition->getClass());
         $this->assertInstanceOf(Reference::class, $definition->getArgument(0));
         $this->assertSame('flysystem.adapter.my_source', (string) $definition->getArgument(0));
-        $this->assertInstanceOf(Reference::class, $definition->getArgument(1));
-        $this->assertSame('my_store', (string) $definition->getArgument(1));
+
+        $store = $definition->getArgument(1);
+        $this->assertInstanceOf(Definition::class, $store);
+        $this->assertSame(Psr6Cache::class, $store->getClass());
+        $this->assertInstanceOf(Reference::class, $store->getArgument(0));
+        $this->assertSame('my_store', (string) $store->getArgument(0));
     }
 }

@@ -12,7 +12,6 @@
 namespace League\FlysystemBundle\Adapter\Builder;
 
 use League\Flysystem\WebDAV\WebDAVAdapter;
-use Spatie\FlysystemDropbox\DropboxAdapter;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\OptionsResolver\OptionsResolver;
