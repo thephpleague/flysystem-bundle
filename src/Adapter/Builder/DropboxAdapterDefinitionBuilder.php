@@ -28,6 +28,13 @@ class DropboxAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
         return 'dropbox';
     }
 
+    protected function getRequiredPackages(): array
+    {
+        return [
+            DropboxAdapter::class => 'spatie/flysystem-dropbox',
+        ];
+    }
+
     protected function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setRequired('client');

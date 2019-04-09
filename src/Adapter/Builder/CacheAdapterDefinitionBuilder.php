@@ -29,6 +29,13 @@ class CacheAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
         return 'cache';
     }
 
+    protected function getRequiredPackages(): array
+    {
+        return [
+            CachedAdapter::class => 'league/flysystem-cached-adapter',
+        ];
+    }
+
     protected function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setRequired('store');

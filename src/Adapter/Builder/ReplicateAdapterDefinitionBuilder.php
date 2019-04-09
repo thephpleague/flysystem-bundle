@@ -28,6 +28,13 @@ class ReplicateAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
         return 'replicate';
     }
 
+    protected function getRequiredPackages(): array
+    {
+        return [
+            ReplicateAdapter::class => 'league/flysystem-replicate-adapter',
+        ];
+    }
+
     protected function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setRequired('source');

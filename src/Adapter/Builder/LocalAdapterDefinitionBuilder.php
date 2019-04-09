@@ -27,6 +27,11 @@ class LocalAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
         return 'local';
     }
 
+    protected function getRequiredPackages(): array
+    {
+        return [];
+    }
+
     protected function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setRequired('directory');

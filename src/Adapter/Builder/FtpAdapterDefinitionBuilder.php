@@ -27,6 +27,11 @@ class FtpAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
         return 'ftp';
     }
 
+    protected function getRequiredPackages(): array
+    {
+        return [];
+    }
+
     protected function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setRequired('host');

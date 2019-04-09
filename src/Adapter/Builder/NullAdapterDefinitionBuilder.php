@@ -27,6 +27,11 @@ class NullAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
         return 'null';
     }
 
+    protected function getRequiredPackages(): array
+    {
+        return [];
+    }
+
     protected function configureOptions(OptionsResolver $resolver)
     {
     }

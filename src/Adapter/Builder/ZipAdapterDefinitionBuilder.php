@@ -28,6 +28,13 @@ class ZipAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
         return 'zip';
     }
 
+    protected function getRequiredPackages(): array
+    {
+        return [
+            ZipArchiveAdapter::class => 'league/flysystem-ziparchive',
+        ];
+    }
+
     protected function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setRequired('path');

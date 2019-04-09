@@ -28,6 +28,13 @@ class WebdavAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
         return 'webdav';
     }
 
+    protected function getRequiredPackages(): array
+    {
+        return [
+            WebDAVAdapter::class => 'league/flysystem-webdav',
+        ];
+    }
+
     protected function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setRequired('client');

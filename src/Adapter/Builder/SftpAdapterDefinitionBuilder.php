@@ -27,6 +27,13 @@ class SftpAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
         return 'sftp';
     }
 
+    protected function getRequiredPackages(): array
+    {
+        return [
+            SftpAdapter::class => 'league/flysystem-sftp',
+        ];
+    }
+
     protected function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setRequired('host');

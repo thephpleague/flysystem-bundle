@@ -28,6 +28,13 @@ class GcloudAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
         return 'gcloud';
     }
 
+    protected function getRequiredPackages(): array
+    {
+        return [
+            GoogleStorageAdapter::class => 'superbalist/flysystem-google-storage',
+        ];
+    }
+
     protected function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setRequired('client');

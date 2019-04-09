@@ -28,6 +28,13 @@ class RackspaceAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
         return 'rackspace';
     }
 
+    protected function getRequiredPackages(): array
+    {
+        return [
+            RackspaceAdapter::class => 'league/flysystem-rackspace',
+        ];
+    }
+
     protected function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setRequired('container');

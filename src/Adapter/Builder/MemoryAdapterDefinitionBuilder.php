@@ -27,6 +27,13 @@ class MemoryAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
         return 'memory';
     }
 
+    protected function getRequiredPackages(): array
+    {
+        return [
+            MemoryAdapter::class => 'league/flysystem-memory',
+        ];
+    }
+
     protected function configureOptions(OptionsResolver $resolver)
     {
     }
