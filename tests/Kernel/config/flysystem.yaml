@@ -52,7 +52,7 @@ flysystem:
         fs_local:
             adapter: 'local'
             options:
-                directory: '%kernel.project_dir%/storage'
+                directory: '/tmp/storage'
                 lock: 0
                 skip_links: false
                 permissions:
