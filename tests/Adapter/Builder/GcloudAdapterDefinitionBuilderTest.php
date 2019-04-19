@@ -12,15 +12,16 @@
 namespace Tests\League\FlysystemBundle\Adapter\Builder;
 
 use League\FlysystemBundle\Adapter\Builder\GcloudAdapterDefinitionBuilder;
+use PHPUnit\Framework\TestCase;
 use Superbalist\Flysystem\GoogleStorage\GoogleStorageAdapter;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-class GcloudAdapterDefinitionBuilderTest extends AbstractAdapterDefinitionBuilderTest
+class GcloudAdapterDefinitionBuilderTest extends TestCase
 {
     public function createBuilder()
     {
-        return new GcloudAdapterDefinitionBuilder($this->createDefinitionFactory());
+        return new GcloudAdapterDefinitionBuilder();
     }
 
     public function provideValidOptions()

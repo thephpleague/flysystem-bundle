@@ -13,12 +13,13 @@ namespace Tests\League\FlysystemBundle\Adapter\Builder;
 
 use League\Flysystem\Adapter\Local;
 use League\FlysystemBundle\Adapter\Builder\LocalAdapterDefinitionBuilder;
+use PHPUnit\Framework\TestCase;
 
-class LocalAdapterDefinitionBuilderTest extends AbstractAdapterDefinitionBuilderTest
+class LocalAdapterDefinitionBuilderTest extends TestCase
 {
     public function createBuilder()
     {
-        return new LocalAdapterDefinitionBuilder($this->createDefinitionFactory());
+        return new LocalAdapterDefinitionBuilder();
     }
 
     public function provideValidOptions()

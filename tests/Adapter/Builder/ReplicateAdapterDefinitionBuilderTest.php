@@ -13,13 +13,14 @@ namespace Tests\League\FlysystemBundle\Adapter\Builder;
 
 use League\Flysystem\Replicate\ReplicateAdapter;
 use League\FlysystemBundle\Adapter\Builder\ReplicateAdapterDefinitionBuilder;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Reference;
 
-class ReplicateAdapterDefinitionBuilderTest extends AbstractAdapterDefinitionBuilderTest
+class ReplicateAdapterDefinitionBuilderTest extends TestCase
 {
     public function createBuilder()
     {
-        return new ReplicateAdapterDefinitionBuilder($this->createDefinitionFactory());
+        return new ReplicateAdapterDefinitionBuilder();
     }
 
     public function provideValidOptions()

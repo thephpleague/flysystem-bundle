@@ -13,13 +13,14 @@ namespace Tests\League\FlysystemBundle\Adapter\Builder;
 
 use League\Flysystem\ZipArchive\ZipArchiveAdapter;
 use League\FlysystemBundle\Adapter\Builder\ZipAdapterDefinitionBuilder;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Reference;
 
-class ZipAdapterDefinitionBuilderTest extends AbstractAdapterDefinitionBuilderTest
+class ZipAdapterDefinitionBuilderTest extends TestCase
 {
     public function createBuilder()
     {
-        return new ZipAdapterDefinitionBuilder($this->createDefinitionFactory());
+        return new ZipAdapterDefinitionBuilder();
     }
 
     public function provideValidOptions()
