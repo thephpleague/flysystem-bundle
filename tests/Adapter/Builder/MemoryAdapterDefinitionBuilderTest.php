@@ -13,12 +13,13 @@ namespace Tests\League\FlysystemBundle\Adapter\Builder;
 
 use League\Flysystem\Memory\MemoryAdapter;
 use League\FlysystemBundle\Adapter\Builder\MemoryAdapterDefinitionBuilder;
+use PHPUnit\Framework\TestCase;
 
-class MemoryAdapterDefinitionBuilderTest extends AbstractAdapterDefinitionBuilderTest
+class MemoryAdapterDefinitionBuilderTest extends TestCase
 {
     public function createBuilder()
     {
-        return new MemoryAdapterDefinitionBuilder($this->createDefinitionFactory());
+        return new MemoryAdapterDefinitionBuilder();
     }
 
     public function testOptionsBehavior()

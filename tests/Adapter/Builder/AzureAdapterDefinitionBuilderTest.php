@@ -13,13 +13,14 @@ namespace Tests\League\FlysystemBundle\Adapter\Builder;
 
 use League\Flysystem\AzureBlobStorage\AzureBlobStorageAdapter;
 use League\FlysystemBundle\Adapter\Builder\AzureAdapterDefinitionBuilder;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Reference;
 
-class AzureAdapterDefinitionBuilderTest extends AbstractAdapterDefinitionBuilderTest
+class AzureAdapterDefinitionBuilderTest extends TestCase
 {
     public function createBuilder()
     {
-        return new AzureAdapterDefinitionBuilder($this->createDefinitionFactory());
+        return new AzureAdapterDefinitionBuilder();
     }
 
     public function provideValidOptions()

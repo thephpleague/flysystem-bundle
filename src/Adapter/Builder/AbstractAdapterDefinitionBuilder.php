@@ -11,7 +11,6 @@
 
 namespace League\FlysystemBundle\Adapter\Builder;
 
-use League\FlysystemBundle\Adapter\AdapterDefinitionFactory;
 use League\FlysystemBundle\Exception\MissingPackageException;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -23,13 +22,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 abstract class AbstractAdapterDefinitionBuilder implements AdapterDefinitionBuilderInterface
 {
-    protected $definitionFactory;
-
-    public function __construct(AdapterDefinitionFactory $definitionFactory)
-    {
-        $this->definitionFactory = $definitionFactory;
-    }
-
     final public function createDefinition(array $options): Definition
     {
         $this->ensureRequiredPackagesAvailable();

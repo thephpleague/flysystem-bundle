@@ -14,14 +14,15 @@ namespace Tests\League\FlysystemBundle\Adapter\Builder;
 use League\Flysystem\Cached\CachedAdapter;
 use League\Flysystem\Cached\Storage\Psr6Cache;
 use League\FlysystemBundle\Adapter\Builder\CacheAdapterDefinitionBuilder;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-class CacheAdapterDefinitionBuilderTest extends AbstractAdapterDefinitionBuilderTest
+class CacheAdapterDefinitionBuilderTest extends TestCase
 {
     public function createBuilder()
     {
-        return new CacheAdapterDefinitionBuilder($this->createDefinitionFactory());
+        return new CacheAdapterDefinitionBuilder();
     }
 
     public function provideValidOptions()

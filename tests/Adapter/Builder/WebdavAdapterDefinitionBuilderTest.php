@@ -13,13 +13,14 @@ namespace Tests\League\FlysystemBundle\Adapter\Builder;
 
 use League\Flysystem\WebDAV\WebDAVAdapter;
 use League\FlysystemBundle\Adapter\Builder\WebdavAdapterDefinitionBuilder;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Reference;
 
-class WebdavAdapterDefinitionBuilderTest extends AbstractAdapterDefinitionBuilderTest
+class WebdavAdapterDefinitionBuilderTest extends TestCase
 {
     public function createBuilder()
     {
-        return new WebdavAdapterDefinitionBuilder($this->createDefinitionFactory());
+        return new WebdavAdapterDefinitionBuilder();
     }
 
     public function provideValidOptions()

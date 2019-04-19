@@ -12,14 +12,15 @@
 namespace Tests\League\FlysystemBundle\Adapter\Builder;
 
 use League\FlysystemBundle\Adapter\Builder\DropboxAdapterDefinitionBuilder;
+use PHPUnit\Framework\TestCase;
 use Spatie\FlysystemDropbox\DropboxAdapter;
 use Symfony\Component\DependencyInjection\Reference;
 
-class DropboxAdapterDefinitionBuilderTest extends AbstractAdapterDefinitionBuilderTest
+class DropboxAdapterDefinitionBuilderTest extends TestCase
 {
     public function createBuilder()
     {
-        return new DropboxAdapterDefinitionBuilder($this->createDefinitionFactory());
+        return new DropboxAdapterDefinitionBuilder();
     }
 
     public function provideValidOptions()

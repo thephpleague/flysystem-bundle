@@ -13,13 +13,14 @@ namespace Tests\League\FlysystemBundle\Adapter\Builder;
 
 use League\Flysystem\AwsS3v3\AwsS3Adapter;
 use League\FlysystemBundle\Adapter\Builder\AwsAdapterDefinitionBuilder;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Reference;
 
-class AwsAdapterDefinitionBuilderTest extends AbstractAdapterDefinitionBuilderTest
+class AwsAdapterDefinitionBuilderTest extends TestCase
 {
     public function createBuilder()
     {
-        return new AwsAdapterDefinitionBuilder($this->createDefinitionFactory());
+        return new AwsAdapterDefinitionBuilder();
     }
 
     public function provideValidOptions()

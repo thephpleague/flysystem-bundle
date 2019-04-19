@@ -13,13 +13,14 @@ namespace Tests\League\FlysystemBundle\Adapter\Builder;
 
 use League\Flysystem\Rackspace\RackspaceAdapter;
 use League\FlysystemBundle\Adapter\Builder\RackspaceAdapterDefinitionBuilder;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Reference;
 
-class RackspaceAdapterDefinitionBuilderTest extends AbstractAdapterDefinitionBuilderTest
+class RackspaceAdapterDefinitionBuilderTest extends TestCase
 {
     public function createBuilder()
     {
-        return new RackspaceAdapterDefinitionBuilder($this->createDefinitionFactory());
+        return new RackspaceAdapterDefinitionBuilder();
     }
 
     public function provideValidOptions()

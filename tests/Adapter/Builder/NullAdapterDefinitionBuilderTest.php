@@ -13,12 +13,13 @@ namespace Tests\League\FlysystemBundle\Adapter\Builder;
 
 use League\Flysystem\Adapter\NullAdapter;
 use League\FlysystemBundle\Adapter\Builder\NullAdapterDefinitionBuilder;
+use PHPUnit\Framework\TestCase;
 
-class NullAdapterDefinitionBuilderTest extends AbstractAdapterDefinitionBuilderTest
+class NullAdapterDefinitionBuilderTest extends TestCase
 {
     public function createBuilder()
     {
-        return new NullAdapterDefinitionBuilder($this->createDefinitionFactory());
+        return new NullAdapterDefinitionBuilder();
     }
 
     public function testOptionsBehavior()
