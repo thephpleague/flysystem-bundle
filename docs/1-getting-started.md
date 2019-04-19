@@ -91,7 +91,7 @@ While using the default storage can be enough, it is usually recommended to crea
 storages, even if behind the scene you may rely on the same adapter.
 
 The reason for this is the added readability this provides to your project code: by naming
-your storages using their **intents**, your will naturally increase the readability of your
+your storages using their **intents**, you will naturally increase the readability of your
 autowired arguments. For example:
 
 ```yaml
