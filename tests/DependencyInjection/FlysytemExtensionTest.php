@@ -20,12 +20,18 @@ use OpenCloud\ObjectStore\Resource\Container;
 use PHPUnit\Framework\TestCase;
 use Sabre\DAV\Client as WebDAVClient;
 use Spatie\Dropbox\Client as DropboxClient;
+use Symfony\Component\Dotenv\Dotenv;
 use Tests\League\FlysystemBundle\Kernel\FlysystemAppKernel;
 
 class FlysytemExtensionTest extends TestCase
 {
     public function testCreateFileystems()
     {
+        (new Dotenv())->populate([
+            'AWS_BUCKET' => 'bucket-name',
+            'FTP_PORT' => 21,
+        ]);
+
         $kernel = new FlysystemAppKernel('test', true);
         $kernel->setAdapterClients($this->getClientMocks());
         $kernel->boot();

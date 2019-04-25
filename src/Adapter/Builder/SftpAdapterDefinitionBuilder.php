@@ -46,7 +46,7 @@ class SftpAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
         $resolver->setAllowedTypes('password', 'string');
 
         $resolver->setDefault('port', 22);
-        $resolver->setAllowedTypes('port', 'int');
+        $resolver->setAllowedTypes('port', 'scalar');
 
         $resolver->setDefault('root', '');
         $resolver->setAllowedTypes('root', 'string');
@@ -55,7 +55,7 @@ class SftpAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
         $resolver->setAllowedTypes('private_key', ['string', 'null']);
 
         $resolver->setDefault('timeout', 90);
-        $resolver->setAllowedTypes('timeout', 'int');
+        $resolver->setAllowedTypes('timeout', 'scalar');
     }
 
     protected function configureDefinition(Definition $definition, array $options)
