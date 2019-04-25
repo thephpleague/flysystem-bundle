@@ -44,19 +44,19 @@ class FtpAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
         $resolver->setAllowedTypes('password', 'string');
 
         $resolver->setDefault('port', 21);
-        $resolver->setAllowedTypes('port', 'int');
+        $resolver->setAllowedTypes('port', 'scalar');
 
         $resolver->setDefault('root', '');
         $resolver->setAllowedTypes('root', 'string');
 
         $resolver->setDefault('passive', true);
-        $resolver->setAllowedTypes('passive', 'boolean');
+        $resolver->setAllowedTypes('passive', 'scalar');
 
         $resolver->setDefault('ssl', false);
-        $resolver->setAllowedTypes('ssl', 'boolean');
+        $resolver->setAllowedTypes('ssl', 'scalar');
 
         $resolver->setDefault('timeout', 90);
-        $resolver->setAllowedTypes('timeout', 'int');
+        $resolver->setAllowedTypes('timeout', 'scalar');
     }
 
     protected function configureDefinition(Definition $definition, array $options)

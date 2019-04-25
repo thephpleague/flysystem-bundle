@@ -38,26 +38,26 @@ class LocalAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
         $resolver->setAllowedTypes('directory', 'string');
 
         $resolver->setDefault('lock', 0);
-        $resolver->setAllowedTypes('lock', 'int');
+        $resolver->setAllowedTypes('lock', 'scalar');
 
         $resolver->setDefault('skip_links', false);
-        $resolver->setAllowedTypes('skip_links', 'boolean');
+        $resolver->setAllowedTypes('skip_links', 'scalar');
 
         $resolver->setDefault('permissions', function (OptionsResolver $subResolver) {
             $subResolver->setDefault('file', function (OptionsResolver $permsResolver) {
                 $permsResolver->setDefault('public', 0644);
-                $permsResolver->setAllowedTypes('public', 'int');
+                $permsResolver->setAllowedTypes('public', 'scalar');
 
                 $permsResolver->setDefault('private', 0600);
-                $permsResolver->setAllowedTypes('private', 'int');
+                $permsResolver->setAllowedTypes('private', 'scalar');
             });
 
             $subResolver->setDefault('dir', function (OptionsResolver $permsResolver) {
                 $permsResolver->setDefault('public', 0755);
-                $permsResolver->setAllowedTypes('public', 'int');
+                $permsResolver->setAllowedTypes('public', 'scalar');
 
                 $permsResolver->setDefault('private', 0700);
-                $permsResolver->setAllowedTypes('private', 'int');
+                $permsResolver->setAllowedTypes('private', 'scalar');
             });
         });
     }

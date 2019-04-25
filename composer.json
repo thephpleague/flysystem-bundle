@@ -38,6 +38,7 @@
         "phpunit/phpunit": "^7.4",
         "spatie/flysystem-dropbox": "^1.0",
         "superbalist/flysystem-google-storage": "^7.2",
+        "symfony/dotenv": "^4.2",
         "symfony/var-dumper": "^4.1",
         "symfony/yaml": "^4.2"
     },

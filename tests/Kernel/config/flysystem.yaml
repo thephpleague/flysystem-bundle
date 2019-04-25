@@ -4,7 +4,7 @@ flysystem:
             adapter: 'aws'
             options:
                 client: 'aws_client_service'
-                bucket: 'bucket_name'
+                bucket: '%env(AWS_BUCKET)%'
                 prefix: 'optional/path/prefix'
 
         fs_azure:
@@ -35,7 +35,7 @@ flysystem:
                 host: 'ftp.example.com'
                 username: 'username'
                 password: 'password'
-                port: 21
+                port: '%env(FTP_PORT)%'
                 root: '/path/to/root'
                 passive: true
                 ssl: true

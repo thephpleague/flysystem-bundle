@@ -44,7 +44,7 @@ class WebdavAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
         $resolver->setAllowedTypes('prefix', 'string');
 
         $resolver->setDefault('use_stream_copy', true);
-        $resolver->setAllowedTypes('use_stream_copy', 'boolean');
+        $resolver->setAllowedTypes('use_stream_copy', 'scalar');
     }
 
     protected function configureDefinition(Definition $definition, array $options)
