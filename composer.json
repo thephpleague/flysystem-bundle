@@ -22,7 +22,9 @@
     "require": {
         "php": ">=7.1",
         "league/flysystem": "^1.0.40",
-        "symfony/framework-bundle": "^4.2",
+        "symfony/config": "^4.2",
+        "symfony/http-kernel": "^4.2",
+        "symfony/dependency-injection": "^4.2",
         "symfony/options-resolver": "^4.2"
     },
     "require-dev": {
@@ -39,6 +41,7 @@
         "spatie/flysystem-dropbox": "^1.0",
         "superbalist/flysystem-google-storage": "^7.2",
         "symfony/dotenv": "^4.2",
+        "symfony/framework-bundle": "^4.2",
         "symfony/var-dumper": "^4.1",
         "symfony/yaml": "^4.2"
     },
