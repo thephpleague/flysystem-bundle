@@ -28,11 +28,11 @@ flysystem:
         default.storage:
             adapter: 'local'
             options:
-                directory: '%kernel.project_dir%/storage'
+                directory: '%kernel.project_dir%/var/storage/default'
 ```
 
 This configuration defines a single storage service (`default.storage`) based on the local adapter
-and configured to use the `%kernel.project_dir%/storage` directory.
+and configured to use the `%kernel.project_dir%/var/storage/default` directory.
 
 For each storage defined under `flysystem.storages`, an associated service is created using the
 name you provide (in this case, a service `default.storage` will be created). The bundle also
