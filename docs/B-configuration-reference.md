@@ -43,7 +43,7 @@ flysystem:
                 passive: true
                 ssl: true
                 timeout: 30
-                ignorePassiveAddress: ~
+                ignore_passive_address: ~
 
         users7.storage:
             adapter: 'gcloud'
