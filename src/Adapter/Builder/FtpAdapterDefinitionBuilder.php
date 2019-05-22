@@ -57,6 +57,9 @@ class FtpAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
 
         $resolver->setDefault('timeout', 90);
         $resolver->setAllowedTypes('timeout', 'scalar');
+
+        $resolver->setDefault('ignorePassiveAddress', null);
+        $resolver->setAllowedTypes('ignorePassiveAddress', ['null', 'bool']);
     }
 
     protected function configureDefinition(Definition $definition, array $options)
