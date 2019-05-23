@@ -13,6 +13,7 @@ namespace League\FlysystemBundle\DependencyInjection;
 
 use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemInterface;
+use League\Flysystem\PluginInterface;
 use League\FlysystemBundle\Adapter\AdapterDefinitionFactory;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -32,6 +33,11 @@ class FlysystemExtension extends Extension
         $config = $this->processConfiguration($configuration, $configs);
 
         $adapterFactory = new AdapterDefinitionFactory();
+
+        $container
+            ->registerForAutoconfiguration(PluginInterface::class)
+            ->addTag('flysystem.plugin')
+        ;
 
         foreach ($config['storages'] as $storageName => $storageConfig) {
             // Create adapter service definition
@@ -61,6 +67,7 @@ class FlysystemExtension extends Extension
             'case_sensitive' => $config['case_sensitive'],
             'disable_asserts' => $config['disable_asserts'],
         ]);
+        $definition->addTag('flysystem.storage');
 
         return $definition;
     }

@@ -44,6 +44,7 @@ class FlysytemExtensionTest extends TestCase
         foreach ($this->getFilesystems() as $fsName) {
             $fs = $container->get('flysystem.test.'.$fsName);
             $this->assertInstanceOf(FilesystemInterface::class, $fs, 'Filesystem "'.$fsName.'" should be an instance of FilesystemInterface');
+            $this->assertEquals('plugin', $fs->pluginTest());
         }
     }
 
