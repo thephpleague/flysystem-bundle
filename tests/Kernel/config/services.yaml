@@ -21,3 +21,6 @@ services:
     flysystem.test.fs_sftp: { alias: 'fs_sftp' }
     flysystem.test.fs_webdav: { alias: 'fs_webdav' }
     flysystem.test.fs_zip: { alias: 'fs_zip' }
+
+    Tests\League\FlysystemBundle\Plugin\DummyPlugin:
+        autoconfigure: true

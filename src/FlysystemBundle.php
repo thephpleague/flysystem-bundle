@@ -11,6 +11,8 @@
 
 namespace League\FlysystemBundle;
 
+use League\FlysystemBundle\DependencyInjection\Compiler\PluginPass;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
@@ -20,4 +22,13 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
  */
 class FlysystemBundle extends Bundle
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function build(ContainerBuilder $container)
+    {
+        parent::build($container);
+
+        $container->addCompilerPass(new PluginPass());
+    }
 }
