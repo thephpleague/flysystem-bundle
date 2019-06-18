@@ -91,6 +91,9 @@ flysystem:
                 private_key: 'path/to/or/contents/of/privatekey'
                 root: '/path/to/root'
                 timeout: 10
+                directoryPerm: 0755
+                permPrivate: 0700
+                permPublic: 0744
 
         fs_webdav:
             adapter: 'webdav'

@@ -59,6 +59,9 @@ class SftpAdapterDefinitionBuilderTest extends TestCase
             'root' => '/path/to/root',
             'private_key' => '/path/to/or/contents/of/privatekey',
             'timeout' => 30,
+            'directoryPerm' => 0755,
+            'permPrivate' => 0700,
+            'permPublic' => 0744,
         ]);
 
         $expected = [
@@ -66,6 +69,9 @@ class SftpAdapterDefinitionBuilderTest extends TestCase
             'root' => '/path/to/root',
             'private_key' => '/path/to/or/contents/of/privatekey',
             'timeout' => 30,
+            'directoryPerm' => 0755,
+            'permPrivate' => 0700,
+            'permPublic' => 0744,
             'host' => 'ftp.example.com',
             'username' => 'username',
             'password' => 'password',

@@ -56,6 +56,17 @@ class SftpAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
 
         $resolver->setDefault('timeout', 90);
         $resolver->setAllowedTypes('timeout', 'scalar');
+
+        # NOTE: Addition for SFTP Adapter configuration
+        $resolver->setDefault('directoryPerm', 0744);
+        $resolver->setAllowedTypes('directoryPerm', 'scalar');
+
+        # NOTE: Inherit configuration from AbstractFTPAdapter
+        $resolver->setDefault('permPrivate', 0700);
+        $resolver->setAllowedTypes('directoryPerm', 'scalar');
+
+        $resolver->setDefault('permPublic', 0744);
+        $resolver->setAllowedTypes('directoryPerm', 'scalar');
     }
 
     protected function configureDefinition(Definition $definition, array $options)
