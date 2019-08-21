@@ -45,6 +45,9 @@ class AwsAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
 
         $resolver->setDefault('prefix', '');
         $resolver->setAllowedTypes('prefix', 'string');
+
+        $resolver->setDefault('options', []);
+        $resolver->setAllowedTypes('options', 'array');
     }
 
     protected function configureDefinition(Definition $definition, array $options)
@@ -53,5 +56,6 @@ class AwsAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
         $definition->setArgument(0, new Reference($options['client']));
         $definition->setArgument(1, $options['bucket']);
         $definition->setArgument(2, $options['prefix']);
+        $definition->setArgument(3, $options['options']);
     }
 }
