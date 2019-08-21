@@ -35,6 +35,14 @@ class AwsAdapterDefinitionBuilderTest extends TestCase
             'bucket' => 'bucket',
             'prefix' => 'prefix/path',
         ]];
+
+        yield 'options' => [[
+            'client' => 'my_client',
+            'bucket' => 'bucket',
+            'options' => [
+                'ServerSideEncryption' => 'AES256',
+            ],
+        ]];
     }
 
     /**
@@ -51,6 +59,9 @@ class AwsAdapterDefinitionBuilderTest extends TestCase
             'client' => 'my_client',
             'bucket' => 'bucket',
             'prefix' => 'prefix/path',
+            'options' => [
+                'ServerSideEncryption' => 'AES256',
+            ],
         ]);
 
         $this->assertSame(AwsS3Adapter::class, $definition->getClass());
@@ -58,5 +69,6 @@ class AwsAdapterDefinitionBuilderTest extends TestCase
         $this->assertSame('my_client', (string) $definition->getArgument(0));
         $this->assertSame('bucket', $definition->getArgument(1));
         $this->assertSame('prefix/path', $definition->getArgument(2));
+        $this->assertSame(['ServerSideEncryption' => 'AES256'], $definition->getArgument(3));
     }
 }
