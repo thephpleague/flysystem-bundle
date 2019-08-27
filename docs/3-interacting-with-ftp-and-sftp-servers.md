@@ -57,6 +57,8 @@ flysystem:
                 root: '/path/to/root'
                 timeout: 10
                 directoryPerm: 0744
+                permPublic: 0700
+                permPrivate: 0744
 ```
 
 ## Next
