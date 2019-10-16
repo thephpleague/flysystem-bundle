@@ -60,6 +60,9 @@ class FtpAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
 
         $resolver->setDefault('ignore_passive_address', null);
         $resolver->setAllowedTypes('ignore_passive_address', ['null', 'bool']);
+
+        $resolver->setDefault('utf8', false);
+        $resolver->setAllowedTypes('utf8', 'scalar');
     }
 
     protected function configureDefinition(Definition $definition, array $options)

@@ -40,6 +40,7 @@ flysystem:
                 passive: true
                 ssl: true
                 timeout: 30
+                utf8: false
 
         fs_gcloud:
             adapter: 'gcloud'

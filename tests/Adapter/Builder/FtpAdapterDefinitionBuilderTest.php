@@ -40,6 +40,7 @@ class FtpAdapterDefinitionBuilderTest extends TestCase
             'ssl' => true,
             'timeout' => 30,
             'ignore_passive_address' => true,
+            'utf8' => false,
         ]];
     }
 
@@ -63,6 +64,7 @@ class FtpAdapterDefinitionBuilderTest extends TestCase
             'ssl' => true,
             'timeout' => 30,
             'ignore_passive_address' => true,
+            'utf8' => false,
         ]);
 
         $expected = [
@@ -71,6 +73,7 @@ class FtpAdapterDefinitionBuilderTest extends TestCase
             'passive' => true,
             'ssl' => true,
             'timeout' => 30,
+            'utf8' => false,
             'host' => 'ftp.example.com',
             'username' => 'username',
             'password' => 'password',
