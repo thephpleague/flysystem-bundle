@@ -29,6 +29,7 @@ flysystem:
                 ssl: true
                 timeout: 30
                 ignore_passive_address: ~
+                utf8: false
 ```
 
 ## SFTP
