@@ -52,8 +52,8 @@ class FlysystemExtension extends Extension
             // Create storage service definition
             $definition = $this->createStorageDefinition(new Reference('flysystem.adapter.'.$storageName), $storageConfig);
 
-            $container->setDefinition($storageName, $definition);
-            $container->registerAliasForArgument($storageName, FilesystemInterface::class, $storageName)->setPublic(false);
+            $container->setDefinition('flysystem.filesystem.'.$storageName, $definition);
+            $container->registerAliasForArgument('flysystem.filesystem.'.$storageName, FilesystemInterface::class, $storageName)->setPublic(false);
         }
     }
 
