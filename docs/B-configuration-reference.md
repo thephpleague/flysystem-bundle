@@ -92,7 +92,7 @@ flysystem:
                 port: 22
                 username: 'username'
                 password: 'password'
-                private_key: 'path/to/or/contents/of/privatekey'
+                privateKey: 'path/to/or/contents/of/privatekey'
                 root: '/path/to/root'
                 timeout: 10
 
