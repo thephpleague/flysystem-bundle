@@ -51,8 +51,8 @@ class SftpAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
         $resolver->setDefault('root', '');
         $resolver->setAllowedTypes('root', 'string');
 
-        $resolver->setDefault('private_key', null);
-        $resolver->setAllowedTypes('private_key', ['string', 'null']);
+        $resolver->setDefault('privateKey', null);
+        $resolver->setAllowedTypes('privateKey', ['string', 'null']);
 
         $resolver->setDefault('timeout', 90);
         $resolver->setAllowedTypes('timeout', 'scalar');
