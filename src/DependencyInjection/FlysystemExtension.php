@@ -50,14 +50,14 @@ class FlysystemExtension extends Extension
             }
 
             // Create storage service definition
-            $definition = $this->createStorageDefinition(new Reference('flysystem.adapter.'.$storageName), $storageConfig);
+            $definition = $this->createStorageDefinition($storageName, new Reference('flysystem.adapter.'.$storageName), $storageConfig);
 
             $container->setDefinition($storageName, $definition);
             $container->registerAliasForArgument($storageName, FilesystemInterface::class, $storageName)->setPublic(false);
         }
     }
 
-    private function createStorageDefinition(Reference $adapter, array $config)
+    private function createStorageDefinition(string $storageName, Reference $adapter, array $config)
     {
         $definition = new Definition(Filesystem::class);
         $definition->setPublic(false);
@@ -67,7 +67,7 @@ class FlysystemExtension extends Extension
             'case_sensitive' => $config['case_sensitive'],
             'disable_asserts' => $config['disable_asserts'],
         ]);
-        $definition->addTag('flysystem.storage');
+        $definition->addTag('flysystem.storage', ['storage' => $storageName]);
 
         return $definition;
     }
