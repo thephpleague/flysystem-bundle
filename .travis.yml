@@ -1,5 +1,5 @@
 language: php
-dist: trusty
+dist: xenial
 sudo: false
 
 matrix:
@@ -12,7 +12,7 @@ matrix:
           env: SYMFONY_VERSION="4.3.*"
         - php: 7.3
           env: SYMFONY_VERSION="4.4.*"
-        - php: 7.3
+        - php: 7.4
           env: SYMFONY_VERSION="5.0.*"
     fast_finish: true
 
