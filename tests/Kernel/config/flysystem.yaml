@@ -50,6 +50,11 @@ flysystem:
                 prefix: 'optional/path/prefix'
                 api_url: 'https://storage.googleapis.com'
 
+        fs_lazy:
+            adapter: 'lazy'
+            options:
+                source: '%env(LAZY_SOURCE)%'
+
         fs_local:
             adapter: 'local'
             options:

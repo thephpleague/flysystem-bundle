@@ -25,10 +25,38 @@ use Tests\League\FlysystemBundle\Kernel\FlysystemAppKernel;
 
 class FlysytemExtensionTest extends TestCase
 {
-    public function testCreateFileystems()
+    public function provideFilesystems()
+    {
+        $fsNames = [
+            'fs_aws',
+            'fs_azure',
+            'fs_cache',
+            'fs_custom',
+            'fs_dropbox',
+            'fs_ftp',
+            'fs_gcloud',
+            'fs_lazy',
+            'fs_local',
+            'fs_rackspace',
+            'fs_replicate',
+            'fs_sftp',
+            'fs_webdav',
+            'fs_zip',
+        ];
+
+        foreach ($fsNames as $fsName) {
+            yield $fsName => [$fsName];
+        }
+    }
+
+    /**
+     * @dataProvider provideFilesystems
+     */
+    public function testFileystems(string $fsName)
     {
         (new Dotenv())->populate([
             'AWS_BUCKET' => 'bucket-name',
+            'LAZY_SOURCE' => 'fs_memory',
             'FTP_PORT' => 21,
         ]);
 
@@ -41,11 +69,9 @@ class FlysytemExtensionTest extends TestCase
             $container->set($service, $mock);
         }
 
-        foreach ($this->getFilesystems() as $fsName) {
-            $fs = $container->get('flysystem.test.'.$fsName);
-            $this->assertInstanceOf(FilesystemInterface::class, $fs, 'Filesystem "'.$fsName.'" should be an instance of FilesystemInterface');
-            $this->assertEquals('plugin', $fs->pluginTest());
-        }
+        $fs = $container->get('flysystem.test.'.$fsName);
+        $this->assertInstanceOf(FilesystemInterface::class, $fs, 'Filesystem "'.$fsName.'" should be an instance of FilesystemInterface');
+        $this->assertEquals('plugin', $fs->pluginTest());
     }
 
     private function getClientMocks()
@@ -60,25 +86,6 @@ class FlysytemExtensionTest extends TestCase
             'gcloud_client_service' => $gcloud,
             'rackspace_container_service' => $this->createMock(Container::class),
             'webdav_client_service' => $this->createMock(WebDAVClient::class),
-        ];
-    }
-
-    private function getFilesystems()
-    {
-        return [
-            'fs_aws',
-            'fs_azure',
-            'fs_cache',
-            'fs_custom',
-            'fs_dropbox',
-            'fs_ftp',
-            'fs_gcloud',
-            'fs_local',
-            'fs_rackspace',
-            'fs_replicate',
-            'fs_sftp',
-            'fs_webdav',
-            'fs_zip',
         ];
     }
 }
