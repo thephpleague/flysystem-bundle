@@ -56,6 +56,9 @@ class FlysystemExtension extends Extension
             if ('lazy' === $storageConfig['adapter']) {
                 $container->setDefinition($storageName, $this->createLazyStorageDefinition($storageName, $storageConfig['options']));
 
+                // Register named autowiring alias
+                $container->registerAliasForArgument($storageName, FilesystemInterface::class, $storageName)->setPublic(false);
+
                 continue;
             }
 
