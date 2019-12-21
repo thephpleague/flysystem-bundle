@@ -6,15 +6,11 @@
 
 [![SymfonyInsight](https://insight.symfony.com/projects/525fdfa3-d482-4218-b4b9-3c2efc305fac/big.svg)](https://insight.symfony.com/projects/525fdfa3-d482-4218-b4b9-3c2efc305fac)
 
-This repository is a light Symfony bundle integrating the [Flysystem](https://flysystem.thephpleague.com)
-library into Symfony applications. It provides an efficient abstraction for the filesystem,
-for instance to use local files in development and a cloud storage in production or to use a memory
-filesystem in tests to increase their speed.
+flysystem-bundle is a Symfony bundle integrating the [Flysystem](https://flysystem.thephpleague.com)
+library into Symfony applications. 
 
-This bundle relies on 
-[named aliases](https://symfony.com/doc/current/service_container/autowiring.html#dealing-with-multiple-implementations-of-the-same-type) 
-(introduced in Symfony 4.2) in order to create and configure multiple filesystems while still 
-following the best practices of software architecture (SOLID principles). 
+It provides an efficient abstraction for the filesystem in order to change the storage backend depending
+on the execution environment (local files in development, cloud storage in production and memory in tests).
 
 ## Installation
 
@@ -26,7 +22,76 @@ You can install the bundle using Symfony Flex:
 composer require league/flysystem-bundle
 ```
 
-## Documentation
+## Basic usage
+
+The default configuration file created by Symfony Flex provides enough configuration to
+use Flysystem in your application as soon as you install the bundle:
+
+```yaml
+# config/packages/flysystem.yaml
+
+flysystem:
+    storages:
+        default.storage:
+            adapter: 'local'
+            options:
+                directory: '%kernel.project_dir%/var/storage/default'
+```
+
+This configuration defines a single storage service (`default.storage`) based on the local adapter
+and configured to use the `%kernel.project_dir%/var/storage/default` directory.
+
+For each storage defined under `flysystem.storages`, an associated service is created using the
+name you provide (in this case, a service `default.storage` will be created). The bundle also
+creates a named alias for each of these services.
+
+This means you have two way of using the defined storages:
+
+* either using autowiring, by typehinting against the `FilesystemInterface` and using the
+  variable name matching one of your storages:
+
+    ```php
+    use League\Flysystem\FilesystemInterface;
+    
+    class MyService
+    {
+        private $storage;
+        
+        // The variable name $defaultStorage matters: it needs to be the camelized version
+        // of the name of your storage. 
+        public function __construct(FilesystemInterface $defaultStorage)
+        {
+            $this->storage = $defaultStorage;
+        }
+        
+        // ...
+    }
+    ```
+    
+  The same goes for controllers:
+    
+    ```php
+    use League\Flysystem\FilesystemInterface;
+    
+    class MyController
+    {
+        // The variable name $defaultStorage matters: it needs to be the camelized version
+        // of the name of your storage. 
+        public function index(FilesystemInterface $defaultStorage)
+        {
+            // ...
+        }
+    }
+    ```
+
+* or using manual injection, by injecting the service named `default.storage` inside 
+  your services.
+  
+Once you have a FilesystemInterface, you can call methods from the
+[Filesystem API](https://flysystem.thephpleague.com/docs/usage/filesystem-api/)
+to interact with your storage.
+
+## Full documentation
 
 1. [Getting started](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/1-getting-started.md)
 2. Cloud storage providers:
@@ -39,7 +104,8 @@ composer require league/flysystem-bundle
    [WebDAV](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/2-cloud-storage-providers.md#webdav)
 3. [Interacting with FTP and SFTP servers](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/3-interacting-with-ftp-and-sftp-servers.md)
 4. [Caching metadata in Symfony cache](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/4-caching-metadata-in-symfony-cache.md)
-5. [Creating a custom adapter](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/5-creating-a-custom-adapter.md)
+5. [Using a lazy adapter to switch storage backend using an environment variable](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/5-using-lazy-adapter-to-switch-at-runtime.md)
+6. [Creating a custom adapter](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/6-creating-a-custom-adapter.md)
 
 * [Security issue disclosure procedure](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/A-security-disclosure-procedure.md)
 * [Configuration reference](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/B-configuration-reference.md)
