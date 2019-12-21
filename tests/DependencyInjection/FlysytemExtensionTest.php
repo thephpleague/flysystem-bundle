@@ -54,6 +54,32 @@ class FlysytemExtensionTest extends TestCase
      */
     public function testFileystems(string $fsName)
     {
+        $kernel = $this->createFysystemKernel();
+        $fs = $kernel->getContainer()->get('flysystem.test.'.$fsName);
+
+        $this->assertInstanceOf(FilesystemInterface::class, $fs, 'Filesystem "'.$fsName.'" should be an instance of FilesystemInterface');
+        $this->assertEquals('plugin', $fs->pluginTest());
+    }
+
+    /**
+     * @dataProvider provideFilesystems
+     */
+    public function testTaggedCollection(string $fsName)
+    {
+        $kernel = $this->createFysystemKernel();
+
+        if (!$kernel->getContainer()->has('storages_tagged_collection')) {
+            $this->markTestSkipped('Symfony 4.3+ is required to use indexed tagged service collections');
+        }
+
+        $storages = iterator_to_array($kernel->getContainer()->get('storages_tagged_collection')->locator);
+
+        $this->assertInstanceOf(FilesystemInterface::class, $storages[$fsName]);
+        $this->assertEquals('plugin', $storages[$fsName]->pluginTest());
+    }
+
+    private function createFysystemKernel()
+    {
         (new Dotenv())->populate([
             'AWS_BUCKET' => 'bucket-name',
             'LAZY_SOURCE' => 'fs_memory',
@@ -69,9 +95,7 @@ class FlysytemExtensionTest extends TestCase
             $container->set($service, $mock);
         }
 
-        $fs = $container->get('flysystem.test.'.$fsName);
-        $this->assertInstanceOf(FilesystemInterface::class, $fs, 'Filesystem "'.$fsName.'" should be an instance of FilesystemInterface');
-        $this->assertEquals('plugin', $fs->pluginTest());
+        return $kernel;
     }
 
     private function getClientMocks()

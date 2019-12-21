@@ -1,0 +1,6 @@
+services:
+    storages_tagged_collection:
+        class: 'stdClass'
+        public: true
+        properties:
+            locator: !tagged { tag: 'flysystem.storage', index_by: 'storage' }

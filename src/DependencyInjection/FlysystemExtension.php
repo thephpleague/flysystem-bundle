@@ -90,6 +90,7 @@ class FlysystemExtension extends Extension
         $definition->setFactory([new Reference('flysystem.adapter.lazy.factory'), 'createStorage']);
         $definition->setArgument(0, $resolver->resolve($options)['source']);
         $definition->setArgument(1, $storageName);
+        $definition->addTag('flysystem.storage', ['storage' => $storageName]);
 
         return $definition;
     }

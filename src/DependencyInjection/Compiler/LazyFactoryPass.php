@@ -16,6 +16,11 @@ use Symfony\Component\DependencyInjection\Compiler\ServiceLocatorTagPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
+/**
+ * @author Titouan Galopin <galopintitouan@gmail.com>
+ *
+ * @internal
+ */
 class LazyFactoryPass implements CompilerPassInterface
 {
     /**
