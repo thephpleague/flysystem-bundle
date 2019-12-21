@@ -13,6 +13,7 @@ services:
     flysystem.test.fs_dropbox: { alias: 'fs_dropbox' }
     flysystem.test.fs_ftp: { alias: 'fs_ftp' }
     flysystem.test.fs_gcloud: { alias: 'fs_gcloud' }
+    flysystem.test.fs_lazy: { alias: 'fs_lazy' }
     flysystem.test.fs_local: { alias: 'fs_local' }
     flysystem.test.fs_memory: { alias: 'fs_memory' }
     flysystem.test.fs_null: { alias: 'fs_null' }

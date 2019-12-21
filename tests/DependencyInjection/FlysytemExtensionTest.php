@@ -25,10 +25,64 @@ use Tests\League\FlysystemBundle\Kernel\FlysystemAppKernel;
 
 class FlysytemExtensionTest extends TestCase
 {
-    public function testCreateFileystems()
+    public function provideFilesystems()
+    {
+        $fsNames = [
+            'fs_aws',
+            'fs_azure',
+            'fs_cache',
+            'fs_custom',
+            'fs_dropbox',
+            'fs_ftp',
+            'fs_gcloud',
+            'fs_lazy',
+            'fs_local',
+            'fs_rackspace',
+            'fs_replicate',
+            'fs_sftp',
+            'fs_webdav',
+            'fs_zip',
+        ];
+
+        foreach ($fsNames as $fsName) {
+            yield $fsName => [$fsName];
+        }
+    }
+
+    /**
+     * @dataProvider provideFilesystems
+     */
+    public function testFileystems(string $fsName)
+    {
+        $kernel = $this->createFysystemKernel();
+        $fs = $kernel->getContainer()->get('flysystem.test.'.$fsName);
+
+        $this->assertInstanceOf(FilesystemInterface::class, $fs, 'Filesystem "'.$fsName.'" should be an instance of FilesystemInterface');
+        $this->assertEquals('plugin', $fs->pluginTest());
+    }
+
+    /**
+     * @dataProvider provideFilesystems
+     */
+    public function testTaggedCollection(string $fsName)
+    {
+        $kernel = $this->createFysystemKernel();
+
+        if (!$kernel->getContainer()->has('storages_tagged_collection')) {
+            $this->markTestSkipped('Symfony 4.3+ is required to use indexed tagged service collections');
+        }
+
+        $storages = iterator_to_array($kernel->getContainer()->get('storages_tagged_collection')->locator);
+
+        $this->assertInstanceOf(FilesystemInterface::class, $storages[$fsName]);
+        $this->assertEquals('plugin', $storages[$fsName]->pluginTest());
+    }
+
+    private function createFysystemKernel()
     {
         (new Dotenv())->populate([
             'AWS_BUCKET' => 'bucket-name',
+            'LAZY_SOURCE' => 'fs_memory',
             'FTP_PORT' => 21,
         ]);
 
@@ -41,11 +95,7 @@ class FlysytemExtensionTest extends TestCase
             $container->set($service, $mock);
         }
 
-        foreach ($this->getFilesystems() as $fsName) {
-            $fs = $container->get('flysystem.test.'.$fsName);
-            $this->assertInstanceOf(FilesystemInterface::class, $fs, 'Filesystem "'.$fsName.'" should be an instance of FilesystemInterface');
-            $this->assertEquals('plugin', $fs->pluginTest());
-        }
+        return $kernel;
     }
 
     private function getClientMocks()
@@ -60,25 +110,6 @@ class FlysytemExtensionTest extends TestCase
             'gcloud_client_service' => $gcloud,
             'rackspace_container_service' => $this->createMock(Container::class),
             'webdav_client_service' => $this->createMock(WebDAVClient::class),
-        ];
-    }
-
-    private function getFilesystems()
-    {
-        return [
-            'fs_aws',
-            'fs_azure',
-            'fs_cache',
-            'fs_custom',
-            'fs_dropbox',
-            'fs_ftp',
-            'fs_gcloud',
-            'fs_local',
-            'fs_rackspace',
-            'fs_replicate',
-            'fs_sftp',
-            'fs_webdav',
-            'fs_zip',
         ];
     }
 }

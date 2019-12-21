@@ -42,6 +42,10 @@ class FlysystemAppKernel extends Kernel
         $loader->load(__DIR__.'/config/framework.yaml', 'yaml');
         $loader->load(__DIR__.'/config/flysystem.yaml', 'yaml');
         $loader->load(__DIR__.'/config/services.yaml', 'yaml');
+
+        if (self::VERSION_ID > 40300) {
+            $loader->load(__DIR__.'/config/tagged_collection.yaml', 'yaml');
+        }
     }
 
     public function setAdapterClients(array $adapterClients)
