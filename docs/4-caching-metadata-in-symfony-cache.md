@@ -85,4 +85,4 @@ flysystem:
 
 ## Next
 
-[Creating a custom adapter](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/5-creating-a-custom-adapter.md)
+[Using a lazy adapter to switch storage backend using an environment variable](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/5-using-lazy-adapter-to-switch-at-runtime.md)

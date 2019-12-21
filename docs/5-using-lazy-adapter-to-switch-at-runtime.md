@@ -107,3 +107,7 @@ same way as any other storage:
 
 * you can use it in manual injection by injecting the service named `uploads.storage` inside 
   your services. 
+
+## Next
+
+[Creating a custom adapter](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/6-creating-a-custom-adapter.md)
