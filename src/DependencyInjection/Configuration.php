@@ -24,7 +24,7 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder('flysystem');
-        $rootNode = $this->getRootNode($treeBuilder, 'flysystem');
+        $rootNode = $treeBuilder->getRootNode();
 
         $rootNode
             ->fixXmlConfig('storage')
@@ -51,15 +51,5 @@ class Configuration implements ConfigurationInterface
         ;
 
         return $treeBuilder;
-    }
-
-    private function getRootNode(TreeBuilder $treeBuilder, $name)
-    {
-        // BC layer for symfony/config 4.1 and older
-        if (!\method_exists($treeBuilder, 'getRootNode')) {
-            return $treeBuilder->root($name);
-        }
-
-        return $treeBuilder->getRootNode();
     }
 }
