@@ -23,7 +23,7 @@ use Spatie\Dropbox\Client as DropboxClient;
 use Symfony\Component\Dotenv\Dotenv;
 use Tests\League\FlysystemBundle\Kernel\FlysystemAppKernel;
 
-class FlysytemExtensionTest extends TestCase
+class FlysystemExtensionTest extends TestCase
 {
     public function provideFilesystems()
     {
