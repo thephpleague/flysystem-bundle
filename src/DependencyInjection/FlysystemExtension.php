@@ -33,6 +33,7 @@ class FlysystemExtension extends Extension
     {
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
+        $container->resolveEnvPlaceholders($config);
 
         $container
             ->registerForAutoconfiguration(PluginInterface::class)
