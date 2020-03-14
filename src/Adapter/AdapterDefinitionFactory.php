@@ -29,6 +29,7 @@ class AdapterDefinitionFactory
     public function __construct()
     {
         $this->builders = [
+            new Builder\AsyncAwsAdapterDefinitionBuilder(),
             new Builder\AwsAdapterDefinitionBuilder(),
             new Builder\AzureAdapterDefinitionBuilder(),
             new Builder\CacheAdapterDefinitionBuilder(),

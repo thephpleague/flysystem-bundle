@@ -1,3 +1,11 @@
+fs_async_aws:
+    _php_version: '7.2.5'
+    adapter: 'asyncaws'
+    options:
+        client: 'aws_client_service'
+        bucket: 'bucket_name'
+        prefix: 'optional/path/prefix'
+
 fs_aws:
     adapter: 'aws'
     options:
