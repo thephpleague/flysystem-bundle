@@ -24,10 +24,6 @@ interface AdapterDefinitionBuilderInterface
 
     /**
      * Create the definition for this builder's adapter given an array of options.
-     *
-     * @param array $options
-     *
-     * @return Definition
      */
     public function createDefinition(array $options): Definition;
 }

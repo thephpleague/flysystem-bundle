@@ -55,11 +55,6 @@ abstract class AbstractAdapterDefinitionBuilder implements AdapterDefinitionBuil
             return;
         }
 
-        throw new MissingPackageException(sprintf(
-            "Missing package%s, to use the \"%s\" adapter, run:\n\ncomposer require %s",
-            \count($missingPackages) > 1 ? 's' : '',
-            $this->getName(),
-            implode(' ', $missingPackages)
-        ));
+        throw new MissingPackageException(sprintf("Missing package%s, to use the \"%s\" adapter, run:\n\ncomposer require %s", \count($missingPackages) > 1 ? 's' : '', $this->getName(), implode(' ', $missingPackages)));
     }
 }

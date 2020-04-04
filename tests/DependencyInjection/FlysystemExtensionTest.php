@@ -11,6 +11,7 @@
 
 namespace Tests\League\FlysystemBundle\DependencyInjection;
 
+use AsyncAws\S3\S3Client as AsyncS3Client;
 use Aws\S3\S3Client;
 use Google\Cloud\Storage\Bucket;
 use Google\Cloud\Storage\StorageClient;
@@ -28,6 +29,7 @@ class FlysystemExtensionTest extends TestCase
     public function provideFilesystems()
     {
         $fsNames = [
+            'fs_asyncaws',
             'fs_aws',
             'fs_azure',
             'fs_cache',
@@ -105,6 +107,7 @@ class FlysystemExtensionTest extends TestCase
 
         return [
             'aws_client_service' => $this->createMock(S3Client::class),
+            'asyncaws_client_service' => $this->createMock(AsyncS3Client::class),
             'azure_client_service' => $this->createMock(BlobRestProxy::class),
             'dropbox_client_service' => $this->createMock(DropboxClient::class),
             'gcloud_client_service' => $gcloud,
