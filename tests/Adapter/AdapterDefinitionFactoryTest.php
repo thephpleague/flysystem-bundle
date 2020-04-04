@@ -23,6 +23,9 @@ class AdapterDefinitionFactoryTest extends TestCase
         $config = Yaml::parseFile(__DIR__.'/options.yaml');
 
         foreach ($config as $fs) {
+            if (isset($fs['_php_version']) && version_compare(PHP_VERSION, $fs['_php_version'], '<')) {
+                continue;
+            }
             yield $fs['adapter'] => [$fs['adapter'], $fs['options'] ?? []];
         }
     }
