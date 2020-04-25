@@ -27,7 +27,7 @@ and a [Symfony cache pool](https://symfony.com/doc/current/reference/configurati
 Most of the time you are only going to need one of two possibilities:
 
 * in-memory cache (will expire at the end of the CLI process or HTTP request) ;
-* persistant cache (will stay persistent in a cache backend) ;
+* persistent cache (will stay persistent in a cache backend) ;
 
 #### Memory caching
 
