@@ -96,6 +96,7 @@ to interact with your storage.
 1. [Getting started](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/1-getting-started.md)
 2. Cloud storage providers:
    [Azure](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/2-cloud-storage-providers.md#azure),
+   [AsyncAws S3](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/2-cloud-storage-providers.md#asyncaws-s3),
    [AWS S3](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/2-cloud-storage-providers.md#aws-s3),
    [DigitalOcean Spaces](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/2-cloud-storage-providers.md#digitalocean-spaces),
    [Scaleway Object Storage](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/2-cloud-storage-providers.md#scaleway-object-storage),

@@ -5,6 +5,7 @@ including many cloud storage providers. This bundle provides the same level of s
 cloud providers by providing corresponding adapters in the configuration.
 
 * [Azure](#azure)
+* [AsyncAws S3](#asyncaws-s3)
 * [AWS S3](#aws-s3)
 * [DigitalOcean Spaces](#digitalocean-spaces)
 * [Scaleway Object Storage](#scaleway-object-storage)
@@ -32,6 +33,29 @@ flysystem:
             options:
                 client: 'azure_client_service' # The service ID of the MicrosoftAzure\Storage\Blob\BlobRestProxy instance
                 container: 'container_name'
+                prefix: 'optional/path/prefix'
+```
+
+## AsyncAws S3
+
+### Installation
+
+```
+composer require async-aws/flysystem-s3
+```
+
+### Usage
+
+```yaml
+# config/packages/flysystem.yaml
+
+flysystem:
+    storages:
+        users.storage:
+            adapter: 'asyncaws'
+            options:
+                client: 'aws_client_service' # The service ID of the AsyncAws\S3\S3Client instance
+                bucket: 'bucket_name'
                 prefix: 'optional/path/prefix'
 ```
 
