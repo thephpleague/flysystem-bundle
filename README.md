@@ -121,5 +121,5 @@ This library follows the same Backward Compatibility promise as the Symfony fram
 [https://symfony.com/doc/current/contributing/code/bc.html](https://symfony.com/doc/current/contributing/code/bc.html)
 
 > *Note*: many classes in this bundle are either marked `@final` or `@internal`.
-> `@internal` classes are excluded from any Backward Compatiblity promise (you should not use them in your code)
+> `@internal` classes are excluded from any Backward Compatibility promise (you should not use them in your code)
 > whereas `@final` classes can be used but should not be extended (use composition instead).
