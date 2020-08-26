@@ -13,6 +13,7 @@ namespace League\FlysystemBundle\DependencyInjection;
 
 use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemInterface;
+use League\Flysystem\MountManager;
 use League\Flysystem\PluginInterface;
 use League\FlysystemBundle\Adapter\AdapterDefinitionFactory;
 use League\FlysystemBundle\Lazy\LazyFactory;
@@ -51,6 +52,9 @@ class FlysystemExtension extends Extension
     {
         $definitionFactory = new AdapterDefinitionFactory();
 
+        $mountManager = $container->setDefinition('flysystem.mount_manager', $this->createMountManagerDefinition());
+        $container->setAlias(MountManager::class, 'flysystem.mount_manager');
+
         foreach ($config['storages'] as $storageName => $storageConfig) {
             // If the storage is a lazy one, it's resolved at runtime
             if ('lazy' === $storageConfig['adapter']) {
@@ -79,6 +83,11 @@ class FlysystemExtension extends Extension
 
             // Register named autowiring alias
             $container->registerAliasForArgument($storageName, FilesystemInterface::class, $storageName)->setPublic(false);
+
+            // Register with the mount manager if a mount prefix was given
+            if (null !== $storageConfig['mount_prefix']) {
+                $mountManager->addMethodCall('mountFilesystem', [$storageConfig['mount_prefix'], new Reference($storageName)]);
+            }
         }
     }
 
@@ -109,6 +118,14 @@ class FlysystemExtension extends Extension
             'disable_asserts' => $config['disable_asserts'],
         ]);
         $definition->addTag('flysystem.storage', ['storage' => $storageName]);
+
+        return $definition;
+    }
+
+    private function createMountManagerDefinition()
+    {
+        $definition = new Definition(MountManager::class);
+        $definition->setPublic(false);
 
         return $definition;
     }

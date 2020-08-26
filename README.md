@@ -107,6 +107,7 @@ to interact with your storage.
 4. [Caching metadata in Symfony cache](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/4-caching-metadata-in-symfony-cache.md)
 5. [Using a lazy adapter to switch storage backend using an environment variable](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/5-using-lazy-adapter-to-switch-at-runtime.md)
 6. [Creating a custom adapter](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/6-creating-a-custom-adapter.md)
+7. [Using the Mount Manager](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/7-using-the-mount-manager.md)
 
 * [Security issue disclosure procedure](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/A-security-disclosure-procedure.md)
 * [Configuration reference](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/B-configuration-reference.md)

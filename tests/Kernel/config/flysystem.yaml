@@ -13,6 +13,7 @@ flysystem:
                 client: 'aws_client_service'
                 bucket: '%env(AWS_BUCKET)%'
                 prefix: 'optional/path/prefix'
+            mount_prefix: 's3'
 
         fs_azure:
             adapter: 'azure'
@@ -75,9 +76,11 @@ flysystem:
                     dir:
                         public: 0755
                         private: 0700
+            mount_prefix: 'local'
 
         fs_memory:
             adapter: 'memory'
+            mount_prefix: 'memory'
 
         fs_null:
             adapter: 'null'

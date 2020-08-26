@@ -43,6 +43,7 @@ class Configuration implements ConfigurationInterface
                             ->scalarNode('visibility')->defaultNull()->end()
                             ->booleanNode('case_sensitive')->defaultTrue()->end()
                             ->booleanNode('disable_asserts')->defaultFalse()->end()
+                            ->scalarNode('mount_prefix')->defaultNull()->end()
                         ->end()
                     ->end()
                     ->defaultValue([])

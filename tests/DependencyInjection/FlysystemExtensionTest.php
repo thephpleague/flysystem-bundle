@@ -16,12 +16,15 @@ use Aws\S3\S3Client;
 use Google\Cloud\Storage\Bucket;
 use Google\Cloud\Storage\StorageClient;
 use League\Flysystem\FilesystemInterface;
+use League\Flysystem\FilesystemNotFoundException;
+use League\Flysystem\MountManager;
 use MicrosoftAzure\Storage\Blob\BlobRestProxy;
 use OpenCloud\ObjectStore\Resource\Container;
 use PHPUnit\Framework\TestCase;
 use Sabre\DAV\Client as WebDAVClient;
 use Spatie\Dropbox\Client as DropboxClient;
 use Symfony\Component\Dotenv\Dotenv;
+use Tests\League\FlysystemBundle\Fakes\FakeMountManagerUser;
 use Tests\League\FlysystemBundle\Kernel\FlysystemAppKernel;
 
 class FlysystemExtensionTest extends TestCase
@@ -78,6 +81,35 @@ class FlysystemExtensionTest extends TestCase
 
         $this->assertInstanceOf(FilesystemInterface::class, $storages[$fsName]);
         $this->assertEquals('plugin', $storages[$fsName]->pluginTest());
+    }
+
+    public function testMountManagerIncludesConfiguredFilesystems()
+    {
+        $kernel = $this->createFysystemKernel();
+        $mountManager = $kernel->getContainer()->get('flysystem.test.mount_manager');
+
+        $this->assertInstanceOf(MountManager::class, $mountManager);
+
+        // Ensure configure filesystems are available via the mount manager using their configured prefixes (in flysystem.yaml)
+        $this->assertSame($kernel->getContainer()->get('flysystem.test.fs_local'), $mountManager->getFilesystem('local'));
+        $this->assertSame($kernel->getContainer()->get('flysystem.test.fs_memory'), $mountManager->getFilesystem('memory'));
+        $this->assertSame($kernel->getContainer()->get('flysystem.test.fs_aws'), $mountManager->getFilesystem('s3'));
+    }
+
+    public function testMountManagerDoesNotIncludeFilesystemsWithoutDefinedPrefixes()
+    {
+        $this->expectException(FilesystemNotFoundException::class);
+
+        $kernel = $this->createFysystemKernel();
+        $mountManager = $kernel->getContainer()->get('flysystem.test.mount_manager');
+        $mountManager->getFilesystem('azure');
+    }
+
+    public function testMountManagerIsInjectableViaAutowiring()
+    {
+        $kernel = $this->createFysystemKernel();
+        $class = $kernel->getContainer()->get(FakeMountManagerUser::class);
+        $this->assertInstanceOf(MountManager::class, $class->getMountManager());
     }
 
     private function createFysystemKernel()
