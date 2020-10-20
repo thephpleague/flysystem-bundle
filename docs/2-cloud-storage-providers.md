@@ -76,6 +76,7 @@ flysystem:
     storages:
         users.storage:
             adapter: 'aws'
+            # visibility: public # Make the uploaded file publicly accessible in S3
             options:
                 client: 'aws_client_service' # The service ID of the Aws\S3\S3Client instance
                 bucket: 'bucket_name'
