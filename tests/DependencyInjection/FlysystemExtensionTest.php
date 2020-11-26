@@ -13,12 +13,7 @@ namespace Tests\League\FlysystemBundle\DependencyInjection;
 
 use AsyncAws\S3\S3Client as AsyncS3Client;
 use Aws\S3\S3Client;
-use Google\Cloud\Storage\Bucket;
-use Google\Cloud\Storage\StorageClient;
-use League\Flysystem\FilesystemInterface;
 use League\Flysystem\FilesystemOperator;
-use MicrosoftAzure\Storage\Blob\BlobRestProxy;
-use OpenCloud\ObjectStore\Resource\Container;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\HttpKernel\Kernel;
@@ -61,7 +56,6 @@ class FlysystemExtensionTest extends TestCase
         $fs = $container->get('flysystem.test.'.$fsName);
 
         $this->assertInstanceOf(FilesystemOperator::class, $fs, 'Filesystem "'.$fsName.'" should be an instance of FilesystemInterface');
-        $this->assertEquals('plugin', $fs->pluginTest());
     }
 
     /**
