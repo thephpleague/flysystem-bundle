@@ -20,7 +20,7 @@
         }
     },
     "require": {
-        "php": ">=7.1",
+        "php": "^7.2 || ^8.0",
         "league/flysystem": "^2.0",
         "symfony/config": "^4.2|^5.0",
         "symfony/http-kernel": "^4.2|^5.0",
