@@ -16,11 +16,10 @@ use Aws\S3\S3Client;
 use Google\Cloud\Storage\Bucket;
 use Google\Cloud\Storage\StorageClient;
 use League\Flysystem\FilesystemInterface;
+use League\Flysystem\FilesystemOperator;
 use MicrosoftAzure\Storage\Blob\BlobRestProxy;
 use OpenCloud\ObjectStore\Resource\Container;
 use PHPUnit\Framework\TestCase;
-use Sabre\DAV\Client as WebDAVClient;
-use Spatie\Dropbox\Client as DropboxClient;
 use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\HttpKernel\Kernel;
 use Tests\League\FlysystemBundle\Kernel\FlysystemAppKernel;
@@ -31,19 +30,19 @@ class FlysystemExtensionTest extends TestCase
     {
         $fsNames = [
             'fs_aws',
-            'fs_azure',
-            'fs_cache',
-            'fs_custom',
-            'fs_dropbox',
+//            'fs_azure',
+//            'fs_cache',
+//            'fs_custom',
+//            'fs_dropbox',
             'fs_ftp',
-            'fs_gcloud',
-            'fs_lazy',
+//            'fs_gcloud',
+//            'fs_lazy',
             'fs_local',
-            'fs_rackspace',
-            'fs_replicate',
+//            'fs_rackspace',
+//            'fs_replicate',
             'fs_sftp',
-            'fs_webdav',
-            'fs_zip',
+//            'fs_webdav',
+//            'fs_zip',
         ];
 
         foreach ($fsNames as $fsName) {
@@ -61,7 +60,7 @@ class FlysystemExtensionTest extends TestCase
 
         $fs = $container->get('flysystem.test.'.$fsName);
 
-        $this->assertInstanceOf(FilesystemInterface::class, $fs, 'Filesystem "'.$fsName.'" should be an instance of FilesystemInterface');
+        $this->assertInstanceOf(FilesystemOperator::class, $fs, 'Filesystem "'.$fsName.'" should be an instance of FilesystemInterface');
         $this->assertEquals('plugin', $fs->pluginTest());
     }
 
@@ -79,7 +78,7 @@ class FlysystemExtensionTest extends TestCase
 
         $storages = iterator_to_array($container->get('storages_tagged_collection')->locator);
 
-        $this->assertInstanceOf(FilesystemInterface::class, $storages[$fsName]);
+        $this->assertInstanceOf(FilesystemOperator::class, $storages[$fsName]);
         $this->assertEquals('plugin', $storages[$fsName]->pluginTest());
     }
 
@@ -107,8 +106,8 @@ class FlysystemExtensionTest extends TestCase
 
     private function getClientMocks()
     {
-        $gcloud = $this->createMock(StorageClient::class);
-        $gcloud->method('bucket')->willReturn($this->createMock(Bucket::class));
+//        $gcloud = $this->createMock(StorageClient::class);
+//        $gcloud->method('bucket')->willReturn($this->createMock(Bucket::class));
 
         $asyncAws = null;
         if (Kernel::VERSION_ID > 50200 && class_exists(AsyncS3Client::class)) {
@@ -118,11 +117,11 @@ class FlysystemExtensionTest extends TestCase
         return [
             'aws_client_service' => $this->createMock(S3Client::class),
             'asyncaws_client_service' => $asyncAws,
-            'azure_client_service' => $this->createMock(BlobRestProxy::class),
-            'dropbox_client_service' => $this->createMock(DropboxClient::class),
-            'gcloud_client_service' => $gcloud,
-            'rackspace_container_service' => $this->createMock(Container::class),
-            'webdav_client_service' => $this->createMock(WebDAVClient::class),
+//            'azure_client_service' => $this->createMock(BlobRestProxy::class),
+//            'dropbox_client_service' => $this->createMock(DropboxClient::class),
+//            'gcloud_client_service' => $gcloud,
+//            'rackspace_container_service' => $this->createMock(Container::class),
+//            'webdav_client_service' => $this->createMock(WebDAVClient::class),
         ];
     }
 }
