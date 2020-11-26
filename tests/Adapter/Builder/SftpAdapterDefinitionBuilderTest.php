@@ -78,6 +78,7 @@ class SftpAdapterDefinitionBuilderTest extends TestCase
         ];
 
         $this->assertSame(SftpAdapter::class, $definition->getClass());
-        $this->assertSame($expected, $definition->getArgument(0));
+        $this->assertSame($expected, $definition->getArgument(0)->getArgument(0));
+        $this->assertSame($expected['root'], $definition->getArgument(1));
     }
 }
