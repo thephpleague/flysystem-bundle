@@ -35,7 +35,7 @@ flysystem:
                 host: 'ftp.example.com'
                 username: 'username'
                 password: 'password'
-                port: '%env(FTP_PORT)%'
+                port: '%env(int:FTP_PORT)%'
                 root: '/path/to/root'
                 passive: true
                 ssl: true

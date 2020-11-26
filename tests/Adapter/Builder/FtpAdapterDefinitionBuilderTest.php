@@ -81,6 +81,6 @@ class FtpAdapterDefinitionBuilderTest extends TestCase
         ];
 
         $this->assertSame(FtpAdapter::class, $definition->getClass());
-        $this->assertSame($expected, $definition->getArgument(0));
+        $this->assertSame($expected, $definition->getArgument(0)->getArgument(0));
     }
 }

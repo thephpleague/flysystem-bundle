@@ -12,6 +12,7 @@
 namespace League\FlysystemBundle\Adapter\Builder;
 
 use League\Flysystem\Ftp\FtpAdapter;
+use League\Flysystem\Ftp\FtpConnectionOptions;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -73,6 +74,11 @@ class FtpAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
         unset($options['ignore_passive_address']);
 
         $definition->setClass(FtpAdapter::class);
-        $definition->setArgument(0, $options);
+        $definition->setArgument(0,
+            (new Definition(FtpConnectionOptions::class))
+                ->setFactory([FtpConnectionOptions::class, 'fromArray'])
+                ->addArgument($options)
+                ->setShared(false)
+        );
     }
 }
