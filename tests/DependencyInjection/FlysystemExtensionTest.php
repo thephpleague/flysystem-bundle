@@ -73,7 +73,6 @@ class FlysystemExtensionTest extends TestCase
         $storages = iterator_to_array($container->get('storages_tagged_collection')->locator);
 
         $this->assertInstanceOf(FilesystemOperator::class, $storages[$fsName]);
-        $this->assertEquals('plugin', $storages[$fsName]->pluginTest());
     }
 
     private function createFysystemKernel()
