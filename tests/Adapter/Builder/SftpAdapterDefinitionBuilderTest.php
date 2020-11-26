@@ -11,7 +11,7 @@
 
 namespace Tests\League\FlysystemBundle\Adapter\Builder;
 
-use League\Flysystem\Sftp\SftpAdapter;
+use League\Flysystem\PhpseclibV2\SftpAdapter;
 use League\FlysystemBundle\Adapter\Builder\SftpAdapterDefinitionBuilder;
 use PHPUnit\Framework\TestCase;
 

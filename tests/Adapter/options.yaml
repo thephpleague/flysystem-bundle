@@ -12,24 +12,24 @@ fs_aws:
         bucket: 'bucket_name'
         prefix: 'optional/path/prefix'
 
-fs_azure:
-    adapter: 'azure'
-    options:
-        client: 'azure_client_service'
-        container: 'container_name'
-        prefix: 'optional/path/prefix'
+#fs_azure:
+#    adapter: 'azure'
+#    options:
+#        client: 'azure_client_service'
+#        container: 'container_name'
+#        prefix: 'optional/path/prefix'
 
-fs_cache:
-    adapter: 'cache'
-    options:
-        store: 'memory'
-        source: 'fs_local'
+#fs_cache:
+#    adapter: 'cache'
+#    options:
+#        store: 'memory'
+#        source: 'fs_local'
 
-fs_dropbox:
-    adapter: 'dropbox'
-    options:
-        client: 'dropbox_client_service'
-        prefix: 'optional/path/prefix'
+#fs_dropbox:
+#    adapter: 'dropbox'
+#    options:
+#        client: 'dropbox_client_service'
+#        prefix: 'optional/path/prefix'
 
 fs_ftp:
     adapter: 'ftp'
@@ -44,13 +44,13 @@ fs_ftp:
         timeout: 30
         ignore_passive_address: true
 
-fs_gcloud:
-    adapter: 'gcloud'
-    options:
-        client: 'gcloud_client_service'
-        bucket: 'bucket_name'
-        prefix: 'optional/path/prefix'
-        api_url: 'https://storage.googleapis.com'
+#fs_gcloud:
+#    adapter: 'gcloud'
+#    options:
+#        client: 'gcloud_client_service'
+#        bucket: 'bucket_name'
+#        prefix: 'optional/path/prefix'
+#        api_url: 'https://storage.googleapis.com'
 
 fs_local:
     adapter: 'local'
@@ -69,20 +69,20 @@ fs_local:
 fs_memory:
     adapter: 'memory'
 
-fs_null:
-    adapter: 'null'
+#fs_null:
+#    adapter: 'null'
 
-fs_rackspace:
-    adapter: 'rackspace'
-    options:
-        container: 'rackspace_container_service'
-        prefix: 'optional/path/prefix'
+#fs_rackspace:
+#    adapter: 'rackspace'
+#    options:
+#        container: 'rackspace_container_service'
+#        prefix: 'optional/path/prefix'
 
-fs_replicate:
-    adapter: 'replicate'
-    options:
-        source: 'fs_aws'
-        replica: 'fs_local'
+#fs_replicate:
+#    adapter: 'replicate'
+#    options:
+#        source: 'fs_aws'
+#        replica: 'fs_local'
 
 fs_sftp:
     adapter: 'sftp'
@@ -95,14 +95,14 @@ fs_sftp:
         root: '/path/to/root'
         timeout: 10
 
-fs_webdav:
-    adapter: 'webdav'
-    options:
-        client: 'webdav_client_service'
-        prefix: 'optional/path/prefix'
-        use_stream_copy: false
+#fs_webdav:
+#    adapter: 'webdav'
+#    options:
+#        client: 'webdav_client_service'
+#        prefix: 'optional/path/prefix'
+#        use_stream_copy: false
 
-fs_zip:
-    adapter: 'zip'
-    options:
-        path: '%kernel.project_dir%/archive.zip'
+#fs_zip:
+#    adapter: 'zip'
+#    options:
+#        path: '%kernel.project_dir%/archive.zip'

@@ -30,9 +30,7 @@
     "require-dev": {
         "async-aws/flysystem-s3": "^1.0",
         "league/flysystem-aws-s3-v3": "^2.0",
-        "league/flysystem-ftp": "^2.0",
         "league/flysystem-memory": "^2.0",
-        "league/flysystem-sftp": "^2.0",
         "phpunit/phpunit": "^7.4",
         "symfony/dotenv": "^4.2|^5.0",
         "symfony/framework-bundle": "^4.2|^5.0",
