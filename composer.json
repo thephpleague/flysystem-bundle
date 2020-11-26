@@ -21,7 +21,7 @@
     },
     "require": {
         "php": ">=7.1",
-        "league/flysystem": "^2.0.0@dev",
+        "league/flysystem": "^2.0",
         "symfony/config": "^4.2|^5.0",
         "symfony/http-kernel": "^4.2|^5.0",
         "symfony/dependency-injection": "^4.2|^5.0",
@@ -29,10 +29,10 @@
     },
     "require-dev": {
         "async-aws/flysystem-s3": "^1.0",
-        "league/flysystem-aws-s3-v3": "^2.0.0@dev",
-        "league/flysystem-ftp": "^2.0.0@dev",
-        "league/flysystem-memory": "^2.0.0@dev",
-        "league/flysystem-sftp": "^2.0.0@dev",
+        "league/flysystem-aws-s3-v3": "^2.0",
+        "league/flysystem-ftp": "^2.0",
+        "league/flysystem-memory": "^2.0",
+        "league/flysystem-sftp": "^2.0",
         "phpunit/phpunit": "^7.4",
         "symfony/dotenv": "^4.2|^5.0",
         "symfony/framework-bundle": "^4.2|^5.0",
