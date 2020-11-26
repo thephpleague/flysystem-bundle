@@ -85,11 +85,11 @@ class LocalAdapterDefinitionBuilderTest extends TestCase
     {
         $permissions = [
             'file' => [
-                'public' => 0755,
-                'private' => 0755,
+                'public' => 0666,
+                'private' => 0644,
             ],
             'dir' => [
-                'public' => 0755,
+                'public' => 0777,
                 'private' => 0755,
             ],
         ];
@@ -103,8 +103,8 @@ class LocalAdapterDefinitionBuilderTest extends TestCase
 
         $this->assertSame(LocalFilesystemAdapter::class, $definition->getClass());
         $this->assertSame(__DIR__, $definition->getArgument(0));
-        $this->assertSame(LOCK_EX, $definition->getArgument(1));
-        $this->assertSame(LocalFilesystemAdapter::SKIP_LINKS, $definition->getArgument(2));
-        $this->assertSame($permissions, $definition->getArgument(3));
+        $this->assertSame($permissions, $definition->getArgument(1)->getArgument(0));
+        $this->assertSame(LOCK_EX, $definition->getArgument(2));
+        $this->assertSame(LocalFilesystemAdapter::SKIP_LINKS, $definition->getArgument(3));
     }
 }
