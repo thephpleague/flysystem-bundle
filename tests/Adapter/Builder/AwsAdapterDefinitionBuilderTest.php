@@ -11,7 +11,7 @@
 
 namespace Tests\League\FlysystemBundle\Adapter\Builder;
 
-use League\Flysystem\AwsS3v3\AwsS3Adapter;
+use League\Flysystem\AwsS3V3\AwsS3V3Adapter;
 use League\FlysystemBundle\Adapter\Builder\AwsAdapterDefinitionBuilder;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Reference;
@@ -50,7 +50,7 @@ class AwsAdapterDefinitionBuilderTest extends TestCase
      */
     public function testCreateDefinition($options)
     {
-        $this->assertSame(AwsS3Adapter::class, $this->createBuilder()->createDefinition($options)->getClass());
+        $this->assertSame(AwsS3V3Adapter::class, $this->createBuilder()->createDefinition($options)->getClass());
     }
 
     public function testOptionsBehavior()
@@ -64,7 +64,7 @@ class AwsAdapterDefinitionBuilderTest extends TestCase
             ],
         ]);
 
-        $this->assertSame(AwsS3Adapter::class, $definition->getClass());
+        $this->assertSame(AwsS3V3Adapter::class, $definition->getClass());
         $this->assertInstanceOf(Reference::class, $definition->getArgument(0));
         $this->assertSame('my_client', (string) $definition->getArgument(0));
         $this->assertSame('bucket', $definition->getArgument(1));
