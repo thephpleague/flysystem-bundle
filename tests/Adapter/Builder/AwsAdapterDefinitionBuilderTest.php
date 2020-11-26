@@ -69,6 +69,6 @@ class AwsAdapterDefinitionBuilderTest extends TestCase
         $this->assertSame('my_client', (string) $definition->getArgument(0));
         $this->assertSame('bucket', $definition->getArgument(1));
         $this->assertSame('prefix/path', $definition->getArgument(2));
-        $this->assertSame(['ServerSideEncryption' => 'AES256'], $definition->getArgument(3));
+        $this->assertSame(['ServerSideEncryption' => 'AES256'], $definition->getArgument(5));
     }
 }

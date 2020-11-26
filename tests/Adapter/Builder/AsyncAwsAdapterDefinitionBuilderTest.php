@@ -39,13 +39,13 @@ class AsyncAwsAdapterDefinitionBuilderTest extends TestCase
             'prefix' => 'prefix/path',
         ]];
 
-        yield 'options' => [[
-            'client' => 'my_client',
-            'bucket' => 'bucket',
-            'options' => [
-                'ServerSideEncryption' => 'AES256',
-            ],
-        ]];
+//        yield 'options' => [[
+//            'client' => 'my_client',
+//            'bucket' => 'bucket',
+//            'options' => [
+//                'ServerSideEncryption' => 'AES256',
+//            ],
+//        ]];
     }
 
     /**
