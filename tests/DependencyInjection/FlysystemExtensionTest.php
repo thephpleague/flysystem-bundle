@@ -55,7 +55,7 @@ class FlysystemExtensionTest extends TestCase
 
         $fs = $container->get('flysystem.test.'.$fsName);
 
-        $this->assertInstanceOf(FilesystemOperator::class, $fs, 'Filesystem "'.$fsName.'" should be an instance of FilesystemInterface');
+        $this->assertInstanceOf(FilesystemOperator::class, $fs, 'Filesystem "'.$fsName.'" should be an instance of FilesystemOperator');
     }
 
     /**

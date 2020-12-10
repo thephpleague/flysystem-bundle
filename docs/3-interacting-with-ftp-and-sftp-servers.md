@@ -1,6 +1,6 @@
 # Interacting with FTP and SFTP servers
 
-Flysystem is able to interact with FTP and SFTP servers using the same FilesystemInterface.
+Flysystem is able to interact with FTP and SFTP servers using the same FilesystemOperator.
 To configure this bundle for such usage, you can rely on adapters in the same way you would
 for other storages.
 
