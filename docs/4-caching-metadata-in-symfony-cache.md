@@ -10,19 +10,23 @@ involves an additional overhead on top of the classical slowness of I/O.
 When your application needs to scale, you may need to cache metadata in order to
 improve performances on this level. To do this, you can use the `cache` adapter.
 
-> *Note:* this adapter caches anything but the file content. This keeps the cache 
+> *Note:* this adapter caches just the metadata of existing files. This keeps the cache 
 > small enough to be beneficial and covers all the file system inspection operations.
+
+> *Note:* Earlier versions used different cache driver that was memory heave on systems
+> with large number of files. This version suggests lighter version that caches just
+> files metadata.
 
 ### Installation
 
 ```
-composer require league/flysystem-cached-adapter
+composer require lustmored/flysystem-v2-simple-cache-adapter
 ```
 
 ### Usage
 
 The cache adapter works using a source storage (from which it will read the uncached data)
-and a [Symfony cache pool](https://symfony.com/doc/current/reference/configuration/framework.html#pools). 
+and any [PSR-6 cache item pool interface](https://www.php-fig.org/psr/psr-6/). 
 
 Most of the time you are only going to need one of two possibilities:
 
