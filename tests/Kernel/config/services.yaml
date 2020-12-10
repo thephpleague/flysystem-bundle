@@ -8,7 +8,7 @@ services:
     # Aliases used to test the services construction
     flysystem.test.fs_aws: { alias: 'fs_aws' }
 #    flysystem.test.fs_azure: { alias: 'fs_azure' }
-#    flysystem.test.fs_cache: { alias: 'fs_cache' }
+    flysystem.test.fs_cache: { alias: 'fs_cache' }
 #    flysystem.test.fs_custom: { alias: 'fs_custom' }
 #    flysystem.test.fs_dropbox: { alias: 'fs_dropbox' }
     flysystem.test.fs_ftp: { alias: 'fs_ftp' }

@@ -19,11 +19,11 @@ fs_aws:
 #        container: 'container_name'
 #        prefix: 'optional/path/prefix'
 
-#fs_cache:
-#    adapter: 'cache'
-#    options:
-#        store: 'memory'
-#        source: 'fs_local'
+fs_cache:
+    adapter: 'cache'
+    options:
+        store: 'memory'
+        source: 'fs_local'
 
 #fs_dropbox:
 #    adapter: 'dropbox'

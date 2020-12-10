@@ -14,11 +14,11 @@ flysystem:
 #                container: 'container_name'
 #                prefix: 'optional/path/prefix'
 
-#        fs_cache:
-#            adapter: 'cache'
-#            options:
-#                store: 'cache.app'
-#                source: 'fs_local'
+        fs_cache:
+            adapter: 'cache'
+            options:
+                store: 'cache.app'
+                source: 'fs_local'
 
 #        fs_custom:
 #            adapter: 'custom_adapter'

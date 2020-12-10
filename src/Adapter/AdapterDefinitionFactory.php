@@ -31,6 +31,7 @@ class AdapterDefinitionFactory
         $this->builders = [
             new Builder\AsyncAwsAdapterDefinitionBuilder(),
             new Builder\AwsAdapterDefinitionBuilder(),
+            new Builder\CacheAdapterDefinitionBuilder(),
             new Builder\FtpAdapterDefinitionBuilder(),
             new Builder\LocalAdapterDefinitionBuilder(),
             new Builder\MemoryAdapterDefinitionBuilder(),

@@ -39,6 +39,7 @@ class FlysystemAppKernel extends Kernel
             }
         });
 
+        $loader->load(__DIR__.'/config/cache.yaml', 'yaml');
         $loader->load(__DIR__.'/config/framework.yaml', 'yaml');
         $loader->load(__DIR__.'/config/flysystem.yaml', 'yaml');
         $loader->load(__DIR__.'/config/services.yaml', 'yaml');
