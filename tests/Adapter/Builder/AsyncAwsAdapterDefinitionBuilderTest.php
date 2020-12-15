@@ -53,11 +53,19 @@ class AsyncAwsAdapterDefinitionBuilderTest extends TestCase
      */
     public function testCreateDefinition($options)
     {
+        if (!class_exists(S3FilesystemV1::class)) {
+            $this->markTestSkipped();
+        }
+
         $this->assertSame(S3FilesystemV1::class, $this->createBuilder()->createDefinition($options)->getClass());
     }
 
     public function testOptionsBehavior()
     {
+        if (!class_exists(S3FilesystemV1::class)) {
+            $this->markTestSkipped();
+        }
+
         $definition = $this->createBuilder()->createDefinition([
             'client' => 'my_client',
             'bucket' => 'bucket',

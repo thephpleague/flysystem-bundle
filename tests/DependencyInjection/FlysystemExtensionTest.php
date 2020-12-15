@@ -22,6 +22,7 @@ use PHPUnit\Framework\TestCase;
 use Sabre\DAV\Client as WebDAVClient;
 use Spatie\Dropbox\Client as DropboxClient;
 use Symfony\Component\Dotenv\Dotenv;
+use Symfony\Component\HttpKernel\Kernel;
 use Tests\League\FlysystemBundle\Kernel\FlysystemAppKernel;
 
 class FlysystemExtensionTest extends TestCase
@@ -29,7 +30,6 @@ class FlysystemExtensionTest extends TestCase
     public function provideFilesystems()
     {
         $fsNames = [
-            'fs_asyncaws',
             'fs_aws',
             'fs_azure',
             'fs_cache',
@@ -57,7 +57,9 @@ class FlysystemExtensionTest extends TestCase
     public function testFileystems(string $fsName)
     {
         $kernel = $this->createFysystemKernel();
-        $fs = $kernel->getContainer()->get('flysystem.test.'.$fsName);
+        $container = $kernel->getContainer()->get('test.service_container');
+
+        $fs = $container->get('flysystem.test.'.$fsName);
 
         $this->assertInstanceOf(FilesystemInterface::class, $fs, 'Filesystem "'.$fsName.'" should be an instance of FilesystemInterface');
         $this->assertEquals('plugin', $fs->pluginTest());
@@ -69,12 +71,13 @@ class FlysystemExtensionTest extends TestCase
     public function testTaggedCollection(string $fsName)
     {
         $kernel = $this->createFysystemKernel();
+        $container = $kernel->getContainer()->get('test.service_container');
 
-        if (!$kernel->getContainer()->has('storages_tagged_collection')) {
+        if (!$container->has('storages_tagged_collection')) {
             $this->markTestSkipped('Symfony 4.3+ is required to use indexed tagged service collections');
         }
 
-        $storages = iterator_to_array($kernel->getContainer()->get('storages_tagged_collection')->locator);
+        $storages = iterator_to_array($container->get('storages_tagged_collection')->locator);
 
         $this->assertInstanceOf(FilesystemInterface::class, $storages[$fsName]);
         $this->assertEquals('plugin', $storages[$fsName]->pluginTest());
@@ -92,9 +95,11 @@ class FlysystemExtensionTest extends TestCase
         $kernel->setAdapterClients($this->getClientMocks());
         $kernel->boot();
 
-        $container = $kernel->getContainer();
+        $container = $kernel->getContainer()->get('test.service_container');
         foreach ($this->getClientMocks() as $service => $mock) {
-            $container->set($service, $mock);
+            if ($mock) {
+                $container->set($service, $mock);
+            }
         }
 
         return $kernel;
@@ -105,9 +110,14 @@ class FlysystemExtensionTest extends TestCase
         $gcloud = $this->createMock(StorageClient::class);
         $gcloud->method('bucket')->willReturn($this->createMock(Bucket::class));
 
+        $asyncAws = null;
+        if (Kernel::VERSION_ID > 50200 && class_exists(AsyncS3Client::class)) {
+            $asyncAws = $this->createMock(AsyncS3Client::class);
+        }
+
         return [
             'aws_client_service' => $this->createMock(S3Client::class),
-            'asyncaws_client_service' => $this->createMock(AsyncS3Client::class),
+            'asyncaws_client_service' => $asyncAws,
             'azure_client_service' => $this->createMock(BlobRestProxy::class),
             'dropbox_client_service' => $this->createMock(DropboxClient::class),
             'gcloud_client_service' => $gcloud,

@@ -1,0 +1,5 @@
+services:
+    _defaults:
+        public: true
+
+    flysystem.test.fs_asyncaws: { alias: 'fs_asyncaws' }

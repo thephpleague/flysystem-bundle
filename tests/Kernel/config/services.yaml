@@ -6,7 +6,6 @@ services:
         class: 'League\Flysystem\Adapter\NullAdapter'
 
     # Aliases used to test the services construction
-    flysystem.test.fs_asyncaws: { alias: 'fs_asyncaws' }
     flysystem.test.fs_aws: { alias: 'fs_aws' }
     flysystem.test.fs_azure: { alias: 'fs_azure' }
     flysystem.test.fs_cache: { alias: 'fs_cache' }

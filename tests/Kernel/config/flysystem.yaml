@@ -1,12 +1,5 @@
 flysystem:
     storages:
-        fs_asyncaws:
-            adapter: 'asyncaws'
-            options:
-                client: 'asyncaws_client_service'
-                bucket: '%env(AWS_BUCKET)%'
-                prefix: 'optional/path/prefix'
-
         fs_aws:
             adapter: 'aws'
             options:
