@@ -28,7 +28,7 @@
         "symfony/options-resolver": "^4.2|^5.0"
     },
     "require-dev": {
-        "async-aws/flysystem-s3": "^0.3",
+        "async-aws/flysystem-s3": "^0.4",
         "league/flysystem-aws-s3-v3": "^1.0.22",
         "league/flysystem-azure-blob-storage": "^0.1.5",
         "league/flysystem-cached-adapter": "^1.0.9",
