@@ -11,7 +11,7 @@
 
 namespace Tests\League\FlysystemBundle\Adapter\Builder;
 
-use AsyncAws\Flysystem\S3\S3FilesystemV1;
+use AsyncAws\Flysystem\S3\AsyncAwsS3Adapter;
 use League\FlysystemBundle\Adapter\Builder\AsyncAwsAdapterDefinitionBuilder;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Reference;
@@ -53,16 +53,16 @@ class AsyncAwsAdapterDefinitionBuilderTest extends TestCase
      */
     public function testCreateDefinition($options)
     {
-        if (!class_exists(S3FilesystemV1::class)) {
+        if (!class_exists(AsyncAwsS3Adapter::class)) {
             $this->markTestSkipped();
         }
 
-        $this->assertSame(S3FilesystemV1::class, $this->createBuilder()->createDefinition($options)->getClass());
+        $this->assertSame(AsyncAwsS3Adapter::class, $this->createBuilder()->createDefinition($options)->getClass());
     }
 
     public function testOptionsBehavior()
     {
-        if (!class_exists(S3FilesystemV1::class)) {
+        if (!class_exists(AsyncAwsS3Adapter::class)) {
             $this->markTestSkipped();
         }
 
@@ -75,7 +75,7 @@ class AsyncAwsAdapterDefinitionBuilderTest extends TestCase
             ],
         ]);
 
-        $this->assertSame(S3FilesystemV1::class, $definition->getClass());
+        $this->assertSame(AsyncAwsS3Adapter::class, $definition->getClass());
         $this->assertInstanceOf(Reference::class, $definition->getArgument(0));
         $this->assertSame('my_client', (string) $definition->getArgument(0));
         $this->assertSame('bucket', $definition->getArgument(1));
