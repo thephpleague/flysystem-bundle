@@ -29,7 +29,6 @@ class FlysystemExtensionTest extends TestCase
     public function provideFilesystems()
     {
         $fsNames = [
-            'fs_asyncaws',
             'fs_aws',
             'fs_azure',
             'fs_cache',

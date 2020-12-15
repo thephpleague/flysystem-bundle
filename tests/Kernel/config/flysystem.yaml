@@ -1,12 +1,5 @@
 flysystem:
     storages:
-        fs_asyncaws:
-            adapter: 'asyncaws'
-            options:
-                client: 'asyncaws_client_service'
-                bucket: '%env(AWS_BUCKET)%'
-                prefix: 'optional/path/prefix'
-
         fs_aws:
             adapter: 'aws'
             options:
@@ -70,11 +63,11 @@ flysystem:
                 skip_links: false
                 permissions:
                     file:
-                        public: 0744
-                        private: 0700
+                        public: '0744'
+                        private: '0700'
                     dir:
-                        public: 0755
-                        private: 0700
+                        public: '0755'
+                        private: '0700'
 
         fs_memory:
             adapter: 'memory'
@@ -104,9 +97,9 @@ flysystem:
                 privateKey: 'path/to/or/contents/of/privatekey'
                 root: '/path/to/root'
                 timeout: 10
-                directoryPerm: 0755
-                permPrivate: 0700
-                permPublic: 0744
+                directoryPerm: '0755'
+                permPrivate: '0700'
+                permPublic: '0744'
 
         fs_webdav:
             adapter: 'webdav'

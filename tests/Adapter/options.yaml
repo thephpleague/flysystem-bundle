@@ -1,5 +1,4 @@
 fs_async_aws:
-    _php_version: '7.2.5'
     adapter: 'asyncaws'
     options:
         client: 'aws_client_service'
@@ -61,11 +60,11 @@ fs_local:
         skip_links: false
         permissions:
             file:
-                public: 0744
-                private: 0700
+                public: '0744'
+                private: '0700'
             dir:
-                public: 0755
-                private: 0700
+                public: '0755'
+                private: '0700'
 
 fs_memory:
     adapter: 'memory'
