@@ -22,6 +22,7 @@ use PHPUnit\Framework\TestCase;
 use Sabre\DAV\Client as WebDAVClient;
 use Spatie\Dropbox\Client as DropboxClient;
 use Symfony\Component\Dotenv\Dotenv;
+use Symfony\Component\HttpKernel\Kernel;
 use Tests\League\FlysystemBundle\Kernel\FlysystemAppKernel;
 
 class FlysystemExtensionTest extends TestCase
@@ -96,7 +97,9 @@ class FlysystemExtensionTest extends TestCase
 
         $container = $kernel->getContainer()->get('test.service_container');
         foreach ($this->getClientMocks() as $service => $mock) {
-            $container->set($service, $mock);
+            if ($mock) {
+                $container->set($service, $mock);
+            }
         }
 
         return $kernel;
@@ -108,7 +111,7 @@ class FlysystemExtensionTest extends TestCase
         $gcloud->method('bucket')->willReturn($this->createMock(Bucket::class));
 
         $asyncAws = null;
-        if (class_exists(AsyncS3Client::class)) {
+        if (Kernel::VERSION_ID > 50200 && class_exists(AsyncS3Client::class)) {
             $asyncAws = $this->createMock(AsyncS3Client::class);
         }
 

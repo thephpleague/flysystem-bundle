@@ -7,9 +7,12 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@master
+            - uses: shivammathur/setup-php@v2
+              with:
+                  php-version: '7.4'
             - name: php-cs-fixer
               run: |
-                  wget https://github.com/FriendsOfPHP/PHP-CS-Fixer/releases/download/v2.16.1/php-cs-fixer.phar -q
+                  wget https://github.com/FriendsOfPHP/PHP-CS-Fixer/releases/download/v2.16.4/php-cs-fixer.phar -q
                   php php-cs-fixer.phar fix --dry-run --diff
 
     tests-php-7-1-symfony-4-2:
