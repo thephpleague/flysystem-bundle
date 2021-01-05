@@ -29,7 +29,7 @@ class WebdavAdapterDefinitionBuilderTest extends TestCase
             'client' => 'my_client',
         ]];
 
-        yield 'minimal' => [[
+        yield 'minimal-stream' => [[
             'client' => 'my_client',
             'use_stream_copy' => false,
         ]];
