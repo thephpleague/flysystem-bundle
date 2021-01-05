@@ -11,7 +11,7 @@
 
 namespace League\FlysystemBundle\Adapter\Builder;
 
-use AsyncAws\Flysystem\S3\S3FilesystemV1;
+use AsyncAws\Flysystem\S3\AsyncAwsS3Adapter;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -32,7 +32,7 @@ class AsyncAwsAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
     protected function getRequiredPackages(): array
     {
         return [
-            S3FilesystemV1::class => 'async-aws/flysystem-s3',
+            AsyncAwsS3Adapter::class => 'async-aws/flysystem-s3',
         ];
     }
 
@@ -53,7 +53,7 @@ class AsyncAwsAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
 
     protected function configureDefinition(Definition $definition, array $options)
     {
-        $definition->setClass(S3FilesystemV1::class);
+        $definition->setClass(AsyncAwsS3Adapter::class);
         $definition->setArgument(0, new Reference($options['client']));
         $definition->setArgument(1, $options['bucket']);
         $definition->setArgument(2, $options['prefix']);
