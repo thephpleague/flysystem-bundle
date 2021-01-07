@@ -44,13 +44,12 @@ fs_ftp:
         timeout: 30
         ignore_passive_address: true
 
-#fs_gcloud:
-#    adapter: 'gcloud'
-#    options:
-#        client: 'gcloud_client_service'
-#        bucket: 'bucket_name'
-#        prefix: 'optional/path/prefix'
-#        api_url: 'https://storage.googleapis.com'
+fs_gcloud:
+    adapter: 'gcloud'
+    options:
+        client: 'gcloud_client_service'
+        bucket: 'bucket_name'
+        prefix: 'optional/path/prefix'
 
 fs_local:
     adapter: 'local'

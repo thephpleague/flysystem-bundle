@@ -13,6 +13,8 @@ namespace Tests\League\FlysystemBundle\DependencyInjection;
 
 use AsyncAws\S3\S3Client as AsyncS3Client;
 use Aws\S3\S3Client;
+use Google\Cloud\Storage\Bucket;
+use Google\Cloud\Storage\StorageClient;
 use League\Flysystem\FilesystemOperator;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Dotenv\Dotenv;
@@ -30,7 +32,7 @@ class FlysystemExtensionTest extends TestCase
 //            'fs_custom',
 //            'fs_dropbox',
             'fs_ftp',
-//            'fs_gcloud',
+            'fs_gcloud',
 //            'fs_lazy',
             'fs_local',
 //            'fs_rackspace',
@@ -99,8 +101,8 @@ class FlysystemExtensionTest extends TestCase
 
     private function getClientMocks()
     {
-//        $gcloud = $this->createMock(StorageClient::class);
-//        $gcloud->method('bucket')->willReturn($this->createMock(Bucket::class));
+        $gcloud = $this->createMock(StorageClient::class);
+        $gcloud->method('bucket')->willReturn($this->createMock(Bucket::class));
 
         $asyncAws = null;
         if (Kernel::VERSION_ID > 50200 && class_exists(AsyncS3Client::class)) {
@@ -112,7 +114,7 @@ class FlysystemExtensionTest extends TestCase
             'asyncaws_client_service' => $asyncAws,
 //            'azure_client_service' => $this->createMock(BlobRestProxy::class),
 //            'dropbox_client_service' => $this->createMock(DropboxClient::class),
-//            'gcloud_client_service' => $gcloud,
+            'gcloud_client_service' => $gcloud,
 //            'rackspace_container_service' => $this->createMock(Container::class),
 //            'webdav_client_service' => $this->createMock(WebDAVClient::class),
         ];

@@ -33,6 +33,7 @@ class AdapterDefinitionFactory
             new Builder\AwsAdapterDefinitionBuilder(),
             new Builder\CacheAdapterDefinitionBuilder(),
             new Builder\FtpAdapterDefinitionBuilder(),
+            new Builder\GcloudAdapterDefinitionBuilder(),
             new Builder\LocalAdapterDefinitionBuilder(),
             new Builder\MemoryAdapterDefinitionBuilder(),
             new Builder\SftpAdapterDefinitionBuilder(),
