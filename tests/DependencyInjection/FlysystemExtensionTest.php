@@ -27,7 +27,6 @@ class FlysystemExtensionTest extends TestCase
     {
         $fsNames = [
             'fs_aws',
-            'fs_cache',
             'fs_ftp',
             'fs_gcloud',
             'fs_local',

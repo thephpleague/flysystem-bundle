@@ -7,12 +7,6 @@ flysystem:
                 bucket: '%env(AWS_BUCKET)%'
                 prefix: 'optional/path/prefix'
 
-        fs_cache:
-            adapter: 'cache'
-            options:
-                store: 'cache.app'
-                source: 'fs_local'
-
         fs_ftp:
             adapter: 'ftp'
             options:

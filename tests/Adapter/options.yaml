@@ -12,12 +12,6 @@ fs_aws:
         bucket: 'bucket_name'
         prefix: 'optional/path/prefix'
 
-fs_cache:
-    adapter: 'cache'
-    options:
-        store: 'memory'
-        source: 'fs_local'
-
 fs_ftp:
     adapter: 'ftp'
     options:
