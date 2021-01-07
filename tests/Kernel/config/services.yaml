@@ -7,18 +7,9 @@ services:
 
     # Aliases used to test the services construction
     flysystem.test.fs_aws: { alias: 'fs_aws' }
-#    flysystem.test.fs_azure: { alias: 'fs_azure' }
     flysystem.test.fs_cache: { alias: 'fs_cache' }
-#    flysystem.test.fs_custom: { alias: 'fs_custom' }
-#    flysystem.test.fs_dropbox: { alias: 'fs_dropbox' }
     flysystem.test.fs_ftp: { alias: 'fs_ftp' }
     flysystem.test.fs_gcloud: { alias: 'fs_gcloud' }
-#    flysystem.test.fs_lazy: { alias: 'fs_lazy' }
     flysystem.test.fs_local: { alias: 'fs_local' }
     flysystem.test.fs_memory: { alias: 'fs_memory' }
-#    flysystem.test.fs_null: { alias: 'fs_null' }
-#    flysystem.test.fs_rackspace: { alias: 'fs_rackspace' }
-#    flysystem.test.fs_replicate: { alias: 'fs_replicate' }
     flysystem.test.fs_sftp: { alias: 'fs_sftp' }
-#    flysystem.test.fs_webdav: { alias: 'fs_webdav' }
-#    flysystem.test.fs_zip: { alias: 'fs_zip' }

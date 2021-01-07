@@ -27,19 +27,11 @@ class FlysystemExtensionTest extends TestCase
     {
         $fsNames = [
             'fs_aws',
-//            'fs_azure',
             'fs_cache',
-//            'fs_custom',
-//            'fs_dropbox',
             'fs_ftp',
             'fs_gcloud',
-//            'fs_lazy',
             'fs_local',
-//            'fs_rackspace',
-//            'fs_replicate',
             'fs_sftp',
-//            'fs_webdav',
-//            'fs_zip',
         ];
 
         foreach ($fsNames as $fsName) {
@@ -112,11 +104,7 @@ class FlysystemExtensionTest extends TestCase
         return [
             'aws_client_service' => $this->createMock(S3Client::class),
             'asyncaws_client_service' => $asyncAws,
-//            'azure_client_service' => $this->createMock(BlobRestProxy::class),
-//            'dropbox_client_service' => $this->createMock(DropboxClient::class),
             'gcloud_client_service' => $gcloud,
-//            'rackspace_container_service' => $this->createMock(Container::class),
-//            'webdav_client_service' => $this->createMock(WebDAVClient::class),
         ];
     }
 }
