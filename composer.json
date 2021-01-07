@@ -28,9 +28,11 @@
         "symfony/options-resolver": "^4.2|^5.0"
     },
     "require-dev": {
-        "async-aws/flysystem-s3": "^1.0",
+        "async-aws/flysystem-s3": "^0.3",
         "league/flysystem-aws-s3-v3": "^2.0",
+        "league/flysystem-ftp": "^2.0",
         "league/flysystem-memory": "^2.0",
+        "league/flysystem-sftp": "^2.0",
         "lustmored/flysystem-v2-simple-cache-adapter": "^0.1.0",
         "phpunit/phpunit": "^7.4",
         "symfony/dotenv": "^4.2|^5.0",
@@ -40,7 +42,6 @@
     },
     "conflict": {
         "league/flysystem-aws-s3-v3": "<1.0.22",
-        "async-aws/flysystem-s3": "<1.0",
         "league/flysystem-cached-adapter": "<1.0.9"
     },
     "config": {
