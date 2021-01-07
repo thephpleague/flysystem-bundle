@@ -11,15 +11,9 @@ flysystem:
                 prefix: 'optional/path/prefix'
 
         users2.storage:
-            adapter: 'cache'
-            options:
-                store: 'cache.app'
-                source: 'fs_local'
-
-        users3.storage:
             adapter: 'custom_adapter'
 
-        users4.storage:
+        users3.storage:
             adapter: 'ftp'
             options:
                 host: 'ftp.example.com'
@@ -32,14 +26,14 @@ flysystem:
                 timeout: 30
                 ignore_passive_address: ~
 
-        users5.storage:
+        users4.storage:
             adapter: 'gcloud'
             options:
                 client: 'gcloud_client_service'
                 bucket: 'bucket_name'
                 prefix: 'optional/path/prefix'
                 
-        users6.storage:
+        users5.storage:
             adapter: 'local'
             options:
                 directory: '%kernel.project_dir%/storage'
@@ -53,13 +47,13 @@ flysystem:
                         public: 0755
                         private: 0700
 
-        users7.storage:
+        users6.storage:
             adapter: 'memory'
 
-        users8.storage:
+        users7.storage:
             adapter: 'null'
 
-        users9.storage:
+        users8.storage:
             adapter: 'sftp'
             options:
                 host: 'example.com'
