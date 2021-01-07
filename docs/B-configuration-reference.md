@@ -33,6 +33,13 @@ flysystem:
                 ignore_passive_address: ~
 
         users5.storage:
+            adapter: 'gcloud'
+            options:
+                client: 'gcloud_client_service'
+                bucket: 'bucket_name'
+                prefix: 'optional/path/prefix'
+                
+        users6.storage:
             adapter: 'local'
             options:
                 directory: '%kernel.project_dir%/storage'
@@ -46,13 +53,13 @@ flysystem:
                         public: 0755
                         private: 0700
 
-        users6.storage:
+        users7.storage:
             adapter: 'memory'
 
-        users7.storage:
+        users8.storage:
             adapter: 'null'
 
-        users8.storage:
+        users9.storage:
             adapter: 'sftp'
             options:
                 host: 'example.com'

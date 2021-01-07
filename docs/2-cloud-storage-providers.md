@@ -8,6 +8,7 @@ cloud providers by providing corresponding adapters in the configuration.
 * [AWS S3](#aws-s3)
 * [DigitalOcean Spaces](#digitalocean-spaces)
 * [Scaleway Object Storage](#scaleway-object-storage)
+* [Google Cloud Storage](#google-cloud-storage)
 
 ## AsyncAws S3
 
@@ -65,6 +66,29 @@ as for a AWS storage.
 
 The Scaleway Object Storage is compatible with the AWS S3 API, meaning that you can use the same configuration
 as for a AWS storage.
+
+## Google Cloud Storage
+
+### Installation
+
+```
+composer require league/flysystem-google-cloud-storage
+```
+
+### Usage
+
+```yaml
+# config/packages/flysystem.yaml
+ 
+flysystem:
+    storages:
+        users.storage:
+            adapter: 'gcloud'
+            options:
+                client: 'gcloud_client_service' # The service ID of the Google\Cloud\Storage\StorageClient instance
+                bucket: 'bucket_name'
+                prefix: 'optional/path/prefix'
+```
 
 ## Next
 
