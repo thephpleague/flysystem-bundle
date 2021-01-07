@@ -85,11 +85,11 @@ class LocalAdapterDefinitionBuilderTest extends TestCase
     {
         $permissions = [
             'file' => [
-                'public' => 0666,
-                'private' => 0644,
+                'public' => 0755,
+                'private' => 0755,
             ],
             'dir' => [
-                'public' => 0777,
+                'public' => 0755,
                 'private' => 0755,
             ],
         ];
