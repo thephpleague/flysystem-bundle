@@ -3,12 +3,15 @@ services:
         public: true
 
     custom_adapter:
-        class: 'League\Flysystem\Adapter\NullAdapter'
+        class: 'League\Flysystem\InMemory\InMemoryFilesystemAdapter'
 
     # Aliases used to test the services construction
+    flysystem.test.fs_asyncaws: { alias: 'fs_asyncaws' }
     flysystem.test.fs_aws: { alias: 'fs_aws' }
+    flysystem.test.fs_custom: { alias: 'fs_custom' }
     flysystem.test.fs_ftp: { alias: 'fs_ftp' }
     flysystem.test.fs_gcloud: { alias: 'fs_gcloud' }
+    flysystem.test.fs_lazy: { alias: 'fs_lazy' }
     flysystem.test.fs_local: { alias: 'fs_local' }
     flysystem.test.fs_memory: { alias: 'fs_memory' }
     flysystem.test.fs_sftp: { alias: 'fs_sftp' }
