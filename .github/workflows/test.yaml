@@ -33,7 +33,7 @@ jobs:
                   composer require --no-update symfony/config=$SYMFONY_VERSION symfony/http-kernel=$SYMFONY_VERSION symfony/dependency-injection=$SYMFONY_VERSION symfony/options-resolver=$SYMFONY_VERSION
                   composer require --no-update --dev symfony/framework-bundle=$SYMFONY_VERSION symfony/yaml=$SYMFONY_VERSION
                   composer update --prefer-lowest --prefer-dist --no-interaction --no-ansi --no-progress
-                  php vendor/bin/phpunit
+                  php vendor/bin/simple-phpunit
 
     tests-php-7-4-symfony-5-0:
         runs-on: ubuntu-latest
@@ -49,7 +49,7 @@ jobs:
                   composer require --no-update symfony/config=$SYMFONY_VERSION symfony/http-kernel=$SYMFONY_VERSION symfony/dependency-injection=$SYMFONY_VERSION symfony/options-resolver=$SYMFONY_VERSION
                   composer require --no-update --dev symfony/framework-bundle=$SYMFONY_VERSION symfony/yaml=$SYMFONY_VERSION
                   composer update --prefer-dist --no-interaction --no-ansi --no-progress
-                  php vendor/bin/phpunit
+                  php vendor/bin/simple-phpunit
 
     tests-php-8-0-symfony-5-2:
         runs-on: ubuntu-latest
@@ -65,4 +65,4 @@ jobs:
                   composer require --no-update symfony/config=$SYMFONY_VERSION symfony/http-kernel=$SYMFONY_VERSION symfony/dependency-injection=$SYMFONY_VERSION symfony/options-resolver=$SYMFONY_VERSION
                   composer require --no-update --dev symfony/framework-bundle=$SYMFONY_VERSION symfony/yaml=$SYMFONY_VERSION
                   composer update --prefer-dist --no-interaction --no-ansi --no-progress
-                  php vendor/bin/phpunit
+                  php vendor/bin/simple-phpunit
