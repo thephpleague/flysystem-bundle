@@ -33,7 +33,7 @@ flysystem:
                 prefix: 'optional/path/prefix'
 ```
 
-## AWS S3
+## AWS SDK S3
 
 ### Installation
 
