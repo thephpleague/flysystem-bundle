@@ -11,7 +11,6 @@
 
 namespace Tests\League\FlysystemBundle\Adapter;
 
-use AsyncAws\Flysystem\S3\S3FilesystemV2;
 use League\FlysystemBundle\Adapter\AdapterDefinitionFactory;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Definition;
@@ -24,10 +23,6 @@ class AdapterDefinitionFactoryTest extends TestCase
         $config = Yaml::parseFile(__DIR__.'/options.yaml');
 
         foreach ($config as $fs) {
-            if ('asyncaws' === $fs['adapter'] && !class_exists(S3FilesystemV2::class)) {
-                continue;
-            }
-
             yield $fs['adapter'] => [$fs['adapter'], $fs['options'] ?? []];
         }
     }

@@ -11,9 +11,10 @@
 
 namespace Tests\League\FlysystemBundle\Adapter\Builder;
 
-use AsyncAws\Flysystem\S3\S3FilesystemV2;
+use League\Flysystem\AsyncAwsS3\AsyncAwsS3Adapter;
 use League\FlysystemBundle\Adapter\Builder\AsyncAwsAdapterDefinitionBuilder;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\DependencyInjection\Reference;
 
 /**
  * @requires PHP 7.2
@@ -44,10 +45,10 @@ class AsyncAwsAdapterDefinitionBuilderTest extends TestCase
      */
     public function testCreateDefinition($options)
     {
-        if (!class_exists(S3FilesystemV2::class)) {
-            $this->markTestSkipped();
-        }
-
-        $this->assertSame(S3FilesystemV2::class, $this->createBuilder()->createDefinition($options)->getClass());
+        $definition = $this->createBuilder()->createDefinition($options);
+        $this->assertSame(AsyncAwsS3Adapter::class, $definition->getClass());
+        $this->assertInstanceOf(Reference::class, $definition->getArgument(0));
+        $this->assertSame('my_client', (string) $definition->getArgument(0));
+        $this->assertSame('bucket', $definition->getArgument(1));
     }
 }

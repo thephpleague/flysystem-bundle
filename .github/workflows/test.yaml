@@ -32,7 +32,6 @@ jobs:
               run: |
                   composer require --no-update symfony/config=$SYMFONY_VERSION symfony/http-kernel=$SYMFONY_VERSION symfony/dependency-injection=$SYMFONY_VERSION symfony/options-resolver=$SYMFONY_VERSION
                   composer require --no-update --dev symfony/framework-bundle=$SYMFONY_VERSION symfony/yaml=$SYMFONY_VERSION
-                  composer remove  --no-update --dev async-aws/flysystem-s3
                   composer update --prefer-lowest --prefer-dist --no-interaction --no-ansi --no-progress
                   php vendor/bin/phpunit
 
