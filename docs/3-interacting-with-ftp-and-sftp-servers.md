@@ -8,7 +8,9 @@ for other storages.
 
 ### Installation
 
-The FTP adapter is shipped natively by Flysystem and does not need to be installed.
+```
+composer require league/flysystem-ftp
+```
 
 ### Usage
 

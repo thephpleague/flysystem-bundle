@@ -1,6 +1,6 @@
 # Creating a custom adapter
 
-[Read the associated library documentation](https://flysystem.thephpleague.com/docs/advanced/creating-an-adapter/)
+[Read the associated library documentation](https://flysystem.thephpleague.com/v2/docs/advanced/creating-an-adapter/)
 
 If you have highly specific requirements, you may need to create your own
 Flysystem adapter. To do so, you first need to create the adapter code itself

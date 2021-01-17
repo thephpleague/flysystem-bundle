@@ -5,7 +5,7 @@ including many cloud storage providers. This bundle provides the same level of s
 cloud providers by providing corresponding adapters in the configuration.
 
 * [AsyncAws S3](#asyncaws-s3)
-* [AWS S3](#aws-s3)
+* [AWS S3](#aws-sdk-s3)
 * [DigitalOcean Spaces](#digitalocean-spaces)
 * [Scaleway Object Storage](#scaleway-object-storage)
 * [Google Cloud Storage](#google-cloud-storage)
@@ -15,7 +15,7 @@ cloud providers by providing corresponding adapters in the configuration.
 ### Installation
 
 ```
-composer require async-aws/flysystem-s3
+composer require league/flysystem-async-aws-s3
 ```
 
 ### Usage
@@ -57,16 +57,6 @@ flysystem:
                 prefix: 'optional/path/prefix'
 ```
 
-## DigitalOcean Spaces
-
-The DigitalOcean Spaces are compatible with the AWS S3 API, meaning that you can use the same configuration
-as for a AWS storage.
-
-## Scaleway Object Storage
-
-The Scaleway Object Storage is compatible with the AWS S3 API, meaning that you can use the same configuration
-as for a AWS storage.
-
 ## Google Cloud Storage
 
 ### Installation
@@ -88,6 +78,56 @@ flysystem:
                 client: 'gcloud_client_service' # The service ID of the Google\Cloud\Storage\StorageClient instance
                 bucket: 'bucket_name'
                 prefix: 'optional/path/prefix'
+```
+
+## DigitalOcean Spaces
+
+The DigitalOcean Spaces are compatible with the AWS S3 API, meaning that you can use the same configuration
+as for a AWS storage. For example:
+
+```yaml
+# config/packages/flysystem.yaml
+
+services:
+    digitalocean_spaces_client:
+        class: 'AsyncAws\S3\S3Client'
+        arguments:
+            -  endpoint: '%env(DIGITALOCEAN_SPACES_ENDPOINT)%'
+               accessKeyId: '%env(DIGITALOCEAN_SPACES_ID)%'
+               accessKeySecret: '%env(DIGITALOCEAN_SPACES_SECRET)%'
+
+flysystem:
+    storages:
+        cdn.storage:
+            adapter: 'asyncaws'
+            options:
+                client: 'digitalocean_spaces_client'
+                bucket: '%env(DIGITALOCEAN_SPACES_BUCKET)%'
+```
+
+## Scaleway Object Storage
+
+The Scaleway Object Storage is compatible with the AWS S3 API, meaning that you can use the same configuration
+as for a AWS storage. For example:
+
+```yaml
+# config/packages/flysystem.yaml
+
+services:
+    scaleway_spaces_client:
+        class: 'AsyncAws\S3\S3Client'
+        arguments:
+            -  endpoint: '%env(SCALEWAY_SPACES_ENDPOINT)%'
+               accessKeyId: '%env(SCALEWAY_SPACES_ID)%'
+               accessKeySecret: '%env(SCALEWAY_SPACES_SECRET)%'
+
+flysystem:
+    storages:
+        cdn.storage:
+            adapter: 'asyncaws'
+            options:
+                client: 'scaleway_spaces_client'
+                bucket: '%env(SCALEWAY_SPACES_BUCKET)%'
 ```
 
 ## Next

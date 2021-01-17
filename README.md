@@ -1,6 +1,5 @@
 # flysystem-bundle
 
-[![Build Status](https://travis-ci.org/thephpleague/flysystem-bundle.svg?branch=master)](https://travis-ci.org/thephpleague/flysystem-bundle)
 [![Packagist Version](https://img.shields.io/packagist/v/league/flysystem-bundle.svg?style=flat-square)](https://packagist.org/packages/league/flysystem-bundle)
 [![Software license](https://img.shields.io/github/license/thephpleague/flysystem-bundle.svg?style=flat-square)](https://github.com/thephpleague/flysystem-bundle/blob/master/LICENSE)
 
@@ -14,6 +13,7 @@ on the execution environment (local files in development, cloud storage in produ
 
 > Note: you are reading the documentation for flysystem-bundle 2.0, which relies on Flysystem 2.X.
 > If you use Flysystem 1.X, use [flysystem-bundle 1.X](https://github.com/thephpleague/flysystem-bundle/tree/1.x).
+> Read the [Upgrade guide](https://github.com/thephpleague/flysystem-bundle/blob/master/UPGRADE.md) to learn how to upgrade.
 
 ## Installation
 
