@@ -18,7 +18,6 @@ use Google\Cloud\Storage\StorageClient;
 use League\Flysystem\FilesystemOperator;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Dotenv\Dotenv;
-use Symfony\Component\HttpKernel\Kernel;
 use Tests\League\FlysystemBundle\Kernel\FlysystemAppKernel;
 
 class FlysystemExtensionTest extends TestCase
@@ -27,8 +26,10 @@ class FlysystemExtensionTest extends TestCase
     {
         $fsNames = [
             'fs_aws',
+            'fs_custom',
             'fs_ftp',
             'fs_gcloud',
+            'fs_lazy',
             'fs_local',
             'fs_sftp',
         ];
@@ -95,14 +96,9 @@ class FlysystemExtensionTest extends TestCase
         $gcloud = $this->createMock(StorageClient::class);
         $gcloud->method('bucket')->willReturn($this->createMock(Bucket::class));
 
-        $asyncAws = null;
-        if (Kernel::VERSION_ID > 50200 && class_exists(AsyncS3Client::class)) {
-            $asyncAws = $this->createMock(AsyncS3Client::class);
-        }
-
         return [
             'aws_client_service' => $this->createMock(S3Client::class),
-            'asyncaws_client_service' => $asyncAws,
+            'asyncaws_client_service' => $this->createMock(AsyncS3Client::class),
             'gcloud_client_service' => $gcloud,
         ];
     }

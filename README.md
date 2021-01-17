@@ -12,9 +12,12 @@ library into Symfony applications.
 It provides an efficient abstraction for the filesystem in order to change the storage backend depending
 on the execution environment (local files in development, cloud storage in production and memory in tests).
 
+> Note: you are reading the documentation for flysystem-bundle 2.0, which relies on Flysystem 2.X.
+> If you use Flysystem 1.X, use [flysystem-bundle 1.X](https://github.com/thephpleague/flysystem-bundle/tree/1.x).
+
 ## Installation
 
-flysystem-bundle requires PHP 7.1+ and Symfony 4.2+.
+flysystem-bundle requires PHP 7.2+ and Symfony 4.2+.
 
 You can install the bundle using Symfony Flex:
 
@@ -93,14 +96,16 @@ to interact with your storage.
 
 ## Full documentation
 
-1. [Getting started](https://flysystem.thephpleague.com/v2/docs/getting-started/)
+1. [Getting started](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/1-getting-started.md)
 2. Cloud storage providers:
    [AsyncAws S3](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/2-cloud-storage-providers.md#asyncaws-s3),
-   [AWS S3](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/2-cloud-storage-providers.md#aws-s3),
-   [Google Cloud Storage](https://flysystem.thephpleague.com/v2/docs/adapter/gcs/),
+   [AWS SDK S3](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/2-cloud-storage-providers.md#aws-sdk-s3),
+   [Google Cloud Storage](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/2-cloud-storage-providers.md#google-cloud-storage),
+   [DigitalOcean Spaces](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/2-cloud-storage-providers.md#digitalocean-spaces),
+   [Scaleway Object Storage](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/2-cloud-storage-providers.md#scaleway-object-storage)
 3. [Interacting with FTP and SFTP servers](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/3-interacting-with-ftp-and-sftp-servers.md)
-4. [Using a lazy adapter to switch storage backend using an environment variable](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/5-using-lazy-adapter-to-switch-at-runtime.md)
-5. [Creating a custom adapter](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/6-creating-a-custom-adapter.md)
+4. [Using a lazy adapter to switch storage backend using an environment variable](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/4-using-lazy-adapter-to-switch-at-runtime.md)
+5. [Creating a custom adapter](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/5-creating-a-custom-adapter.md)
 
 * [Security issue disclosure procedure](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/A-security-disclosure-procedure.md)
 * [Configuration reference](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/B-configuration-reference.md)
