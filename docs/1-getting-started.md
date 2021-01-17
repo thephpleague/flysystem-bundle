@@ -40,11 +40,11 @@ creates a named alias for each of these services.
 
 This means you have two way of using the defined storages:
 
-* either using autowiring, by typehinting against the `FilesystemInterface` and using the
+* either using autowiring, by typehinting against the `FilesystemOperator` and using the
   variable name matching one of your storages:
 
     ```php
-    use League\Flysystem\FilesystemInterface;
+    use League\Flysystem\FilesystemOperator;
     
     class MyService
     {
@@ -52,7 +52,7 @@ This means you have two way of using the defined storages:
         
         // The variable name $defaultStorage matters: it needs to be the camelized version
         // of the name of your storage. 
-        public function __construct(FilesystemInterface $defaultStorage)
+        public function __construct(FilesystemOperator $defaultStorage)
         {
             $this->storage = $defaultStorage;
         }
@@ -64,13 +64,13 @@ This means you have two way of using the defined storages:
   The same goes for controllers:
     
     ```php
-    use League\Flysystem\FilesystemInterface;
+    use League\Flysystem\FilesystemOperator;
     
     class MyController
     {
         // The variable name $defaultStorage matters: it needs to be the camelized version
         // of the name of your storage. 
-        public function index(FilesystemInterface $defaultStorage)
+        public function index(FilesystemOperator $defaultStorage)
         {
             // ...
         }
@@ -80,8 +80,8 @@ This means you have two way of using the defined storages:
 * or using manual injection, by injecting the service named `default.storage` inside 
   your services.
   
-Once you have a FilesystemInterface, you can call methods from the
-[Filesystem API](https://flysystem.thephpleague.com/docs/usage/filesystem-api/)
+Once you have a FilesystemOperator, you can call methods from the
+[Filesystem API](https://flysystem.thephpleague.com/v2/docs/usage/filesystem-api/)
 to interact with your storage.
 
 
@@ -111,14 +111,14 @@ flysystem:
 ``` 
 
 ```php
-use League\Flysystem\FilesystemInterface;
+use League\Flysystem\FilesystemOperator;
 
 class MyService
 {
     private $usersStorage;
     private $projectsStorage;
     
-    public function __construct(FilesystemInterface $usersStorage, FilesystemInterface $projectsStorage)
+    public function __construct(FilesystemOperator $usersStorage, FilesystemOperator $projectsStorage)
     {
         $this->usersStorage = $usersStorage;
         $this->projectsStorage = $projectsStorage;
@@ -160,7 +160,7 @@ flysystem:
 ```
 
 This configuration will swap every reference to the `users.storage` service (or to the
-`FilesystemInterface $usersStorage` typehint) from a local adapter to a memory one during tests.
+`FilesystemOperator $usersStorage` typehint) from a local adapter to a memory one during tests.
 
 ## Next
 

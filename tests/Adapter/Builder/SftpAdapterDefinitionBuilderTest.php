@@ -11,7 +11,7 @@
 
 namespace Tests\League\FlysystemBundle\Adapter\Builder;
 
-use League\Flysystem\Sftp\SftpAdapter;
+use League\Flysystem\PhpseclibV2\SftpAdapter;
 use League\FlysystemBundle\Adapter\Builder\SftpAdapterDefinitionBuilder;
 use PHPUnit\Framework\TestCase;
 
@@ -78,6 +78,7 @@ class SftpAdapterDefinitionBuilderTest extends TestCase
         ];
 
         $this->assertSame(SftpAdapter::class, $definition->getClass());
-        $this->assertSame($expected, $definition->getArgument(0));
+        $this->assertSame($expected, $definition->getArgument(0)->getArgument(0));
+        $this->assertSame($expected['root'], $definition->getArgument(1));
     }
 }

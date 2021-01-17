@@ -15,12 +15,8 @@ use AsyncAws\S3\S3Client as AsyncS3Client;
 use Aws\S3\S3Client;
 use Google\Cloud\Storage\Bucket;
 use Google\Cloud\Storage\StorageClient;
-use League\Flysystem\FilesystemInterface;
-use MicrosoftAzure\Storage\Blob\BlobRestProxy;
-use OpenCloud\ObjectStore\Resource\Container;
+use League\Flysystem\FilesystemOperator;
 use PHPUnit\Framework\TestCase;
-use Sabre\DAV\Client as WebDAVClient;
-use Spatie\Dropbox\Client as DropboxClient;
 use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\HttpKernel\Kernel;
 use Tests\League\FlysystemBundle\Kernel\FlysystemAppKernel;
@@ -31,19 +27,10 @@ class FlysystemExtensionTest extends TestCase
     {
         $fsNames = [
             'fs_aws',
-            'fs_azure',
-            'fs_cache',
-            'fs_custom',
-            'fs_dropbox',
             'fs_ftp',
             'fs_gcloud',
-            'fs_lazy',
             'fs_local',
-            'fs_rackspace',
-            'fs_replicate',
             'fs_sftp',
-            'fs_webdav',
-            'fs_zip',
         ];
 
         foreach ($fsNames as $fsName) {
@@ -61,8 +48,7 @@ class FlysystemExtensionTest extends TestCase
 
         $fs = $container->get('flysystem.test.'.$fsName);
 
-        $this->assertInstanceOf(FilesystemInterface::class, $fs, 'Filesystem "'.$fsName.'" should be an instance of FilesystemInterface');
-        $this->assertEquals('plugin', $fs->pluginTest());
+        $this->assertInstanceOf(FilesystemOperator::class, $fs, 'Filesystem "'.$fsName.'" should be an instance of FilesystemOperator');
     }
 
     /**
@@ -79,8 +65,7 @@ class FlysystemExtensionTest extends TestCase
 
         $storages = iterator_to_array($container->get('storages_tagged_collection')->locator);
 
-        $this->assertInstanceOf(FilesystemInterface::class, $storages[$fsName]);
-        $this->assertEquals('plugin', $storages[$fsName]->pluginTest());
+        $this->assertInstanceOf(FilesystemOperator::class, $storages[$fsName]);
     }
 
     private function createFysystemKernel()
@@ -118,11 +103,7 @@ class FlysystemExtensionTest extends TestCase
         return [
             'aws_client_service' => $this->createMock(S3Client::class),
             'asyncaws_client_service' => $asyncAws,
-            'azure_client_service' => $this->createMock(BlobRestProxy::class),
-            'dropbox_client_service' => $this->createMock(DropboxClient::class),
             'gcloud_client_service' => $gcloud,
-            'rackspace_container_service' => $this->createMock(Container::class),
-            'webdav_client_service' => $this->createMock(WebDAVClient::class),
         ];
     }
 }

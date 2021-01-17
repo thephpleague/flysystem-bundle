@@ -11,7 +11,7 @@
 
 namespace Tests\League\FlysystemBundle\Adapter\Builder;
 
-use League\Flysystem\Memory\MemoryAdapter;
+use League\Flysystem\InMemory\InMemoryFilesystemAdapter;
 use League\FlysystemBundle\Adapter\Builder\MemoryAdapterDefinitionBuilder;
 use PHPUnit\Framework\TestCase;
 
@@ -24,6 +24,6 @@ class MemoryAdapterDefinitionBuilderTest extends TestCase
 
     public function testOptionsBehavior()
     {
-        $this->assertSame(MemoryAdapter::class, $this->createBuilder()->createDefinition([])->getClass());
+        $this->assertSame(InMemoryFilesystemAdapter::class, $this->createBuilder()->createDefinition([])->getClass());
     }
 }

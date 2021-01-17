@@ -11,7 +11,7 @@
 
 namespace Tests\League\FlysystemBundle\Adapter\Builder;
 
-use League\Flysystem\Adapter\Local;
+use League\Flysystem\Local\LocalFilesystemAdapter;
 use League\FlysystemBundle\Adapter\Builder\LocalAdapterDefinitionBuilder;
 use PHPUnit\Framework\TestCase;
 
@@ -78,7 +78,7 @@ class LocalAdapterDefinitionBuilderTest extends TestCase
      */
     public function testCreateDefinition($options)
     {
-        $this->assertSame(Local::class, $this->createBuilder()->createDefinition($options)->getClass());
+        $this->assertSame(LocalFilesystemAdapter::class, $this->createBuilder()->createDefinition($options)->getClass());
     }
 
     public function testOptionsBehavior()
@@ -101,10 +101,10 @@ class LocalAdapterDefinitionBuilderTest extends TestCase
             'permissions' => $permissions,
         ]);
 
-        $this->assertSame(Local::class, $definition->getClass());
+        $this->assertSame(LocalFilesystemAdapter::class, $definition->getClass());
         $this->assertSame(__DIR__, $definition->getArgument(0));
-        $this->assertSame(LOCK_EX, $definition->getArgument(1));
-        $this->assertSame(Local::SKIP_LINKS, $definition->getArgument(2));
-        $this->assertSame($permissions, $definition->getArgument(3));
+        $this->assertSame($permissions, $definition->getArgument(1)->getArgument(0));
+        $this->assertSame(LOCK_EX, $definition->getArgument(2));
+        $this->assertSame(LocalFilesystemAdapter::SKIP_LINKS, $definition->getArgument(3));
     }
 }
