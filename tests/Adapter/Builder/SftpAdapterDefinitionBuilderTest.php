@@ -51,6 +51,17 @@ class SftpAdapterDefinitionBuilderTest extends TestCase
 
     public function testOptionsBehavior()
     {
+        $permissions = [
+            'file' => [
+                'public' => 0755,
+                'private' => 0755,
+            ],
+            'dir' => [
+                'public' => 0755,
+                'private' => 0755,
+            ],
+        ];
+
         $definition = $this->createBuilder()->createDefinition([
             'host' => 'ftp.example.com',
             'username' => 'username',
@@ -59,9 +70,7 @@ class SftpAdapterDefinitionBuilderTest extends TestCase
             'root' => '/path/to/root',
             'privateKey' => '/path/to/or/contents/of/privatekey',
             'timeout' => 30,
-            'directoryPerm' => 0755,
-            'permPrivate' => 0700,
-            'permPublic' => 0744,
+            'permissions' => $permissions,
         ]);
 
         $expected = [
@@ -69,7 +78,8 @@ class SftpAdapterDefinitionBuilderTest extends TestCase
             'root' => '/path/to/root',
             'privateKey' => '/path/to/or/contents/of/privatekey',
             'timeout' => 30,
-            'directoryPerm' => 0755,
+            'permissions' => $permissions,
+            'directoryPerm' => 0744,
             'permPrivate' => 0700,
             'permPublic' => 0744,
             'host' => 'ftp.example.com',
@@ -80,5 +90,6 @@ class SftpAdapterDefinitionBuilderTest extends TestCase
         $this->assertSame(SftpAdapter::class, $definition->getClass());
         $this->assertSame($expected, $definition->getArgument(0)->getArgument(0));
         $this->assertSame($expected['root'], $definition->getArgument(1));
+        $this->assertSame($permissions, $definition->getArgument(2)->getArgument(0));
     }
 }

@@ -50,11 +50,11 @@ flysystem:
                 skip_links: false
                 permissions:
                     file:
-                        public: 0744
-                        private: 0700
+                        public: 0o744
+                        private: 0o700
                     dir:
-                        public: 0755
-                        private: 0700
+                        public: 0o755
+                        private: 0o700
 
         fs_memory:
             adapter: 'memory'
@@ -69,6 +69,10 @@ flysystem:
                 privateKey: 'path/to/or/contents/of/privatekey'
                 root: '/path/to/root'
                 timeout: 10
-                directoryPerm: 0755
-                permPrivate: 0700
-                permPublic: 0744
+                permissions:
+                    file:
+                        public: 0o744
+                        private: 0o700
+                    dir:
+                        public: 0o755
+                        private: 0o700

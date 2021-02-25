@@ -59,9 +59,13 @@ flysystem:
                 privateKey: 'path/to/or/contents/of/privatekey'
                 root: '/path/to/root'
                 timeout: 10
-                directoryPerm: 0744
-                permPublic: 0700
-                permPrivate: 0744
+                permissions:
+                  file:
+                    public: 0744
+                    private: 0700
+                  dir:
+                    public: 0755
+                    private: 0700
 ```
 
 ## Next
