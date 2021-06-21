@@ -15,3 +15,6 @@ services:
     flysystem.test.fs_local: { alias: 'fs_local' }
     flysystem.test.fs_memory: { alias: 'fs_memory' }
     flysystem.test.fs_sftp: { alias: 'fs_sftp' }
+
+    flysystem.test.fs_local_private: { alias: 'fs_local_private' }
+    flysystem.test.fs_local_public: { alias: 'fs_local_public' }

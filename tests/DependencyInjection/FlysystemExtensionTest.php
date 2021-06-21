@@ -15,7 +15,9 @@ use AsyncAws\S3\S3Client as AsyncS3Client;
 use Aws\S3\S3Client;
 use Google\Cloud\Storage\Bucket;
 use Google\Cloud\Storage\StorageClient;
+use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemOperator;
+use League\Flysystem\Visibility;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Dotenv\Dotenv;
 use Tests\League\FlysystemBundle\Kernel\FlysystemAppKernel;
@@ -37,6 +39,12 @@ class FlysystemExtensionTest extends TestCase
         foreach ($fsNames as $fsName) {
             yield $fsName => [$fsName];
         }
+    }
+
+    public function provideVisibilityFilesystems()
+    {
+        yield ['fs_local_public', Visibility::PUBLIC];
+        yield ['fs_local_private', Visibility::PRIVATE];
     }
 
     /**
@@ -67,6 +75,29 @@ class FlysystemExtensionTest extends TestCase
         $storages = iterator_to_array($container->get('storages_tagged_collection')->locator);
 
         $this->assertInstanceOf(FilesystemOperator::class, $storages[$fsName]);
+    }
+
+    /**
+     * @dataProvider provideVisibilityFilesystems
+     */
+    public function testVisibility(string $fsName, string $visibility)
+    {
+        $kernel = $this->createFysystemKernel();
+        $container = $kernel->getContainer()->get('test.service_container');
+
+        /** @var Filesystem $fs */
+        $fs = $container->get('flysystem.test.'.$fsName);
+
+        $this->assertInstanceOf(FilesystemOperator::class, $fs);
+
+        $fs->write('path-'.$visibility.'.txt', 'contents');
+        $fileVisibility = $fs->visibility('path-'.$visibility.'.txt');
+
+        $fs->createDirectory('path-'.$visibility);
+        $directoryVisibility = $fs->visibility('path-'.$visibility);
+
+        $this->assertEquals($visibility, $fileVisibility, 'Filesystem "'.$fsName.'" expects the file to have visibility "'.$visibility.'".');
+        $this->assertEquals($visibility, $directoryVisibility, 'Filesystem "'.$fsName.'" expects the directory to have visibility "'.$visibility.'".');
     }
 
     private function createFysystemKernel()

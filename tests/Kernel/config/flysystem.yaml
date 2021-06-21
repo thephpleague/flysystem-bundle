@@ -56,6 +56,20 @@ flysystem:
                         public: 0755
                         private: 0700
 
+        fs_local_private:
+            adapter: 'local'
+            options:
+                directory: '/tmp/storage'
+            visibility: private
+            directory_visibility: private
+
+        fs_local_public:
+            adapter: 'local'
+            options:
+                directory: '/tmp/storage'
+            visibility: public
+            directory_visibility: public
+
         fs_memory:
             adapter: 'memory'
 

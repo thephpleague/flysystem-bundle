@@ -63,4 +63,10 @@ flysystem:
                 privateKey: 'path/to/or/contents/of/privatekey'
                 root: '/path/to/root'
                 timeout: 10
+
+        users9.storage:
+            adapter: 'lazy'
+            options:
+                source: 'flysystem_storage_service_to_use'
+
 ```
