@@ -27,7 +27,6 @@ class SftpAdapterDefinitionBuilderTest extends TestCase
         yield 'minimal' => [[
             'host' => 'ftp.example.com',
             'username' => 'username',
-            'password' => 'password',
         ]];
 
         yield 'full' => [[
@@ -74,6 +73,7 @@ class SftpAdapterDefinitionBuilderTest extends TestCase
         ]);
 
         $expected = [
+            'password' => 'password',
             'port' => 22,
             'root' => '/path/to/root',
             'privateKey' => '/path/to/or/contents/of/privatekey',
@@ -84,7 +84,6 @@ class SftpAdapterDefinitionBuilderTest extends TestCase
             'permPublic' => 0744,
             'host' => 'ftp.example.com',
             'username' => 'username',
-            'password' => 'password',
         ];
 
         $this->assertSame(SftpAdapter::class, $definition->getClass());

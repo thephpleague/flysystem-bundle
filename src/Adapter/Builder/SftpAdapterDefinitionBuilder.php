@@ -44,8 +44,8 @@ class SftpAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
         $resolver->setRequired('username');
         $resolver->setAllowedTypes('username', 'string');
 
-        $resolver->setRequired('password');
-        $resolver->setAllowedTypes('password', 'string');
+        $resolver->setDefault('password', null);
+        $resolver->setAllowedTypes('password', ['string', 'null']);
 
         $resolver->setDefault('port', 22);
         $resolver->setAllowedTypes('port', 'scalar');

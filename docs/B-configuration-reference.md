@@ -70,4 +70,10 @@ flysystem:
                   dir:
                     public: 0755
                     private: 0700
+
+        users9.storage:
+            adapter: 'lazy'
+            options:
+                source: 'flysystem_storage_service_to_use'
+
 ```
