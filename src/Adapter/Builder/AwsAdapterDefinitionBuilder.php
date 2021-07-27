@@ -59,7 +59,9 @@ class AwsAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
         $definition->setArgument(0, new Reference($options['client']));
         $definition->setArgument(1, $options['bucket']);
         $definition->setArgument(2, $options['prefix']);
-        $definition->setArgument(3, $options['options']);
-        $definition->setArgument(4, $options['streamReads']);
+        $definition->setArgument(3, null);
+        $definition->setArgument(4, null);
+        $definition->setArgument(5, $options['options']);
+        $definition->setArgument(6, $options['streamReads']);
     }
 }
