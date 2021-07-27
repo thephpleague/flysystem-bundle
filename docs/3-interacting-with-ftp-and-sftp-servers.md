@@ -1,6 +1,6 @@
 # Interacting with FTP and SFTP servers
 
-Flysystem is able to interact with FTP and SFTP servers using the same FilesystemInterface.
+Flysystem is able to interact with FTP and SFTP servers using the same FilesystemOperator.
 To configure this bundle for such usage, you can rely on adapters in the same way you would
 for other storages.
 
@@ -8,7 +8,9 @@ for other storages.
 
 ### Installation
 
-The FTP adapter is shipped natively by Flysystem and does not need to be installed.
+```
+composer require league/flysystem-ftp
+```
 
 ### Usage
 
@@ -64,4 +66,4 @@ flysystem:
 
 ## Next
 
-[Caching metadata in Symfony cache](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/4-caching-metadata-in-symfony-cache.md)
+[Using a lazy adapter to switch storage backend using an environment variable](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/4-using-lazy-adapter-to-switch-at-runtime.md)

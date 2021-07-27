@@ -11,7 +11,8 @@
 
 namespace League\FlysystemBundle\Adapter\Builder;
 
-use League\Flysystem\Sftp\SftpAdapter;
+use League\Flysystem\PhpseclibV2\SftpAdapter;
+use League\Flysystem\PhpseclibV2\SftpConnectionProvider;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -42,8 +43,8 @@ class SftpAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
         $resolver->setRequired('username');
         $resolver->setAllowedTypes('username', 'string');
 
-        $resolver->setRequired('password');
-        $resolver->setAllowedTypes('password', 'string');
+        $resolver->setDefault('password', null);
+        $resolver->setAllowedTypes('password', ['string', 'null']);
 
         $resolver->setDefault('port', 22);
         $resolver->setAllowedTypes('port', 'scalar');
@@ -70,6 +71,12 @@ class SftpAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
     protected function configureDefinition(Definition $definition, array $options)
     {
         $definition->setClass(SftpAdapter::class);
-        $definition->setArgument(0, $options);
+        $definition->setArgument(0,
+            (new Definition(SftpConnectionProvider::class))
+                ->setFactory([SftpConnectionProvider::class, 'fromArray'])
+                ->addArgument($options)
+                ->setShared(false)
+        );
+        $definition->setArgument(1, $options['root']);
     }
 }

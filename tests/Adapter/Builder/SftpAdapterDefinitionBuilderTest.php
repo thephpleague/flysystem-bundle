@@ -11,7 +11,7 @@
 
 namespace Tests\League\FlysystemBundle\Adapter\Builder;
 
-use League\Flysystem\Sftp\SftpAdapter;
+use League\Flysystem\PhpseclibV2\SftpAdapter;
 use League\FlysystemBundle\Adapter\Builder\SftpAdapterDefinitionBuilder;
 use PHPUnit\Framework\TestCase;
 
@@ -27,7 +27,6 @@ class SftpAdapterDefinitionBuilderTest extends TestCase
         yield 'minimal' => [[
             'host' => 'ftp.example.com',
             'username' => 'username',
-            'password' => 'password',
         ]];
 
         yield 'full' => [[
@@ -65,6 +64,7 @@ class SftpAdapterDefinitionBuilderTest extends TestCase
         ]);
 
         $expected = [
+            'password' => 'password',
             'port' => 22,
             'root' => '/path/to/root',
             'privateKey' => '/path/to/or/contents/of/privatekey',
@@ -74,10 +74,10 @@ class SftpAdapterDefinitionBuilderTest extends TestCase
             'permPublic' => 0744,
             'host' => 'ftp.example.com',
             'username' => 'username',
-            'password' => 'password',
         ];
 
         $this->assertSame(SftpAdapter::class, $definition->getClass());
-        $this->assertSame($expected, $definition->getArgument(0));
+        $this->assertSame($expected, $definition->getArgument(0)->getArgument(0));
+        $this->assertSame($expected['root'], $definition->getArgument(1));
     }
 }

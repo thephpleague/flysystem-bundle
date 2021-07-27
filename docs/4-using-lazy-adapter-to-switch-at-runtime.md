@@ -86,17 +86,17 @@ APP_UPLOADS_SOURCE=uploads.storage.memory
 Other than being created at runtime, the `lazy` adapter is behaving in the exact
 same way as any other storage:
 
-* you can use it with autowiring, by typehinting against the `FilesystemInterface` and using the
+* you can use it with autowiring, by typehinting against the `FilesystemOperator` and using the
   variable name matching its name:
 
     ```php
-    use League\Flysystem\FilesystemInterface;
+    use League\Flysystem\FilesystemOperator;
     
     class MyService
     {
         private $storage;
         
-        public function __construct(FilesystemInterface $uploadsStorage)
+        public function __construct(FilesystemOperator $uploadsStorage)
         {
             $this->storage = $uploadsStorage;
         }
@@ -110,4 +110,4 @@ same way as any other storage:
 
 ## Next
 
-[Creating a custom adapter](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/6-creating-a-custom-adapter.md)
+[Creating a custom adapter](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/5-creating-a-custom-adapter.md)

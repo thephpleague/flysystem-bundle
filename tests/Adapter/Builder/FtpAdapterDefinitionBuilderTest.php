@@ -11,7 +11,7 @@
 
 namespace Tests\League\FlysystemBundle\Adapter\Builder;
 
-use League\Flysystem\Adapter\Ftp;
+use League\Flysystem\Ftp\FtpAdapter;
 use League\FlysystemBundle\Adapter\Builder\FtpAdapterDefinitionBuilder;
 use PHPUnit\Framework\TestCase;
 
@@ -49,7 +49,7 @@ class FtpAdapterDefinitionBuilderTest extends TestCase
      */
     public function testCreateDefinition($options)
     {
-        $this->assertSame(Ftp::class, $this->createBuilder()->createDefinition($options)->getClass());
+        $this->assertSame(FtpAdapter::class, $this->createBuilder()->createDefinition($options)->getClass());
     }
 
     public function testOptionsBehavior()
@@ -80,7 +80,7 @@ class FtpAdapterDefinitionBuilderTest extends TestCase
             'ignorePassiveAddress' => true,
         ];
 
-        $this->assertSame(Ftp::class, $definition->getClass());
-        $this->assertSame($expected, $definition->getArgument(0));
+        $this->assertSame(FtpAdapter::class, $definition->getClass());
+        $this->assertSame($expected, $definition->getArgument(0)->getArgument(0));
     }
 }

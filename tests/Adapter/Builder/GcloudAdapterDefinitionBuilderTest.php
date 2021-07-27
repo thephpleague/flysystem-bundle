@@ -11,9 +11,9 @@
 
 namespace Tests\League\FlysystemBundle\Adapter\Builder;
 
+use League\Flysystem\GoogleCloudStorage\GoogleCloudStorageAdapter;
 use League\FlysystemBundle\Adapter\Builder\GcloudAdapterDefinitionBuilder;
 use PHPUnit\Framework\TestCase;
-use Superbalist\Flysystem\GoogleStorage\GoogleStorageAdapter;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
@@ -31,23 +31,10 @@ class GcloudAdapterDefinitionBuilderTest extends TestCase
             'bucket' => 'bucket',
         ]];
 
-        yield 'prefix' => [[
-            'client' => 'my_client',
-            'bucket' => 'bucket',
-            'prefix' => 'prefix/path',
-        ]];
-
-        yield 'api_url' => [[
-            'client' => 'my_client',
-            'bucket' => 'bucket',
-            'api_url' => 'https://storage.googleapis.com',
-        ]];
-
         yield 'full' => [[
             'client' => 'my_client',
             'bucket' => 'bucket',
             'prefix' => 'prefix/path',
-            'api_url' => 'https://storage.googleapis.com',
         ]];
     }
 
@@ -56,7 +43,7 @@ class GcloudAdapterDefinitionBuilderTest extends TestCase
      */
     public function testCreateDefinition($options)
     {
-        $this->assertSame(GoogleStorageAdapter::class, $this->createBuilder()->createDefinition($options)->getClass());
+        $this->assertSame(GoogleCloudStorageAdapter::class, $this->createBuilder()->createDefinition($options)->getClass());
     }
 
     public function testOptionsBehavior()
@@ -65,23 +52,18 @@ class GcloudAdapterDefinitionBuilderTest extends TestCase
             'client' => 'my_client',
             'bucket' => 'bucket_name',
             'prefix' => 'prefix/path',
-            'api_url' => 'https://storage.titouangalopin.com',
         ]);
 
-        $this->assertSame(GoogleStorageAdapter::class, $definition->getClass());
-
-        $this->assertInstanceOf(Reference::class, $definition->getArgument(0));
-        $this->assertSame('my_client', (string) $definition->getArgument(0));
+        $this->assertSame(GoogleCloudStorageAdapter::class, $definition->getClass());
 
         /** @var Definition $bucketDefinition */
-        $bucketDefinition = $definition->getArgument(1);
+        $bucketDefinition = $definition->getArgument(0);
         $this->assertInstanceOf(Definition::class, $bucketDefinition);
         $this->assertSame('bucket_name', $bucketDefinition->getArgument(0));
         $this->assertInstanceOf(Reference::class, $bucketDefinition->getFactory()[0]);
         $this->assertSame('my_client', (string) $bucketDefinition->getFactory()[0]);
         $this->assertSame('bucket', $bucketDefinition->getFactory()[1]);
 
-        $this->assertSame('prefix/path', $definition->getArgument(2));
-        $this->assertSame('https://storage.titouangalopin.com', $definition->getArgument(3));
+        $this->assertSame('prefix/path', $definition->getArgument(1));
     }
 }

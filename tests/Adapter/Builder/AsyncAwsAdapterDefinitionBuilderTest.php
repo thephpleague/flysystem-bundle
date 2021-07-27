@@ -11,7 +11,7 @@
 
 namespace Tests\League\FlysystemBundle\Adapter\Builder;
 
-use AsyncAws\Flysystem\S3\S3FilesystemV1;
+use League\Flysystem\AsyncAwsS3\AsyncAwsS3Adapter;
 use League\FlysystemBundle\Adapter\Builder\AsyncAwsAdapterDefinitionBuilder;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Reference;
@@ -38,14 +38,6 @@ class AsyncAwsAdapterDefinitionBuilderTest extends TestCase
             'bucket' => 'bucket',
             'prefix' => 'prefix/path',
         ]];
-
-        yield 'options' => [[
-            'client' => 'my_client',
-            'bucket' => 'bucket',
-            'options' => [
-                'ServerSideEncryption' => 'AES256',
-            ],
-        ]];
     }
 
     /**
@@ -53,25 +45,10 @@ class AsyncAwsAdapterDefinitionBuilderTest extends TestCase
      */
     public function testCreateDefinition($options)
     {
-        $this->assertSame(S3FilesystemV1::class, $this->createBuilder()->createDefinition($options)->getClass());
-    }
-
-    public function testOptionsBehavior()
-    {
-        $definition = $this->createBuilder()->createDefinition([
-            'client' => 'my_client',
-            'bucket' => 'bucket',
-            'prefix' => 'prefix/path',
-            'options' => [
-                'ServerSideEncryption' => 'AES256',
-            ],
-        ]);
-
-        $this->assertSame(S3FilesystemV1::class, $definition->getClass());
+        $definition = $this->createBuilder()->createDefinition($options);
+        $this->assertSame(AsyncAwsS3Adapter::class, $definition->getClass());
         $this->assertInstanceOf(Reference::class, $definition->getArgument(0));
         $this->assertSame('my_client', (string) $definition->getArgument(0));
         $this->assertSame('bucket', $definition->getArgument(1));
-        $this->assertSame('prefix/path', $definition->getArgument(2));
-        $this->assertSame(['ServerSideEncryption' => 'AES256'], $definition->getArgument(3));
     }
 }

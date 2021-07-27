@@ -1,5 +1,4 @@
 fs_async_aws:
-    _php_version: '7.2.5'
     adapter: 'asyncaws'
     options:
         client: 'aws_client_service'
@@ -11,25 +10,6 @@ fs_aws:
     options:
         client: 'aws_client_service'
         bucket: 'bucket_name'
-        prefix: 'optional/path/prefix'
-
-fs_azure:
-    adapter: 'azure'
-    options:
-        client: 'azure_client_service'
-        container: 'container_name'
-        prefix: 'optional/path/prefix'
-
-fs_cache:
-    adapter: 'cache'
-    options:
-        store: 'memory'
-        source: 'fs_local'
-
-fs_dropbox:
-    adapter: 'dropbox'
-    options:
-        client: 'dropbox_client_service'
         prefix: 'optional/path/prefix'
 
 fs_ftp:
@@ -51,7 +31,6 @@ fs_gcloud:
         client: 'gcloud_client_service'
         bucket: 'bucket_name'
         prefix: 'optional/path/prefix'
-        api_url: 'https://storage.googleapis.com'
 
 fs_local:
     adapter: 'local'
@@ -61,29 +40,14 @@ fs_local:
         skip_links: false
         permissions:
             file:
-                public: 0744
-                private: 0700
+                public: '0744'
+                private: '0700'
             dir:
-                public: 0755
-                private: 0700
+                public: '0755'
+                private: '0700'
 
 fs_memory:
     adapter: 'memory'
-
-fs_null:
-    adapter: 'null'
-
-fs_rackspace:
-    adapter: 'rackspace'
-    options:
-        container: 'rackspace_container_service'
-        prefix: 'optional/path/prefix'
-
-fs_replicate:
-    adapter: 'replicate'
-    options:
-        source: 'fs_aws'
-        replica: 'fs_local'
 
 fs_sftp:
     adapter: 'sftp'
@@ -95,15 +59,3 @@ fs_sftp:
         privateKey: 'path/to/or/contents/of/privatekey'
         root: '/path/to/root'
         timeout: 10
-
-fs_webdav:
-    adapter: 'webdav'
-    options:
-        client: 'webdav_client_service'
-        prefix: 'optional/path/prefix'
-        use_stream_copy: false
-
-fs_zip:
-    adapter: 'zip'
-    options:
-        path: '%kernel.project_dir%/archive.zip'

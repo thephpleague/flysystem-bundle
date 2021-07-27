@@ -11,7 +11,7 @@
 
 namespace League\FlysystemBundle\Adapter\Builder;
 
-use Superbalist\Flysystem\GoogleStorage\GoogleStorageAdapter;
+use League\Flysystem\GoogleCloudStorage\GoogleCloudStorageAdapter;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -31,7 +31,7 @@ class GcloudAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
     protected function getRequiredPackages(): array
     {
         return [
-            GoogleStorageAdapter::class => 'superbalist/flysystem-google-storage',
+            GoogleCloudStorageAdapter::class => 'league/flysystem-google-cloud-storage',
         ];
     }
 
@@ -45,9 +45,6 @@ class GcloudAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
 
         $resolver->setDefault('prefix', '');
         $resolver->setAllowedTypes('prefix', 'string');
-
-        $resolver->setDefault('api_url', null);
-        $resolver->setAllowedTypes('api_url', ['string', 'null']);
     }
 
     protected function configureDefinition(Definition $definition, array $options)
@@ -56,10 +53,8 @@ class GcloudAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
         $bucketDefinition->setFactory([new Reference($options['client']), 'bucket']);
         $bucketDefinition->setArgument(0, $options['bucket']);
 
-        $definition->setClass(GoogleStorageAdapter::class);
-        $definition->setArgument(0, new Reference($options['client']));
-        $definition->setArgument(1, $bucketDefinition);
-        $definition->setArgument(2, $options['prefix']);
-        $definition->setArgument(3, $options['api_url']);
+        $definition->setClass(GoogleCloudStorageAdapter::class);
+        $definition->setArgument(0, $bucketDefinition);
+        $definition->setArgument(1, $options['prefix']);
     }
 }

@@ -14,27 +14,8 @@ flysystem:
                 bucket: '%env(AWS_BUCKET)%'
                 prefix: 'optional/path/prefix'
 
-        fs_azure:
-            adapter: 'azure'
-            options:
-                client: 'azure_client_service'
-                container: 'container_name'
-                prefix: 'optional/path/prefix'
-
-        fs_cache:
-            adapter: 'cache'
-            options:
-                store: 'cache.app'
-                source: 'fs_local'
-
         fs_custom:
             adapter: 'custom_adapter'
-
-        fs_dropbox:
-            adapter: 'dropbox'
-            options:
-                client: 'dropbox_client_service'
-                prefix: 'optional/path/prefix'
 
         fs_ftp:
             adapter: 'ftp'
@@ -42,7 +23,7 @@ flysystem:
                 host: 'ftp.example.com'
                 username: 'username'
                 password: 'password'
-                port: '%env(FTP_PORT)%'
+                port: '%env(int:FTP_PORT)%'
                 root: '/path/to/root'
                 passive: true
                 ssl: true
@@ -55,7 +36,6 @@ flysystem:
                 client: 'gcloud_client_service'
                 bucket: 'bucket_name'
                 prefix: 'optional/path/prefix'
-                api_url: 'https://storage.googleapis.com'
 
         fs_lazy:
             adapter: 'lazy'
@@ -79,21 +59,6 @@ flysystem:
         fs_memory:
             adapter: 'memory'
 
-        fs_null:
-            adapter: 'null'
-
-        fs_rackspace:
-            adapter: 'rackspace'
-            options:
-                container: 'rackspace_container_service'
-                prefix: 'optional/path/prefix'
-
-        fs_replicate:
-            adapter: 'replicate'
-            options:
-                source: 'fs_aws'
-                replica: 'fs_local'
-
         fs_sftp:
             adapter: 'sftp'
             options:
@@ -107,15 +72,3 @@ flysystem:
                 directoryPerm: 0755
                 permPrivate: 0700
                 permPublic: 0744
-
-        fs_webdav:
-            adapter: 'webdav'
-            options:
-                client: 'webdav_client_service'
-                prefix: 'optional/path/prefix'
-                use_stream_copy: false
-
-        fs_zip:
-            adapter: 'zip'
-            options:
-                path: '%kernel.project_dir%/archive.zip'

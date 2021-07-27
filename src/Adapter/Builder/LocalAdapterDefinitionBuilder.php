@@ -11,7 +11,8 @@
 
 namespace League\FlysystemBundle\Adapter\Builder;
 
-use League\Flysystem\Adapter\Local;
+use League\Flysystem\Local\LocalFilesystemAdapter;
+use League\Flysystem\UnixVisibility\PortableVisibilityConverter;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -64,10 +65,15 @@ class LocalAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
 
     protected function configureDefinition(Definition $definition, array $options)
     {
-        $definition->setClass(Local::class);
+        $definition->setClass(LocalFilesystemAdapter::class);
         $definition->setArgument(0, $options['directory']);
-        $definition->setArgument(1, $options['lock']);
-        $definition->setArgument(2, $options['skip_links'] ? Local::SKIP_LINKS : Local::DISALLOW_LINKS);
-        $definition->setArgument(3, $options['permissions']);
+        $definition->setArgument(1,
+            (new Definition(PortableVisibilityConverter::class))
+            ->setFactory([PortableVisibilityConverter::class, 'fromArray'])
+            ->addArgument($options['permissions'])
+            ->setShared(false)
+        );
+        $definition->setArgument(2, $options['lock']);
+        $definition->setArgument(3, $options['skip_links'] ? LocalFilesystemAdapter::SKIP_LINKS : LocalFilesystemAdapter::DISALLOW_LINKS);
     }
 }
