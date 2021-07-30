@@ -58,18 +58,32 @@ class SftpAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
         $resolver->setAllowedTypes('timeout', 'scalar');
 
         $resolver->setDefault('directoryPerm', 0744);
-        $resolver->setAllowedTypes('directoryPerm', 'scalar');
+        $resolver->setAllowedTypes('directoryPerm', ['scalar', 'string']);
 
         $resolver->setDefault('permPrivate', 0700);
-        $resolver->setAllowedTypes('permPrivate', 'scalar');
+        $resolver->setAllowedTypes('permPrivate', ['scalar', 'string']);
 
         $resolver->setDefault('permPublic', 0744);
-        $resolver->setAllowedTypes('permPublic', 'scalar');
+        $resolver->setAllowedTypes('permPublic', ['scalar', 'string']);
     }
 
     protected function configureDefinition(Definition $definition, array $options)
     {
+        $options['directoryPerm'] = $this->ensureOctalRepresentation($options['directoryPerm']);
+        $options['permPrivate'] = $this->ensureOctalRepresentation($options['permPrivate']);
+        $options['permPublic'] = $this->ensureOctalRepresentation($options['permPublic']);
+
         $definition->setClass(SftpAdapter::class);
         $definition->setArgument(0, $options);
+    }
+
+    /** @param int|string $value */
+    private function ensureOctalRepresentation($value)
+    {
+        if (is_string($value)) {
+            return octdec($value);
+        }
+
+        return $value;
     }
 }

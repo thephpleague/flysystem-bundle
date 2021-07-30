@@ -49,9 +49,9 @@ class SftpAdapterDefinitionBuilderTest extends TestCase
         $this->assertSame(SftpAdapter::class, $this->createBuilder()->createDefinition($options)->getClass());
     }
 
-    public function testOptionsBehavior()
+    public function provideValidDefinitions()
     {
-        $definition = $this->createBuilder()->createDefinition([
+        yield 'scalar' => [[
             'host' => 'ftp.example.com',
             'username' => 'username',
             'password' => 'password',
@@ -62,7 +62,28 @@ class SftpAdapterDefinitionBuilderTest extends TestCase
             'directoryPerm' => 0755,
             'permPrivate' => 0700,
             'permPublic' => 0744,
-        ]);
+        ]];
+
+        yield 'string' => [[
+            'host' => 'ftp.example.com',
+            'username' => 'username',
+            'password' => 'password',
+            'port' => 22,
+            'root' => '/path/to/root',
+            'privateKey' => '/path/to/or/contents/of/privatekey',
+            'timeout' => 30,
+            'directoryPerm' => '0755',
+            'permPrivate' => '0700',
+            'permPublic' => '0744',
+        ]];
+    }
+
+    /**
+     * @dataProvider provideValidDefinitions
+     */
+    public function testOptionsBehavior($options)
+    {
+        $definition = $this->createBuilder()->createDefinition($options);
 
         $expected = [
             'port' => 22,
