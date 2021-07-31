@@ -13,6 +13,7 @@ namespace League\FlysystemBundle\Adapter\Builder;
 
 use League\Flysystem\PhpseclibV2\SftpAdapter;
 use League\Flysystem\PhpseclibV2\SftpConnectionProvider;
+use League\Flysystem\UnixVisibility\PortableVisibilityConverter;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -59,17 +60,21 @@ class SftpAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
         $resolver->setAllowedTypes('timeout', 'scalar');
 
         $resolver->setDefault('directoryPerm', 0744);
-        $resolver->setAllowedTypes('directoryPerm', 'scalar');
+        $resolver->setAllowedTypes('directoryPerm', ['scalar', 'string']);
 
         $resolver->setDefault('permPrivate', 0700);
-        $resolver->setAllowedTypes('permPrivate', 'scalar');
+        $resolver->setAllowedTypes('permPrivate', ['scalar', 'string']);
 
         $resolver->setDefault('permPublic', 0744);
-        $resolver->setAllowedTypes('permPublic', 'scalar');
+        $resolver->setAllowedTypes('permPublic', ['scalar', 'string']);
     }
 
     protected function configureDefinition(Definition $definition, array $options)
     {
+        $options['directoryPerm'] = $this->ensureOctalRepresentation($options['directoryPerm']);
+        $options['permPrivate'] = $this->ensureOctalRepresentation($options['permPrivate']);
+        $options['permPublic'] = $this->ensureOctalRepresentation($options['permPublic']);
+
         $definition->setClass(SftpAdapter::class);
         $definition->setArgument(0,
             (new Definition(SftpConnectionProvider::class))
@@ -78,5 +83,30 @@ class SftpAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
                 ->setShared(false)
         );
         $definition->setArgument(1, $options['root']);
+        $definition->setArgument(2,
+            (new Definition(PortableVisibilityConverter::class))
+                ->setFactory([PortableVisibilityConverter::class, 'fromArray'])
+                ->addArgument([
+                    'file' => [
+                        'public' => $options['permPublic'],
+                        'private' => $options['permPrivate'],
+                    ],
+                    'dir' => [
+                        'public' => 0740,
+                        'private' => $options['directoryPerm'],
+                    ],
+                ])
+                ->setShared(false)
+        );
+    }
+
+    /** @param int|string $value */
+    private function ensureOctalRepresentation($value)
+    {
+        if (is_string($value)) {
+            return octdec($value);
+        }
+
+        return $value;
     }
 }
