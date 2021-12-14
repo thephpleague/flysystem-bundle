@@ -13,12 +13,12 @@ namespace Tests\League\FlysystemBundle\Kernel;
 
 trait AppKernelTrait
 {
-    public function getCacheDir()
+    public function getCacheDir(): string
     {
         return $this->createTmpDir('cache');
     }
 
-    public function getLogDir()
+    public function getLogDir(): string
     {
         return $this->createTmpDir('logs');
     }
