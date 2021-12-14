@@ -13,21 +13,23 @@ jobs:
             - uses: actions/checkout@master
             - uses: shivammathur/setup-php@v2
               with:
-                  php-version: '7.4'
+                  php-version: '8.0'
+                  coverage: none
             - name: php-cs-fixer
               run: |
-                  wget https://github.com/FriendsOfPHP/PHP-CS-Fixer/releases/download/v2.16.4/php-cs-fixer.phar -q
+                  wget https://github.com/FriendsOfPHP/PHP-CS-Fixer/releases/download/v2.19.0/php-cs-fixer.phar -q
                   php php-cs-fixer.phar fix --dry-run --diff
 
-    tests-php-7-2-symfony-4-2:
+    tests-php-7-2-symfony-4-4:
         runs-on: ubuntu-latest
         env:
-            SYMFONY_VERSION: 4.2.*
+            SYMFONY_VERSION: 4.4.*
         steps:
             - uses: actions/checkout@master
             - uses: shivammathur/setup-php@v2
               with:
                   php-version: '7.2'
+                  coverage: none
             - name: PHPUnit
               run: |
                   composer require --no-update symfony/config=$SYMFONY_VERSION symfony/http-kernel=$SYMFONY_VERSION symfony/dependency-injection=$SYMFONY_VERSION symfony/options-resolver=$SYMFONY_VERSION
@@ -35,47 +37,16 @@ jobs:
                   composer update --prefer-lowest --prefer-dist --no-interaction --no-ansi --no-progress
                   php vendor/bin/simple-phpunit
 
-    tests-php-7-3-symfony-5-0:
+    tests-php-7-4-symfony-5-3:
         runs-on: ubuntu-latest
         env:
-            SYMFONY_VERSION: 5.0.*
-        steps:
-            - uses: actions/checkout@master
-            - uses: shivammathur/setup-php@v2
-              with:
-                  php-version: '7.3'
-            - name: PHPUnit
-              run: |
-                  composer require --no-update symfony/config=$SYMFONY_VERSION symfony/http-kernel=$SYMFONY_VERSION symfony/dependency-injection=$SYMFONY_VERSION symfony/options-resolver=$SYMFONY_VERSION
-                  composer require --no-update --dev symfony/framework-bundle=$SYMFONY_VERSION symfony/yaml=$SYMFONY_VERSION
-                  composer update --prefer-dist --no-interaction --no-ansi --no-progress
-                  php vendor/bin/simple-phpunit
-
-    tests-php-8-0-symfony-5-2:
-        runs-on: ubuntu-latest
-        env:
-            SYMFONY_VERSION: 5.2.*
-        steps:
-            - uses: actions/checkout@master
-            - uses: shivammathur/setup-php@v2
-              with:
-                  php-version: '8.0'
-            - name: PHPUnit
-              run: |
-                  composer require --no-update symfony/config=$SYMFONY_VERSION symfony/http-kernel=$SYMFONY_VERSION symfony/dependency-injection=$SYMFONY_VERSION symfony/options-resolver=$SYMFONY_VERSION
-                  composer require --no-update --dev symfony/framework-bundle=$SYMFONY_VERSION symfony/yaml=$SYMFONY_VERSION
-                  composer update --prefer-dist --no-interaction --no-ansi --no-progress
-                  php vendor/bin/simple-phpunit
-
-    tests-php-7-4-symfony-6-0:
-        runs-on: ubuntu-latest
-        env:
-            SYMFONY_VERSION: 6.0.*
+            SYMFONY_VERSION: 5.3.*
         steps:
             - uses: actions/checkout@master
             - uses: shivammathur/setup-php@v2
               with:
                   php-version: '7.4'
+                  coverage: none
             - name: PHPUnit
               run: |
                   composer require --no-update symfony/config=$SYMFONY_VERSION symfony/http-kernel=$SYMFONY_VERSION symfony/dependency-injection=$SYMFONY_VERSION symfony/options-resolver=$SYMFONY_VERSION
@@ -83,7 +54,24 @@ jobs:
                   composer update --prefer-dist --no-interaction --no-ansi --no-progress
                   php vendor/bin/simple-phpunit
 
-    tests-php-8-0-symfony-6-0:
+    tests-php-8-0-symfony-5-4:
+        runs-on: ubuntu-latest
+        env:
+            SYMFONY_VERSION: 5.4.*
+        steps:
+            - uses: actions/checkout@master
+            - uses: shivammathur/setup-php@v2
+              with:
+                  php-version: '8.0'
+                  coverage: none
+            - name: PHPUnit
+              run: |
+                  composer require --no-update symfony/config=$SYMFONY_VERSION symfony/http-kernel=$SYMFONY_VERSION symfony/dependency-injection=$SYMFONY_VERSION symfony/options-resolver=$SYMFONY_VERSION
+                  composer require --no-update --dev symfony/framework-bundle=$SYMFONY_VERSION symfony/yaml=$SYMFONY_VERSION
+                  composer update --prefer-dist --no-interaction --no-ansi --no-progress
+                  php vendor/bin/simple-phpunit
+
+    tests-php-8-1-symfony-6-0:
         runs-on: ubuntu-latest
         env:
             SYMFONY_VERSION: 6.0.*
@@ -91,7 +79,8 @@ jobs:
             - uses: actions/checkout@master
             - uses: shivammathur/setup-php@v2
               with:
-                  php-version: '8.0'
+                  php-version: '8.1'
+                  coverage: none
             - name: PHPUnit
               run: |
                   composer require --no-update symfony/config=$SYMFONY_VERSION symfony/http-kernel=$SYMFONY_VERSION symfony/dependency-injection=$SYMFONY_VERSION symfony/options-resolver=$SYMFONY_VERSION
