@@ -1,0 +1,18 @@
+---------------------------------------------------------------------------
+
+by AbdelilahJabri at 2021-11-23T09:03:32Z
+
+@tgalopin can you check this please?
+
+---------------------------------------------------------------------------
+
+by gndk at 2021-12-02T12:45:16Z
+
+@AbdelilahJabri Thanks for getting the PR started! Do you have time to continue with this or should somebody else take over? Seems like only minor changes are required to get this merged after we see a green pipeline for `tests-php-8-0-symfony-6-0`.
+
+---------------------------------------------------------------------------
+
+by yoshz at 2021-12-14T09:48:30Z
+
+Any progress on this?
+Removing the php-7.4 job and restarting the tests should probably already fix the tests.
