@@ -70,7 +70,16 @@ class LocalAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
         $definition->setArgument(1,
             (new Definition(PortableVisibilityConverter::class))
             ->setFactory([PortableVisibilityConverter::class, 'fromArray'])
-            ->addArgument($options['permissions'])
+            ->addArgument([
+                'file' => [
+                    'public' => (int) $options['permissions']['file']['public'],
+                    'private' => (int) $options['permissions']['file']['private'],
+                ],
+                'dir' => [
+                    'public' => (int) $options['permissions']['dir']['public'],
+                    'private' => (int) $options['permissions']['dir']['private'],
+                ],
+            ])
             ->setShared(false)
         );
         $definition->setArgument(2, $options['lock']);

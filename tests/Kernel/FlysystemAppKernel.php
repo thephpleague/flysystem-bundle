@@ -24,7 +24,7 @@ class FlysystemAppKernel extends Kernel
 
     private $adapterClients = [];
 
-    public function registerBundles()
+    public function registerBundles(): iterable
     {
         return [new FrameworkBundle(), new FlysystemBundle()];
     }
