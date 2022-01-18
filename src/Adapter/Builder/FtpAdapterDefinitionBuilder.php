@@ -66,12 +66,36 @@ class FtpAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
 
         $resolver->setDefault('utf8', false);
         $resolver->setAllowedTypes('utf8', 'scalar');
+
+        $resolver->setDefault('transfer_mode', null);
+        $resolver->setAllowedTypes('transfer_mode', [null, 'scalar']);
+        $resolver->setAllowedValues('transfer_mode', [FTP_ASCII, FTP_BINARY]);
+
+        $resolver->setDefault('system_type', null);
+        $resolver->setAllowedTypes('system_type', [null, 'string']);
+        $resolver->setAllowedValues('system_type', ['windows', 'unix']);
+
+        $resolver->setDefault('timestamps_on_unix_listings_enabled', false);
+        $resolver->setAllowedTypes('timestamps_on_unix_listings_enabled', 'bool');
+
+        $resolver->setDefault('recurse_manually', true);
+        $resolver->setAllowedTypes('recurse_manually', 'bool');        
     }
 
     protected function configureDefinition(Definition $definition, array $options)
     {
+        $options['transferMode'] = $options['transfer_mode'];
+        $options['systemType'] = $options['system_type'];
+        $options['timestampsOnUnixListingsEnabled'] = $options['timestamps_on_unix_listings_enabled'];
         $options['ignorePassiveAddress'] = $options['ignore_passive_address'];
-        unset($options['ignore_passive_address']);
+        $options['recurseManually'] = $options['recurse_manually'];
+        unset(
+            $options['transfer_mode'],
+            $options['system_type'],
+            $options['timestamps_on_unix_listings_enabled'],
+            $options['ignore_passive_address'],
+            $options['recurse_manually'],
+        );
 
         $definition->setClass(FtpAdapter::class);
         $definition->setArgument(0,
