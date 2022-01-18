@@ -68,12 +68,12 @@ class FtpAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
         $resolver->setAllowedTypes('utf8', 'scalar');
 
         $resolver->setDefault('transfer_mode', null);
-        $resolver->setAllowedTypes('transfer_mode', [null, 'scalar']);
-        $resolver->setAllowedValues('transfer_mode', [FTP_ASCII, FTP_BINARY]);
+        $resolver->setAllowedTypes('transfer_mode', ['null', 'scalar']);
+        $resolver->setAllowedValues('transfer_mode', [null, FTP_ASCII, FTP_BINARY]);
 
         $resolver->setDefault('system_type', null);
-        $resolver->setAllowedTypes('system_type', [null, 'string']);
-        $resolver->setAllowedValues('system_type', ['windows', 'unix']);
+        $resolver->setAllowedTypes('system_type', ['null', 'string']);
+        $resolver->setAllowedValues('system_type', [null, 'windows', 'unix']);
 
         $resolver->setDefault('timestamps_on_unix_listings_enabled', false);
         $resolver->setAllowedTypes('timestamps_on_unix_listings_enabled', 'bool');
