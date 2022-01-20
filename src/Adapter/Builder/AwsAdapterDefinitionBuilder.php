@@ -48,6 +48,9 @@ class AwsAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
 
         $resolver->setDefault('options', []);
         $resolver->setAllowedTypes('options', 'array');
+
+        $resolver->setDefault('streamReads', true);
+        $resolver->setAllowedTypes('streamReads', 'bool');
     }
 
     protected function configureDefinition(Definition $definition, array $options)
@@ -59,5 +62,6 @@ class AwsAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
         $definition->setArgument(3, null);
         $definition->setArgument(4, null);
         $definition->setArgument(5, $options['options']);
+        $definition->setArgument(6, $options['streamReads']);
     }
 }
