@@ -94,7 +94,7 @@ class FtpAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
             $options['system_type'],
             $options['timestamps_on_unix_listings_enabled'],
             $options['ignore_passive_address'],
-            $options['recurse_manually'],
+            $options['recurse_manually']
         );
 
         $definition->setClass(FtpAdapter::class);
