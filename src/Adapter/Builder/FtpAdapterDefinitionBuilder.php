@@ -79,7 +79,7 @@ class FtpAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
         $resolver->setAllowedTypes('timestamps_on_unix_listings_enabled', 'bool');
 
         $resolver->setDefault('recurse_manually', true);
-        $resolver->setAllowedTypes('recurse_manually', 'bool');        
+        $resolver->setAllowedTypes('recurse_manually', 'bool');
     }
 
     protected function configureDefinition(Definition $definition, array $options)
