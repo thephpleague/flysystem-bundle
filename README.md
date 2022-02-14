@@ -11,7 +11,7 @@ library into Symfony applications.
 It provides an efficient abstraction for the filesystem in order to change the storage backend depending
 on the execution environment (local files in development, cloud storage in production and memory in tests).
 
-> Note: you are reading the documentation for flysystem-bundle 2.0, which relies on Flysystem 2.X.
+> Note: you are reading the documentation for flysystem-bundle 2.0, which relies on Flysystem 2 or Flysystem 3.
 > If you use Flysystem 1.X, use [flysystem-bundle 1.X](https://github.com/thephpleague/flysystem-bundle/tree/1.x).
 > Read the [Upgrade guide](https://github.com/thephpleague/flysystem-bundle/blob/master/UPGRADE.md) to learn how to upgrade.
 
