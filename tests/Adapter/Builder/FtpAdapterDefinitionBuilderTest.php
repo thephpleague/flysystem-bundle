@@ -77,7 +77,11 @@ class FtpAdapterDefinitionBuilderTest extends TestCase
             'host' => 'ftp.example.com',
             'username' => 'username',
             'password' => 'password',
+            'transferMode' => null,
+            'systemType' => null,
+            'timestampsOnUnixListingsEnabled' => false,
             'ignorePassiveAddress' => true,
+            'recurseManually' => true,
         ];
 
         $this->assertSame(FtpAdapter::class, $definition->getClass());
