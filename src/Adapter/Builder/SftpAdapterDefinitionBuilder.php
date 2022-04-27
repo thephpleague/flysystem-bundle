@@ -11,8 +11,10 @@
 
 namespace League\FlysystemBundle\Adapter\Builder;
 
-use League\Flysystem\PhpseclibV2\SftpAdapter;
-use League\Flysystem\PhpseclibV2\SftpConnectionProvider;
+use League\Flysystem\PhpseclibV2\SftpAdapter as SftpAdapterLegacy;
+use League\Flysystem\PhpseclibV2\SftpConnectionProvider as SftpConnectionProviderLegacy;
+use League\Flysystem\PhpseclibV3\SftpAdapter;
+use League\Flysystem\PhpseclibV3\SftpConnectionProvider;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -30,8 +32,19 @@ class SftpAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
 
     protected function getRequiredPackages(): array
     {
+        $adapterFqcn = SftpAdapter::class;
+        $packageRequire = 'league/flysystem-sftp-v3';
+
+        // Prevent BC
+        if (class_exists(SftpAdapterLegacy::class)) {
+            trigger_deprecation('league/flysystem-bundle', '2.2', '"league/flysystem-sftp" is deprecated, use "league/flysystem-sftp-v3" instead.');
+
+            $adapterFqcn = SftpAdapterLegacy::class;
+            $packageRequire = 'league/flysystem-sftp';
+        }
+
         return [
-            SftpAdapter::class => 'league/flysystem-sftp',
+            $adapterFqcn => $packageRequire,
         ];
     }
 
@@ -70,10 +83,18 @@ class SftpAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
 
     protected function configureDefinition(Definition $definition, array $options)
     {
-        $definition->setClass(SftpAdapter::class);
+        // Prevent BC
+        $adapterFqcn = SftpAdapter::class;
+        $connectionFqcn = SftpConnectionProvider::class;
+        if (class_exists(SftpAdapterLegacy::class)) {
+            $adapterFqcn = SftpAdapterLegacy::class;
+            $connectionFqcn = SftpConnectionProviderLegacy::class;
+        }
+
+        $definition->setClass($adapterFqcn);
         $definition->setArgument(0,
-            (new Definition(SftpConnectionProvider::class))
-                ->setFactory([SftpConnectionProvider::class, 'fromArray'])
+            (new Definition($connectionFqcn))
+                ->setFactory([$connectionFqcn, 'fromArray'])
                 ->addArgument($options)
                 ->setShared(false)
         );
