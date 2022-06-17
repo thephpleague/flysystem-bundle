@@ -39,7 +39,7 @@ flysystem:
 ### Installation
 
 ```
-composer require league/flysystem-sftp
+composer require league/flysystem-sftp-v3
 ```
 
 ### Usage
