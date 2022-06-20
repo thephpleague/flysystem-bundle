@@ -47,7 +47,7 @@ flysystem:
                         public: 0755
                         private: 0700
             visibility: ~ # default null. Possible values are 'public' or 'private'
-            directoy_visibility: ~ # default null. Possible values are 'public' or 'private'
+            directory_visibility: ~ # default null. Possible values are 'public' or 'private'
             case_sensitive: true
             disable_asserts: false
 
