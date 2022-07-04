@@ -29,6 +29,10 @@ class LazyFactory
 
     public function createStorage(string $source, string $storageName)
     {
+        if ($source === $storageName) {
+            throw new \InvalidArgumentException('The "lazy" adapter source is referring to itself as "'.$source.'", which would lead to infinite recursion.');
+        }
+
         if (!$this->storages->has($source)) {
             throw new \InvalidArgumentException('You have requested a non-existent source storage "'.$source.'" in lazy storage "'.$storageName.'".');
         }
