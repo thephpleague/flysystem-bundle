@@ -61,6 +61,9 @@ class LocalAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
                 $permsResolver->setAllowedTypes('private', 'scalar');
             });
         });
+
+        $resolver->setDefault('lazy_root_creation', false);
+        $resolver->setAllowedTypes('lazy_root_creation', 'scalar');
     }
 
     protected function configureDefinition(Definition $definition, array $options)
@@ -84,5 +87,7 @@ class LocalAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
         );
         $definition->setArgument(2, $options['lock']);
         $definition->setArgument(3, $options['skip_links'] ? LocalFilesystemAdapter::SKIP_LINKS : LocalFilesystemAdapter::DISALLOW_LINKS);
+        $definition->setArgument(4, null);
+        $definition->setArgument(5, $options['lazy_root_creation']);
     }
 }
