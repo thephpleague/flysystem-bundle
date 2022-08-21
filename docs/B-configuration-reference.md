@@ -9,9 +9,13 @@ flysystem:
                 client: 'aws_client_service'
                 bucket: 'bucket_name'
                 prefix: 'optional/path/prefix'
-
+        
         users2.storage:
-            adapter: 'custom_adapter'
+          adapter: 'azure'
+          options:
+            client: 'azure_client_service'
+            container: 'container_name'
+            prefix: 'optional/path/prefix'
 
         users3.storage:
             adapter: 'ftp'
@@ -72,4 +76,6 @@ flysystem:
             options:
                 source: 'flysystem_storage_service_to_use'
 
+        users10.storage:
+          adapter: 'custom_adapter'
 ```

@@ -12,6 +12,13 @@ fs_aws:
         bucket: 'bucket_name'
         prefix: 'optional/path/prefix'
 
+fs_azure:
+    adapter: 'azure'
+    options:
+        client: 'azure_client_service'
+        container: 'container_name'
+        prefix: 'optional/path/prefix'
+
 fs_ftp:
     adapter: 'ftp'
     options:

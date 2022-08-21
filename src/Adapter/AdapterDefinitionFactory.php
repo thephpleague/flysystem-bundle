@@ -31,6 +31,7 @@ class AdapterDefinitionFactory
         $this->builders = [
             new Builder\AsyncAwsAdapterDefinitionBuilder(),
             new Builder\AwsAdapterDefinitionBuilder(),
+            new Builder\AzureAdapterDefinitionBuilder(),
             new Builder\FtpAdapterDefinitionBuilder(),
             new Builder\GcloudAdapterDefinitionBuilder(),
             new Builder\LocalAdapterDefinitionBuilder(),
