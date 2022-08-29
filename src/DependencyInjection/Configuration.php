@@ -41,6 +41,7 @@ class Configuration implements ConfigurationInterface
                             ->defaultValue([])
                             ->end()
                             ->scalarNode('visibility')->defaultNull()->end()
+                            ->scalarNode('directory_visibility')->defaultNull()->end()
                             ->booleanNode('case_sensitive')->defaultTrue()->end()
                             ->booleanNode('disable_asserts')->defaultFalse()->end()
                         ->end()
