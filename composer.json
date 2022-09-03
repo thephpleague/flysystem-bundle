@@ -31,7 +31,6 @@
     "require-dev": {
         "league/flysystem-async-aws-s3": "^2.0|^3.0",
         "league/flysystem-aws-s3-v3": "^2.0|^3.0",
-        "league/flysystem-azure-blob-storage": "^3.0.5",
         "league/flysystem-ftp": "^2.0|^3.0",
         "league/flysystem-google-cloud-storage": "^2.0|^3.0",
         "league/flysystem-memory": "^2.0|^3.0",
