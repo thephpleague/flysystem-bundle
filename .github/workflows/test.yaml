@@ -17,25 +17,8 @@ jobs:
                   coverage: none
             - name: php-cs-fixer
               run: |
-                  wget https://github.com/FriendsOfPHP/PHP-CS-Fixer/releases/download/v2.19.0/php-cs-fixer.phar -q
+                  wget https://github.com/FriendsOfPHP/PHP-CS-Fixer/releases/download/v3.11.0/php-cs-fixer.phar -q
                   php php-cs-fixer.phar fix --dry-run --diff
-
-    tests-php-8-0-symfony-4-4:
-        runs-on: ubuntu-latest
-        env:
-            SYMFONY_VERSION: 4.4.*
-        steps:
-            - uses: actions/checkout@master
-            - uses: shivammathur/setup-php@v2
-              with:
-                  php-version: '8.0'
-                  coverage: none
-            - name: PHPUnit
-              run: |
-                  composer require --no-update symfony/config=$SYMFONY_VERSION symfony/http-kernel=$SYMFONY_VERSION symfony/dependency-injection=$SYMFONY_VERSION symfony/options-resolver=$SYMFONY_VERSION
-                  composer require --no-update --dev symfony/framework-bundle=$SYMFONY_VERSION symfony/yaml=$SYMFONY_VERSION
-                  composer update --prefer-lowest --prefer-dist --no-interaction --no-ansi --no-progress
-                  php vendor/bin/simple-phpunit
 
     tests-php-8-0-symfony-5-4:
         runs-on: ubuntu-latest
@@ -54,10 +37,61 @@ jobs:
                   composer update --prefer-dist --no-interaction --no-ansi --no-progress
                   php vendor/bin/simple-phpunit
 
+    tests-php-8-0-symfony-6-0:
+        runs-on: ubuntu-latest
+        env:
+            SYMFONY_VERSION: 6.0.*
+        steps:
+            - uses: actions/checkout@master
+            - uses: shivammathur/setup-php@v2
+              with:
+                  php-version: '8.0'
+                  coverage: none
+            - name: PHPUnit
+              run: |
+                  composer require --no-update symfony/config=$SYMFONY_VERSION symfony/http-kernel=$SYMFONY_VERSION symfony/dependency-injection=$SYMFONY_VERSION symfony/options-resolver=$SYMFONY_VERSION
+                  composer require --no-update --dev symfony/framework-bundle=$SYMFONY_VERSION symfony/yaml=$SYMFONY_VERSION
+                  composer update --prefer-dist --no-interaction --no-ansi --no-progress
+                  php vendor/bin/simple-phpunit
+
+    tests-php-8-1-symfony-5-4:
+        runs-on: ubuntu-latest
+        env:
+            SYMFONY_VERSION: 5.4.*
+        steps:
+            - uses: actions/checkout@master
+            - uses: shivammathur/setup-php@v2
+              with:
+                  php-version: '8.1'
+                  coverage: none
+            - name: PHPUnit
+              run: |
+                  composer require --no-update symfony/config=$SYMFONY_VERSION symfony/http-kernel=$SYMFONY_VERSION symfony/dependency-injection=$SYMFONY_VERSION symfony/options-resolver=$SYMFONY_VERSION
+                  composer require --no-update --dev symfony/framework-bundle=$SYMFONY_VERSION symfony/yaml=$SYMFONY_VERSION
+                  composer update --prefer-dist --no-interaction --no-ansi --no-progress
+                  php vendor/bin/simple-phpunit
+
     tests-php-8-1-symfony-6-0:
         runs-on: ubuntu-latest
         env:
             SYMFONY_VERSION: 6.0.*
+        steps:
+            - uses: actions/checkout@master
+            - uses: shivammathur/setup-php@v2
+              with:
+                  php-version: '8.1'
+                  coverage: none
+            - name: PHPUnit
+              run: |
+                  composer require --no-update symfony/config=$SYMFONY_VERSION symfony/http-kernel=$SYMFONY_VERSION symfony/dependency-injection=$SYMFONY_VERSION symfony/options-resolver=$SYMFONY_VERSION
+                  composer require --no-update --dev symfony/framework-bundle=$SYMFONY_VERSION symfony/yaml=$SYMFONY_VERSION
+                  composer update --prefer-dist --no-interaction --no-ansi --no-progress
+                  php vendor/bin/simple-phpunit
+
+    tests-php-8-1-symfony-6-1:
+        runs-on: ubuntu-latest
+        env:
+            SYMFONY_VERSION: 6.1.*
         steps:
             - uses: actions/checkout@master
             - uses: shivammathur/setup-php@v2
