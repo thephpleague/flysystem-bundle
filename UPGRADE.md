@@ -23,7 +23,8 @@ flysystem-bundle 3.0 relies on Flysystem 3.0, PHP 8.0+ and Flysystem adapters 3.
 The changes in this version focus on dropping support for EOL versions of PHP and Symfony and 
 adding support for Azure Blob Storage.  
 No new backwards incompatible code changes have been directly introduced by this new bundle version. 
-As with any major version upgrade, please be sure to test thoroughly.  
+You should read the [Flysystem 3.x Change Log](https://github.com/thephpleague/flysystem/blob/3.x/CHANGELOG.md)
+for any changes that may effect you.
 
 These changes are;  
 
