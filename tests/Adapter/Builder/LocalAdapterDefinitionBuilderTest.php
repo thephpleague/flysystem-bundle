@@ -56,6 +56,16 @@ class LocalAdapterDefinitionBuilderTest extends TestCase
             ],
         ]];
 
+        yield 'lazy_root_creation_enabled' => [[
+            'directory' => __DIR__,
+            'lazy_root_creation' => true,
+        ]];
+
+        yield 'lazy_root_creation_disabled' => [[
+            'directory' => __DIR__,
+            'lazy_root_creation' => false,
+        ]];
+
         yield 'full' => [[
             'directory' => __DIR__,
             'lock' => 0,
@@ -70,6 +80,7 @@ class LocalAdapterDefinitionBuilderTest extends TestCase
                     'private' => 0755,
                 ],
             ],
+            'lazy_root_creation' => true,
         ]];
     }
 
@@ -99,6 +110,7 @@ class LocalAdapterDefinitionBuilderTest extends TestCase
             'lock' => LOCK_EX,
             'skip_links' => true,
             'permissions' => $permissions,
+            'lazy_root_creation' => true,
         ]);
 
         $this->assertSame(LocalFilesystemAdapter::class, $definition->getClass());
@@ -106,5 +118,6 @@ class LocalAdapterDefinitionBuilderTest extends TestCase
         $this->assertSame($permissions, $definition->getArgument(1)->getArgument(0));
         $this->assertSame(LOCK_EX, $definition->getArgument(2));
         $this->assertSame(LocalFilesystemAdapter::SKIP_LINKS, $definition->getArgument(3));
+        $this->assertSame(true, $definition->getArgument(5));
     }
 }

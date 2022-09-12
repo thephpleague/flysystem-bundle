@@ -38,6 +38,7 @@ fs_local:
         directory: '%kernel.project_dir%/storage'
         lock: 0
         skip_links: false
+        lazy_root_creation: false
         permissions:
             file:
                 public: '0744'
