@@ -36,6 +36,8 @@ class SftpAdapterDefinitionBuilderTest extends TestCase
             'port' => 22,
             'root' => '/path/to/root',
             'privateKey' => '/path/to/or/contents/of/privatekey',
+            'passphrase' => null,
+            'hostFingerprint' => null,
             'timeout' => 30,
         ]];
     }
@@ -57,6 +59,8 @@ class SftpAdapterDefinitionBuilderTest extends TestCase
             'port' => 22,
             'root' => '/path/to/root',
             'privateKey' => '/path/to/or/contents/of/privatekey',
+            'passphrase' => null,
+            'hostFingerprint' => null,
             'timeout' => 30,
             'directoryPerm' => 0755,
             'permPrivate' => 0700,
@@ -68,6 +72,8 @@ class SftpAdapterDefinitionBuilderTest extends TestCase
             'port' => 22,
             'root' => '/path/to/root',
             'privateKey' => '/path/to/or/contents/of/privatekey',
+            'passphrase' => null,
+            'hostFingerprint' => null,
             'timeout' => 30,
             'directoryPerm' => 0755,
             'permPrivate' => 0700,
