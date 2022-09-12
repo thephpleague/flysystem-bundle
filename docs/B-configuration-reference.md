@@ -41,11 +41,11 @@ flysystem:
                 skip_links: false
                 permissions:
                     file:
-                        public: 0744
-                        private: 0700
+                        public: 0o744
+                        private: 0o700
                     dir:
-                        public: 0755
-                        private: 0700
+                        public: 0o755
+                        private: 0o700
             visibility: ~ # default null. Possible values are 'public' or 'private'
             directory_visibility: ~ # default null. Possible values are 'public' or 'private'
             case_sensitive: true
