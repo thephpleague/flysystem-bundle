@@ -11,13 +11,14 @@ library into Symfony applications.
 It provides an efficient abstraction for the filesystem in order to change the storage backend depending
 on the execution environment (local files in development, cloud storage in production and memory in tests).
 
-> Note: you are reading the documentation for flysystem-bundle 2.0, which relies on Flysystem 2 or Flysystem 3.
-> If you use Flysystem 1.X, use [flysystem-bundle 1.X](https://github.com/thephpleague/flysystem-bundle/tree/1.x).
+> Note: you are reading the documentation for flysystem-bundle 3.0, which relies on Flysystem 3.  
+> If you use Flysystem 1.X, use [flysystem-bundle 1.X](https://github.com/thephpleague/flysystem-bundle/tree/1.x).  
+> If you use Flysystem 2.X, use [flysystem-bundle 2.X](https://github.com/thephpleague/flysystem-bundle/tree/2.3.0).  
 > Read the [Upgrade guide](https://github.com/thephpleague/flysystem-bundle/blob/master/UPGRADE.md) to learn how to upgrade.
 
 ## Installation
 
-flysystem-bundle requires PHP 7.2+ and Symfony 4.2+.
+flysystem-bundle requires PHP 8.0+ and Symfony 5.4+.
 
 You can install the bundle using Symfony Flex:
 
@@ -100,6 +101,7 @@ to interact with your storage.
 2. Cloud storage providers:
    [AsyncAws S3](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/2-cloud-storage-providers.md#asyncaws-s3),
    [AWS SDK S3](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/2-cloud-storage-providers.md#aws-sdk-s3),
+   [Azure](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/2-cloud-storage-providers.md#azure),
    [Google Cloud Storage](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/2-cloud-storage-providers.md#google-cloud-storage),
    [DigitalOcean Spaces](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/2-cloud-storage-providers.md#digitalocean-spaces),
    [Scaleway Object Storage](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/2-cloud-storage-providers.md#scaleway-object-storage)

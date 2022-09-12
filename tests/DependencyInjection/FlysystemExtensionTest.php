@@ -16,6 +16,7 @@ use Aws\S3\S3Client;
 use Google\Cloud\Storage\Bucket;
 use Google\Cloud\Storage\StorageClient;
 use League\Flysystem\FilesystemOperator;
+use MicrosoftAzure\Storage\Blob\BlobRestProxy;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Dotenv\Dotenv;
 use Tests\League\FlysystemBundle\Kernel\FlysystemAppKernel;
@@ -26,6 +27,7 @@ class FlysystemExtensionTest extends TestCase
     {
         $fsNames = [
             'fs_aws',
+            'fs_azure',
             'fs_custom',
             'fs_ftp',
             'fs_gcloud',
@@ -99,6 +101,7 @@ class FlysystemExtensionTest extends TestCase
         return [
             'aws_client_service' => $this->createMock(S3Client::class),
             'asyncaws_client_service' => $this->createMock(AsyncS3Client::class),
+            'azure_client_service' => $this->createMock(BlobRestProxy::class),
             'gcloud_client_service' => $gcloud,
         ];
     }

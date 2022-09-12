@@ -4,11 +4,35 @@ One of the core feature of Flysystem is its ability to interact easily with remo
 including many cloud storage providers. This bundle provides the same level of support for these
 cloud providers by providing corresponding adapters in the configuration.
 
+* [Azure](#azure)
 * [AsyncAws S3](#asyncaws-s3)
 * [AWS S3](#aws-sdk-s3)
 * [DigitalOcean Spaces](#digitalocean-spaces)
 * [Scaleway Object Storage](#scaleway-object-storage)
 * [Google Cloud Storage](#google-cloud-storage)
+
+## Azure
+
+### Installation
+
+```
+composer require league/flysystem-azure-blob-storage
+```
+
+### Usage
+
+```yaml
+# config/packages/flysystem.yaml
+
+flysystem:
+    storages:
+        users.storage:
+            adapter: 'azure'
+            options:
+                client: 'azure_client_service' # The service ID of the MicrosoftAzure\Storage\Blob\BlobRestProxy instance
+                container: 'container_name'
+                prefix: 'optional/path/prefix'
+```
 
 ## AsyncAws S3
 

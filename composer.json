@@ -1,6 +1,6 @@
 {
     "name": "league/flysystem-bundle",
-    "description": "Symfony bundle integrating Flysystem into Symfony 4.2+ applications",
+    "description": "Symfony bundle integrating Flysystem into Symfony 4.4+ applications",
     "type": "symfony-bundle",
     "license": "MIT",
     "authors": [
@@ -20,26 +20,27 @@
         }
     },
     "require": {
-        "php": ">=7.2",
-        "league/flysystem": "^2.1|^3.0",
-        "symfony/config": "^4.2|^5.0|^6.0",
+        "php": ">=8.0",
+        "league/flysystem": "^3.0",
+        "symfony/config": "^5.4|^6.0",
         "symfony/deprecation-contracts": "^2.1|^3",
-        "symfony/http-kernel": "^4.2|^5.0|^6.0",
-        "symfony/dependency-injection": "^4.2|^5.0|^6.0",
-        "symfony/options-resolver": "^4.2|^5.0|^6.0"
+        "symfony/http-kernel": "^5.4|^6.0",
+        "symfony/dependency-injection": "^5.4|^6.0",
+        "symfony/options-resolver": "^5.4|^6.0"
     },
     "require-dev": {
-        "league/flysystem-async-aws-s3": "^2.0|^3.0",
-        "league/flysystem-aws-s3-v3": "^2.0|^3.0",
-        "league/flysystem-ftp": "^2.0|^3.0",
-        "league/flysystem-google-cloud-storage": "^2.0|^3.0",
-        "league/flysystem-memory": "^2.0|^3.0",
-        "league/flysystem-sftp-v3": "^2.0|^3.0",
-        "symfony/dotenv": "^4.2|^5.0|^6.0",
-        "symfony/framework-bundle": "^4.2|^5.0|^6.0",
-        "symfony/phpunit-bridge": "^5.2",
-        "symfony/var-dumper": "^4.1|^5.0|^6.0",
-        "symfony/yaml": "^4.2|^5.0|^6.0"
+        "league/flysystem-async-aws-s3": "^3.1",
+        "league/flysystem-aws-s3-v3": "^3.1",
+        "league/flysystem-azure-blob-storage": "^3.1",
+        "league/flysystem-ftp": "^3.1",
+        "league/flysystem-google-cloud-storage": "^3.1",
+        "league/flysystem-memory": "^3.1",
+        "league/flysystem-sftp-v3": "^3.1",
+        "symfony/dotenv": "^5.4|^6.0",
+        "symfony/framework-bundle": "^5.4|^6.0",
+        "symfony/phpunit-bridge": "^5.4|^6.0",
+        "symfony/var-dumper": "^5.4|^6.0",
+        "symfony/yaml": "^5.4|^6.0"
     },
     "conflict": {
         "league/flysystem-cached-adapter": "<1.0.9"
