@@ -3,8 +3,6 @@
 [![Packagist Version](https://img.shields.io/packagist/v/league/flysystem-bundle.svg?style=flat-square)](https://packagist.org/packages/league/flysystem-bundle)
 [![Software license](https://img.shields.io/github/license/thephpleague/flysystem-bundle.svg?style=flat-square)](https://github.com/thephpleague/flysystem-bundle/blob/master/LICENSE)
 
-[![SymfonyInsight](https://insight.symfony.com/projects/525fdfa3-d482-4218-b4b9-3c2efc305fac/big.svg)](https://insight.symfony.com/projects/525fdfa3-d482-4218-b4b9-3c2efc305fac)
-
 flysystem-bundle is a Symfony bundle integrating the [Flysystem](https://flysystem.thephpleague.com)
 library into Symfony applications. 
 
@@ -12,13 +10,17 @@ It provides an efficient abstraction for the filesystem in order to change the s
 on the execution environment (local files in development, cloud storage in production and memory in tests).
 
 > Note: you are reading the documentation for flysystem-bundle 3.0, which relies on Flysystem 3.  
-> If you use Flysystem 1.X, use [flysystem-bundle 1.X](https://github.com/thephpleague/flysystem-bundle/tree/1.x).  
-> If you use Flysystem 2.X, use [flysystem-bundle 2.X](https://github.com/thephpleague/flysystem-bundle/tree/2.3.0).  
+> If you use Flysystem 1.x, use [flysystem-bundle 1.x](https://github.com/thephpleague/flysystem-bundle/tree/1.x).  
+> If you use Flysystem 2.x, use [flysystem-bundle 2.x](https://github.com/thephpleague/flysystem-bundle/tree/2.x).  
 > Read the [Upgrade guide](https://github.com/thephpleague/flysystem-bundle/blob/master/UPGRADE.md) to learn how to upgrade.
 
 ## Installation
 
-flysystem-bundle requires PHP 8.0+ and Symfony 5.4+.
+flysystem-bundle 3.x requires PHP 8.0+ and Symfony 5.4+.
+
+> If you need support for a lower PHP/Symfony version, consider using 
+> [flysystem-bundle 2.x](https://github.com/thephpleague/flysystem-bundle/tree/2.x) which support Flysystem 3.x 
+> and older PHP/Symfony versions.
 
 You can install the bundle using Symfony Flex:
 

@@ -1,10 +1,12 @@
 <?php
 
-$finder = PhpCsFixer\Finder::create()->in(__DIR__);
-$config = new PhpCsFixer\Config();
-
-return $config->setRules([
+return (new PhpCsFixer\Config())
+    ->setRules([
         '@Symfony' => true,
         'phpdoc_annotation_without_dot' => false,
     ])
-    ->setFinder($finder);
+    ->setFinder(
+        PhpCsFixer\Finder::create()
+            ->in(__DIR__)
+    )
+;

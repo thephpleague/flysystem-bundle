@@ -1,6 +1,6 @@
 {
     "name": "league/flysystem-bundle",
-    "description": "Symfony bundle integrating Flysystem into Symfony 4.4+ applications",
+    "description": "Symfony bundle integrating Flysystem into Symfony 5.4+ applications",
     "type": "symfony-bundle",
     "license": "MIT",
     "authors": [
@@ -41,9 +41,6 @@
         "symfony/phpunit-bridge": "^5.4|^6.0",
         "symfony/var-dumper": "^5.4|^6.0",
         "symfony/yaml": "^5.4|^6.0"
-    },
-    "conflict": {
-        "league/flysystem-cached-adapter": "<1.0.9"
     },
     "config": {
         "preferred-install": {

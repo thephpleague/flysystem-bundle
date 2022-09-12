@@ -1,3 +1,18 @@
+# Upgrading from 2.0 to 3.0
+
+flysystem-bundle 3.0 dropped support for End-Of-Life versions of PHP, Symfony and Flysystem.
+
+No backward incompatible code change have been directly introduced by this bundle version.
+You should read the [Flysystem 3.x changelog](https://github.com/thephpleague/flysystem/blob/3.x/CHANGELOG.md)
+for any indirect change that may affect you.
+
+The list of changes is the following:
+
+* Dropped support for PHP 7.x ;
+* Dropped support for Symfony 4.2 to 5.3 ;
+* Dropped support of Flysystem 2.x ;
+* Added support for Azure Blob Storage (`league/flysystem-azure-blob-storage ^3.1`)
+
 # Upgrading from 1.0 to 2.0
 
 flysystem-bundle 2.0 introduces backward incompatible changes, meaning you will need to update
@@ -9,26 +24,9 @@ changes. You should read
 
 In addition to the library updates, the bundle also changed a bit:
 
-* Add official support for PHP 8 ;
+* Add official support for PHP 8.x ;
 * Migration to AsyncAWS 1.0 ;
 * Drop support for PHP 7.1 ;
 * Drop support for Azure, Dropbox, Rackspace and WebDAV adapters (following the main library) ;
 * Drop support for null, cache, zip and replicate adapters (following the main library) ;
 * Drop support for plugins ;
-
-# Upgrading from 2.0 to 3.0
-
-flysystem-bundle 3.0 relies on Flysystem 3.0, PHP 8.0+ and Flysystem adapters 3.1+.
-
-The changes in this version focus on dropping support for EOL versions of PHP and Symfony and 
-adding support for Azure Blob Storage.  
-No new backwards incompatible code changes have been directly introduced by this new bundle version. 
-You should read the [Flysystem 3.x Change Log](https://github.com/thephpleague/flysystem/blob/3.x/CHANGELOG.md)
-for any changes that may effect you.
-
-These changes are;  
-
-* Added support for Azure Blob Storage (`league/flysystem-azure-blob-storage ^3.1`)
-* Dropped support for PHP 7
-* Dropped support of `league/flysystem ^2.0` and older Flysystem adapters `league/flysystem-* ^2.0|3.0.*`
-* Dropped support for Symfony 4.2 to 5.3
