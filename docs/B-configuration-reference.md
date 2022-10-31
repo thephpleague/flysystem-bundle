@@ -52,6 +52,7 @@ flysystem:
                         private: 0o700
             visibility: ~ # default null. Possible values are 'public' or 'private'
             directory_visibility: ~ # default null. Possible values are 'public' or 'private'
+            public_url: ~
             case_sensitive: true
             disable_asserts: false
 

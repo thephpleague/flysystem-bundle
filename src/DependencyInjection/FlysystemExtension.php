@@ -106,6 +106,7 @@ class FlysystemExtension extends Extension
         $definition->setArgument(1, [
             'visibility' => $config['visibility'],
             'directory_visibility' => $config['directory_visibility'],
+            'public_url' => $config['public_url'],
             'case_sensitive' => $config['case_sensitive'],
             'disable_asserts' => $config['disable_asserts'],
         ]);
