@@ -64,6 +64,65 @@ flysystem:
                 permPrivate: 0744
 ```
 
+
+### Sample
+
+final class ProductsExporter
+{
+    /**
+     * Constructor
+     *
+     * @param FilesystemOperator $synoaExportCsvStorage
+     */
+    public function __construct(
+        protected FilesystemOperator $synoaExportCsvStorage,
+    ) {
+    }
+
+    /**
+     * Exports to CSV and save it to the SFTP flysystem
+     *
+     * @param OutputInterface $output
+     *
+     * @return bool
+     * @throws InvalidArgument
+     * @throws CannotInsertRecord
+     * @throws Exception
+     * @throws FilesystemException
+     */
+    public function export(OutputInterface $output): bool
+    {
+        $date = Carbon::now()
+                      ->format('Y-m-d');
+        $output->write("Exporting ... ");
+        
+        $writer = Writer::createFromPath('php://temp');
+        $writer->setDelimiter(';');
+        $writer->setOutputBOM(ByteSequence::BOM_UTF8);
+        // force "" enclosure as it allows us to just open the file in Excel
+        EncloseField::addTo($writer, "\t\x1f");
+        $writer->insertOne([
+                               'sku',
+                               'name',
+                               'description',
+                               'meta_title',
+                               'meta_keyword',
+                               'meta_description',
+                           ]);
+
+
+        $this->synoaExportCsvStorage->write(
+            'products.' . $date . '.csv',
+            $writer->toString()
+        );
+        $output->writeln("Done.");
+        
+
+        return true;
+    }
+
+
+
 ## Next
 
 [Using a lazy adapter to switch storage backend using an environment variable](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/4-using-lazy-adapter-to-switch-at-runtime.md)
