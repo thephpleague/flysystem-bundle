@@ -124,6 +124,19 @@ class MyService
         $this->projectsStorage = $projectsStorage;
     }
     
+    
+    public function export(OutputInterface $output): bool
+    {
+        $this->projectsStorage->write(
+            'sample.txt',
+            'hello world'
+        );
+        $output->writeln("Done.");
+        
+        return true;
+    }
+    
+    
     // ...
 }
 ```
