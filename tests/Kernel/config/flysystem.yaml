@@ -76,3 +76,25 @@ flysystem:
                 privateKey: 'path/to/or/contents/of/privatekey'
                 root: '/path/to/root'
                 timeout: 10
+
+        fs_public_url:
+            adapter: 'local'
+            options:
+                directory: '/tmp/storage'
+            public_url: 'https://example.org/assets/'
+
+        fs_public_urls:
+            adapter: 'local'
+            options:
+                directory: '/tmp/storage'
+            public_url:
+                - 'https://cdn1.example.org/'
+                - 'https://cdn2.example.org/'
+                - 'https://cdn3.example.org/'
+
+        fs_url_generator:
+            adapter: 'local'
+            options:
+                directory: '/tmp/storage'
+            public_url_generator: 'flysystem.test.public_url_generator'
+            temporary_url_generator: 'flysystem.test.temporary_url_generator'
