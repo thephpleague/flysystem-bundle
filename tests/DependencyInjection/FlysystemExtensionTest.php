@@ -44,7 +44,7 @@ class FlysystemExtensionTest extends TestCase
     /**
      * @dataProvider provideFilesystems
      */
-    public function testFileystems(string $fsName)
+    public function testFilesystems(string $fsName)
     {
         $kernel = $this->createFysystemKernel();
         $container = $kernel->getContainer()->get('test.service_container');
@@ -69,6 +69,39 @@ class FlysystemExtensionTest extends TestCase
         $storages = iterator_to_array($container->get('storages_tagged_collection')->locator);
 
         $this->assertInstanceOf(FilesystemOperator::class, $storages[$fsName]);
+    }
+
+    public function testPublicUrl()
+    {
+        $kernel = $this->createFysystemKernel();
+        $container = $kernel->getContainer()->get('test.service_container');
+
+        $fs = $container->get('flysystem.test.fs_public_url');
+
+        self::assertSame('https://example.org/assets/test1.txt', $fs->publicUrl('test1.txt'));
+    }
+
+    public function testPublicUrls()
+    {
+        $kernel = $this->createFysystemKernel();
+        $container = $kernel->getContainer()->get('test.service_container');
+
+        $fs = $container->get('flysystem.test.fs_public_urls');
+
+        self::assertSame('https://cdn1.example.org/test1.txt', $fs->publicUrl('test1.txt'));
+        self::assertSame('https://cdn2.example.org/yo/test2.txt', $fs->publicUrl('yo/test2.txt'));
+        self::assertSame('https://cdn3.example.org/yww/test1.txt', $fs->publicUrl('yww/test1.txt'));
+    }
+
+    public function testUrlGenerators()
+    {
+        $kernel = $this->createFysystemKernel();
+        $container = $kernel->getContainer()->get('test.service_container');
+
+        $fs = $container->get('flysystem.test.fs_url_generator');
+
+        self::assertSame('https://example.org/generator/test1.txt', $fs->publicUrl('test1.txt'));
+        self::assertSame('https://example.org/temporary/test1.txt?expiresAt=1670846026', $fs->temporaryUrl('test1.txt', new \DateTimeImmutable('@1670846026')));
     }
 
     private function createFysystemKernel()

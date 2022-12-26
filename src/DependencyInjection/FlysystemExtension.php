@@ -100,6 +100,11 @@ class FlysystemExtension extends Extension
 
     private function createStorageDefinition(string $storageName, Reference $adapter, array $config)
     {
+        $publicUrl = null;
+        if ($config['public_url']) {
+            $publicUrl = 1 === count($config['public_url']) ? $config['public_url'][0] : $config['public_url'];
+        }
+
         $definition = new Definition(Filesystem::class);
         $definition->setPublic(false);
         $definition->setArgument(0, $adapter);
@@ -108,7 +113,11 @@ class FlysystemExtension extends Extension
             'directory_visibility' => $config['directory_visibility'],
             'case_sensitive' => $config['case_sensitive'],
             'disable_asserts' => $config['disable_asserts'],
+            'public_url' => $publicUrl,
         ]);
+        $definition->setArgument(2, null);
+        $definition->setArgument(3, $config['public_url_generator'] ? new Reference($config['public_url_generator']) : null);
+        $definition->setArgument(4, $config['temporary_url_generator'] ? new Reference($config['temporary_url_generator']) : null);
         $definition->addTag('flysystem.storage', ['storage' => $storageName]);
 
         return $definition;

@@ -29,7 +29,7 @@ class FrameworkAppKernel extends Kernel
     public function registerContainerConfiguration(LoaderInterface $loader)
     {
         $loader->load(function (ContainerBuilder $container) {
-            $container->loadFromExtension('framework', ['secret' => '$ecret', 'test' => true]);
+            $container->loadFromExtension('framework', ['secret' => '$ecret', 'test' => true, 'http_method_override' => false]);
             $container->loadFromExtension('flysystem', [
                 'storages' => [
                     'uploads.storage' => [
