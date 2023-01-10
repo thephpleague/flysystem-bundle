@@ -19,7 +19,7 @@ jobs:
                   coverage: none
             - name: php-cs-fixer
               run: |
-                  wget https://github.com/FriendsOfPHP/PHP-CS-Fixer/releases/download/v3.11.0/php-cs-fixer.phar -q
+                  wget https://github.com/FriendsOfPHP/PHP-CS-Fixer/releases/download/v3.13.2/php-cs-fixer.phar -q
                   php php-cs-fixer.phar fix --dry-run --diff
 
     tests-php-8-0-symfony-5-4:
