@@ -12,7 +12,7 @@ jobs:
     coding-style:
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@master
+            - uses: actions/checkout@v3
             - uses: shivammathur/setup-php@v2
               with:
                   php-version: '8.0'
@@ -27,7 +27,7 @@ jobs:
         env:
             SYMFONY_VERSION: 5.4.*
         steps:
-            - uses: actions/checkout@master
+            - uses: actions/checkout@v3
             - uses: shivammathur/setup-php@v2
               with:
                   php-version: '8.0'
@@ -44,7 +44,7 @@ jobs:
         env:
             SYMFONY_VERSION: 6.0.*
         steps:
-            - uses: actions/checkout@master
+            - uses: actions/checkout@v3
             - uses: shivammathur/setup-php@v2
               with:
                   php-version: '8.0'
@@ -61,7 +61,7 @@ jobs:
         env:
             SYMFONY_VERSION: 6.1.*
         steps:
-            - uses: actions/checkout@master
+            - uses: actions/checkout@v3
             - uses: shivammathur/setup-php@v2
               with:
                   php-version: '8.1'
@@ -78,7 +78,7 @@ jobs:
         env:
             SYMFONY_VERSION: 6.2.*
         steps:
-            - uses: actions/checkout@master
+            - uses: actions/checkout@v3
             - uses: shivammathur/setup-php@v2
               with:
                   php-version: '8.1'
