@@ -56,7 +56,7 @@ flysystem:
                 port: 22
                 username: 'username'
                 password: 'password'
-                privateKey: 'path/to/or/contents/of/privatekey'
+                privateKey: 'path/to/privatekey'
                 root: '/path/to/root'
                 timeout: 10
                 directoryPerm: 0744
