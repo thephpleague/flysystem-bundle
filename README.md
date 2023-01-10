@@ -61,7 +61,7 @@ This means you have two way of using the defined storages:
     
     class MyService
     {
-        private $storage;
+        private FilesystemOperator $storage;
         
         // The variable name $defaultStorage matters: it needs to be the camelized version
         // of the name of your storage. 
