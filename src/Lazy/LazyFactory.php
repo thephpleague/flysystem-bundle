@@ -20,7 +20,7 @@ use Psr\Container\ContainerInterface;
  */
 class LazyFactory
 {
-    private $storages;
+    private ContainerInterface $storages;
 
     public function __construct(ContainerInterface $storages)
     {

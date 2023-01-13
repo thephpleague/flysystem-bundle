@@ -24,7 +24,7 @@ class AdapterDefinitionFactory
     /**
      * @var AdapterDefinitionBuilderInterface[]
      */
-    private $builders;
+    private array $builders;
 
     public function __construct()
     {
