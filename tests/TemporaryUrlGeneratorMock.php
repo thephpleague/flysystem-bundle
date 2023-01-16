@@ -11,13 +11,12 @@
 
 namespace Tests\League\FlysystemBundle;
 
-use DateTimeInterface;
 use League\Flysystem\Config;
 use League\Flysystem\UrlGeneration\TemporaryUrlGenerator;
 
 final class TemporaryUrlGeneratorMock implements TemporaryUrlGenerator
 {
-    public function temporaryUrl(string $path, DateTimeInterface $expiresAt, Config $config): string
+    public function temporaryUrl(string $path, \DateTimeInterface $expiresAt, Config $config): string
     {
         return "https://example.org/temporary/$path?expiresAt={$expiresAt->format('U')}";
     }
