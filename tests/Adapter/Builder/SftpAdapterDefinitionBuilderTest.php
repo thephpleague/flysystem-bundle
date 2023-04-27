@@ -78,9 +78,9 @@ class SftpAdapterDefinitionBuilderTest extends TestCase
             'directoryPerm' => 0755,
             'permPrivate' => 0700,
             'permPublic' => 0744,
+            'connectivityChecker' => null,
             'host' => 'ftp.example.com',
             'username' => 'username',
-            'connectivityChecker' => null,
         ];
 
         $this->assertSame(SftpAdapter::class, $definition->getClass());
