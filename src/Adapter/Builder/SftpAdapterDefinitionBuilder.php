@@ -100,7 +100,7 @@ class SftpAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
             $connectionFqcn = SftpConnectionProviderLegacy::class;
         }
 
-        if ($options['connectivityChecker'] !== null) {
+        if (null !== $options['connectivityChecker']) {
             $options['connectivityChecker'] = new Definition($options['connectivityChecker']);
         }
 
