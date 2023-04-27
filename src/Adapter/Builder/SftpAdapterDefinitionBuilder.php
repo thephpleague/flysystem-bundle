@@ -85,6 +85,9 @@ class SftpAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
 
         $resolver->setDefault('permPublic', 0744);
         $resolver->setAllowedTypes('permPublic', 'scalar');
+
+        $resolver->setDefault('connectivityChecker', null);
+        $resolver->setAllowedTypes('connectivityChecker', ['string', 'null']);
     }
 
     protected function configureDefinition(Definition $definition, array $options)
@@ -95,6 +98,10 @@ class SftpAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
         if (class_exists(SftpAdapterLegacy::class)) {
             $adapterFqcn = SftpAdapterLegacy::class;
             $connectionFqcn = SftpConnectionProviderLegacy::class;
+        }
+
+        if ($options['connectivityChecker'] !== null) {
+            $options['connectivityChecker'] = new Definition($options['connectivityChecker']);
         }
 
         $definition->setClass($adapterFqcn);
