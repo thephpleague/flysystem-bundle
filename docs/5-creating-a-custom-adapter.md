@@ -12,7 +12,7 @@ A Flysystem adapter is a class implementing the `League\Flysystem\FilesystemAdap
 To learn all the details about how to create this class, you can read the 
 [library documentation](https://flysystem.thephpleague.com/v2/docs/advanced/creating-an-adapter/).
 
-You can create this class everywhere you want in your application. We usually recommend a clear
+You can create this class anywhere you want in your application. We usually recommend a clear
 namespace and class name such as `App\Flysystem\MyCustomAdapter`.
 
 ## Using the adapter in a storage configuration
