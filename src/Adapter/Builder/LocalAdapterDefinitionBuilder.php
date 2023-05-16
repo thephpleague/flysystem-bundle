@@ -15,6 +15,7 @@ use League\Flysystem\Local\LocalFilesystemAdapter;
 use League\Flysystem\UnixVisibility\PortableVisibilityConverter;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use League\Flysystem\Visibility;
 
 /**
  * @author Titouan Galopin <galopintitouan@gmail.com>
