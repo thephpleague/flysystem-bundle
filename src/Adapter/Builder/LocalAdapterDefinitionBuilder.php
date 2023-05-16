@@ -83,6 +83,7 @@ class LocalAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
                     'private' => (int) $options['permissions']['dir']['private'],
                 ],
             ])
+            ->addArgument($options['default_for_directories'] ?? Visibility::PRIVATE)
             ->setShared(false)
         );
         $definition->setArgument(2, $options['lock']);
