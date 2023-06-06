@@ -39,7 +39,6 @@ class SftpAdapterDefinitionBuilderTest extends TestCase
             'passphrase' => null,
             'hostFingerprint' => null,
             'timeout' => 30,
-            'connectivityChecker' => null,
         ]];
     }
 
