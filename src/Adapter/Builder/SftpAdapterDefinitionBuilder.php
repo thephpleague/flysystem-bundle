@@ -16,6 +16,7 @@ use League\Flysystem\PhpseclibV2\SftpConnectionProvider as SftpConnectionProvide
 use League\Flysystem\PhpseclibV3\SftpAdapter;
 use League\Flysystem\PhpseclibV3\SftpConnectionProvider;
 use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -85,6 +86,9 @@ class SftpAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
 
         $resolver->setDefault('permPublic', 0744);
         $resolver->setAllowedTypes('permPublic', 'scalar');
+
+        $resolver->setDefault('connectivityChecker', null);
+        $resolver->setAllowedTypes('connectivityChecker', ['string', 'null']);
     }
 
     protected function configureDefinition(Definition $definition, array $options)
@@ -95,6 +99,10 @@ class SftpAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
         if (class_exists(SftpAdapterLegacy::class)) {
             $adapterFqcn = SftpAdapterLegacy::class;
             $connectionFqcn = SftpConnectionProviderLegacy::class;
+        }
+
+        if ($options['connectivityChecker']) {
+            $options['connectivityChecker'] = new Reference($options['connectivityChecker']);
         }
 
         $definition->setClass($adapterFqcn);
