@@ -26,7 +26,7 @@ class LazyFactoryPass implements CompilerPassInterface
     /**
      * {@inheritdoc}
      */
-    public function process(ContainerBuilder $container)
+    public function process(ContainerBuilder $container): void
     {
         $factories = [];
         foreach ($container->findTaggedServiceIds('flysystem.storage') as $serviceId => $tags) {

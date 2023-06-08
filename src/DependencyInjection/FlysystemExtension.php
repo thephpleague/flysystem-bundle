@@ -30,7 +30,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class FlysystemExtension extends Extension
 {
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container): void
     {
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
@@ -43,7 +43,7 @@ class FlysystemExtension extends Extension
         $this->createStoragesDefinitions($config, $container);
     }
 
-    private function createStoragesDefinitions(array $config, ContainerBuilder $container)
+    private function createStoragesDefinitions(array $config, ContainerBuilder $container): void
     {
         $definitionFactory = new AdapterDefinitionFactory();
 
@@ -82,7 +82,7 @@ class FlysystemExtension extends Extension
         }
     }
 
-    private function createLazyStorageDefinition(string $storageName, array $options)
+    private function createLazyStorageDefinition(string $storageName, array $options): Definition
     {
         $resolver = new OptionsResolver();
         $resolver->setRequired('source');
