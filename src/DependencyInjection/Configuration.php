@@ -51,6 +51,7 @@ class Configuration implements ConfigurationInterface
                             ->end()
                             ->scalarNode('public_url_generator')->defaultNull()->end()
                             ->scalarNode('temporary_url_generator')->defaultNull()->end()
+                            ->booleanNode('read_only')->defaultFalse()->end()
                         ->end()
                     ->end()
                     ->defaultValue([])

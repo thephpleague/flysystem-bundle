@@ -16,6 +16,7 @@ use Aws\S3\S3Client;
 use Google\Cloud\Storage\Bucket;
 use Google\Cloud\Storage\StorageClient;
 use League\Flysystem\FilesystemOperator;
+use League\Flysystem\UnableToWriteFile;
 use MicrosoftAzure\Storage\Blob\BlobRestProxy;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Dotenv\Dotenv;
@@ -102,6 +103,19 @@ class FlysystemExtensionTest extends TestCase
 
         self::assertSame('https://example.org/generator/test1.txt', $fs->publicUrl('test1.txt'));
         self::assertSame('https://example.org/temporary/test1.txt?expiresAt=1670846026', $fs->temporaryUrl('test1.txt', new \DateTimeImmutable('@1670846026')));
+    }
+
+    public function testReadOnly()
+    {
+        $kernel = $this->createFysystemKernel();
+        $container = $kernel->getContainer()->get('test.service_container');
+
+        $fs = $container->get('flysystem.test.fs_read_only');
+
+        $this->expectException(UnableToWriteFile::class);
+        $this->expectExceptionMessage('Unable to write file at location: path/to/file. This is a readonly adapter.');
+
+        $fs->write('/path/to/file', 'Unable to write in read only');
     }
 
     private function createFysystemKernel(): FlysystemAppKernel

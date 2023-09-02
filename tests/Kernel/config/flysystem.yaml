@@ -98,3 +98,9 @@ flysystem:
                 directory: '/tmp/storage'
             public_url_generator: 'flysystem.test.public_url_generator'
             temporary_url_generator: 'flysystem.test.temporary_url_generator'
+
+        fs_read_only:
+            adapter: 'local'
+            options:
+                directory: '/tmp/storage'
+            read_only: true
