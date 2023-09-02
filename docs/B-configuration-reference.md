@@ -11,11 +11,11 @@ flysystem:
                 prefix: 'optional/path/prefix'
         
         users2.storage:
-          adapter: 'azure'
-          options:
-            client: 'azure_client_service'
-            container: 'container_name'
-            prefix: 'optional/path/prefix'
+            adapter: 'azure'
+            options:
+                client: 'azure_client_service'
+                container: 'container_name'
+                prefix: 'optional/path/prefix'
 
         users3.storage:
             adapter: 'ftp'
@@ -78,5 +78,13 @@ flysystem:
                 source: 'flysystem_storage_service_to_use'
 
         users10.storage:
-          adapter: 'custom_adapter'
+            adapter: 'custom_adapter'
+
+        users11.storage:
+            adapter: 'local'
+            options:
+                directory: '/tmp/storage'
+            public_url_generator: 'flysystem_public_url_generator_service_to_use'
+            temporary_url_generator: 'flysystem_temporary_url_generator_service_to_use'
+            read_only: true
 ```

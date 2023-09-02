@@ -137,7 +137,13 @@ it gives you to swap the actual implementation during tests.
 More specifically, it can be useful to swap from a persisted storage to a memory one during 
 tests, both to ensure the state is reset between tests and to increase tests speed.
 
-To achieve this, you can overwrite your storages in the test environment:
+To achieve this, you need to install the memory provider: 
+
+```
+composer require league/flysystem-memory
+```
+
+Then, you can overwrite your storages in the test environment:
 
 ```yaml
 # config/packages/flysystem.yaml
@@ -161,6 +167,32 @@ flysystem:
 
 This configuration will swap every reference to the `users.storage` service (or to the
 `FilesystemOperator $usersStorage` typehint) from a local adapter to a memory one during tests.
+
+## Using read only to disallow any write operations
+
+In some context, it can be useful to protect any write operations on your storages service.
+
+To achieve this, you need to install the read-only package :
+
+```
+composer require league/flysystem-read-only
+```
+
+And then, you can configure your storage with the `readonly` options.
+
+```yaml
+# config/packages/flysystem.yaml
+
+flysystem:
+    storages:
+        users.storage:
+            adapter: 'local'
+            options:
+                directory: '%kernel.project_dir%/storage/users'
+            readonly: true
+```
+
+With this configuration, any write operation will throw a suitable exception.
 
 ## Next
 

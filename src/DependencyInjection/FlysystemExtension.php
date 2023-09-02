@@ -15,7 +15,9 @@ use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemOperator;
 use League\Flysystem\FilesystemReader;
 use League\Flysystem\FilesystemWriter;
+use League\Flysystem\ReadOnly\ReadOnlyFilesystemAdapter;
 use League\FlysystemBundle\Adapter\AdapterDefinitionFactory;
+use League\FlysystemBundle\Exception\MissingPackageException;
 use League\FlysystemBundle\Lazy\LazyFactory;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
@@ -63,16 +65,29 @@ class FlysystemExtension extends Extension
             // Create adapter definition
             if ($adapter = $definitionFactory->createDefinition($storageConfig['adapter'], $storageConfig['options'], $storageConfig['directory_visibility'] ?? null)) {
                 // Native adapter
-                $container->setDefinition('flysystem.adapter.'.$storageName, $adapter)->setPublic(false);
+                $container->setDefinition($id = 'flysystem.adapter.'.$storageName, $adapter)->setPublic(false);
             } else {
                 // Custom adapter
-                $container->setAlias('flysystem.adapter.'.$storageName, $storageConfig['adapter'])->setPublic(false);
+                $container->setAlias($id = 'flysystem.adapter.'.$storageName, $storageConfig['adapter'])->setPublic(false);
+            }
+
+            // Create ReadOnly adapter
+            if ($storageConfig['read_only']) {
+                if (!class_exists(ReadOnlyFilesystemAdapter::class)) {
+                    throw new MissingPackageException("Missing package, to use the readonly option, run:\n\ncomposer require league/flysystem-read-only");
+                }
+
+                $originalAdapterId = $id;
+                $container->setDefinition(
+                    $id = $id.'.read_only',
+                    $this->createReadOnlyAdapterDefinition(new Reference($originalAdapterId))
+                );
             }
 
             // Create storage definition
             $container->setDefinition(
                 $storageName,
-                $this->createStorageDefinition($storageName, new Reference('flysystem.adapter.'.$storageName), $storageConfig)
+                $this->createStorageDefinition($storageName, new Reference($id), $storageConfig)
             );
 
             // Register named autowiring alias
@@ -119,6 +134,15 @@ class FlysystemExtension extends Extension
         $definition->setArgument(3, $config['public_url_generator'] ? new Reference($config['public_url_generator']) : null);
         $definition->setArgument(4, $config['temporary_url_generator'] ? new Reference($config['temporary_url_generator']) : null);
         $definition->addTag('flysystem.storage', ['storage' => $storageName]);
+
+        return $definition;
+    }
+
+    private function createReadOnlyAdapterDefinition(Reference $adapter): Definition
+    {
+        $definition = new Definition(ReadOnlyFilesystemAdapter::class);
+        $definition->setPublic(false);
+        $definition->setArgument(0, $adapter);
 
         return $definition;
     }

@@ -25,3 +25,4 @@ services:
     flysystem.test.fs_public_url: { alias: 'fs_public_url' }
     flysystem.test.fs_public_urls: { alias: 'fs_public_urls' }
     flysystem.test.fs_url_generator: { alias: 'fs_url_generator' }
+    flysystem.test.fs_read_only: { alias: 'fs_read_only' }
