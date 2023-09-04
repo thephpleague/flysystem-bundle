@@ -14,6 +14,7 @@ namespace League\FlysystemBundle\Adapter\Builder;
 use League\Flysystem\Ftp\FtpAdapter;
 use League\Flysystem\Ftp\FtpConnectionOptions;
 use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -80,6 +81,9 @@ class FtpAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
 
         $resolver->setDefault('recurse_manually', true);
         $resolver->setAllowedTypes('recurse_manually', 'bool');
+
+        $resolver->setDefault('connectivityChecker', null);
+        $resolver->setAllowedTypes('connectivityChecker', ['string', 'null']);
     }
 
     protected function configureDefinition(Definition $definition, array $options)
@@ -89,12 +93,19 @@ class FtpAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
         $options['timestampsOnUnixListingsEnabled'] = $options['timestamps_on_unix_listings_enabled'];
         $options['ignorePassiveAddress'] = $options['ignore_passive_address'];
         $options['recurseManually'] = $options['recurse_manually'];
+
+        $connectivityChecker = null;
+        if (null !== $options['connectivityChecker']) {
+            $connectivityChecker = new Reference($options['connectivityChecker']);
+        }
+
         unset(
             $options['transfer_mode'],
             $options['system_type'],
             $options['timestamps_on_unix_listings_enabled'],
             $options['ignore_passive_address'],
-            $options['recurse_manually']
+            $options['recurse_manually'],
+            $options['connectivityChecker']
         );
 
         $definition->setClass(FtpAdapter::class);
@@ -104,5 +115,7 @@ class FtpAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
                 ->addArgument($options)
                 ->setShared(false)
         );
+        $definition->setArgument(1, null);
+        $definition->setArgument(2, $connectivityChecker);
     }
 }
