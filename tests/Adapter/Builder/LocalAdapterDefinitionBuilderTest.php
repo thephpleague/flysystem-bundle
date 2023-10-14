@@ -12,17 +12,18 @@
 namespace Tests\League\FlysystemBundle\Adapter\Builder;
 
 use League\Flysystem\Local\LocalFilesystemAdapter;
+use League\Flysystem\Visibility;
 use League\FlysystemBundle\Adapter\Builder\LocalAdapterDefinitionBuilder;
 use PHPUnit\Framework\TestCase;
 
 class LocalAdapterDefinitionBuilderTest extends TestCase
 {
-    public function createBuilder()
+    public function createBuilder(): LocalAdapterDefinitionBuilder
     {
         return new LocalAdapterDefinitionBuilder();
     }
 
-    public function provideValidOptions()
+    public function provideValidOptions(): \Generator
     {
         yield 'minimal' => [[
             'directory' => __DIR__,
@@ -89,7 +90,7 @@ class LocalAdapterDefinitionBuilderTest extends TestCase
      */
     public function testCreateDefinition($options)
     {
-        $this->assertSame(LocalFilesystemAdapter::class, $this->createBuilder()->createDefinition($options)->getClass());
+        $this->assertSame(LocalFilesystemAdapter::class, $this->createBuilder()->createDefinition($options, null)->getClass());
     }
 
     public function testOptionsBehavior()
@@ -111,7 +112,7 @@ class LocalAdapterDefinitionBuilderTest extends TestCase
             'skip_links' => true,
             'permissions' => $permissions,
             'lazy_root_creation' => true,
-        ]);
+        ], Visibility::PUBLIC);
 
         $this->assertSame(LocalFilesystemAdapter::class, $definition->getClass());
         $this->assertSame(__DIR__, $definition->getArgument(0));
@@ -119,5 +120,6 @@ class LocalAdapterDefinitionBuilderTest extends TestCase
         $this->assertSame(LOCK_EX, $definition->getArgument(2));
         $this->assertSame(LocalFilesystemAdapter::SKIP_LINKS, $definition->getArgument(3));
         $this->assertSame(true, $definition->getArgument(5));
+        $this->assertSame(Visibility::PUBLIC, $definition->getArgument(1)->getArgument(1));
     }
 }

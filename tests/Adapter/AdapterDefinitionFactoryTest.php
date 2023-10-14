@@ -18,7 +18,7 @@ use Symfony\Component\Yaml\Yaml;
 
 class AdapterDefinitionFactoryTest extends TestCase
 {
-    public function provideConfigOptions()
+    public function provideConfigOptions(): \Generator
     {
         $config = Yaml::parseFile(__DIR__.'/options.yaml');
 
@@ -34,7 +34,7 @@ class AdapterDefinitionFactoryTest extends TestCase
     {
         $factory = new AdapterDefinitionFactory();
 
-        $definition = $factory->createDefinition($name, $options);
+        $definition = $factory->createDefinition($name, $options, null);
         $this->assertInstanceOf(Definition::class, $definition);
     }
 }

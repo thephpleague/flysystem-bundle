@@ -35,7 +35,7 @@ class GcloudAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
         ];
     }
 
-    protected function configureOptions(OptionsResolver $resolver)
+    protected function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setRequired('client');
         $resolver->setAllowedTypes('client', 'string');
@@ -47,7 +47,7 @@ class GcloudAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
         $resolver->setAllowedTypes('prefix', 'string');
     }
 
-    protected function configureDefinition(Definition $definition, array $options)
+    protected function configureDefinition(Definition $definition, array $options, ?string $defaultVisibilityForDirectories): void
     {
         $bucketDefinition = new Definition();
         $bucketDefinition->setFactory([new Reference($options['client']), 'bucket']);

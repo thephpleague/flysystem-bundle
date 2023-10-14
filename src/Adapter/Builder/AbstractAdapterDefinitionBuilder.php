@@ -11,6 +11,7 @@
 
 namespace League\FlysystemBundle\Adapter\Builder;
 
+use League\Flysystem\UnixVisibility\PortableVisibilityConverter;
 use League\FlysystemBundle\Exception\MissingPackageException;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -22,7 +23,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 abstract class AbstractAdapterDefinitionBuilder implements AdapterDefinitionBuilderInterface
 {
-    final public function createDefinition(array $options): Definition
+    final public function createDefinition(array $options, ?string $defaultVisibilityForDirectories): Definition
     {
         $this->ensureRequiredPackagesAvailable();
 
@@ -31,7 +32,7 @@ abstract class AbstractAdapterDefinitionBuilder implements AdapterDefinitionBuil
 
         $definition = new Definition();
         $definition->setPublic(false);
-        $this->configureDefinition($definition, $resolver->resolve($options));
+        $this->configureDefinition($definition, $resolver->resolve($options), $defaultVisibilityForDirectories);
 
         return $definition;
     }
@@ -40,9 +41,49 @@ abstract class AbstractAdapterDefinitionBuilder implements AdapterDefinitionBuil
 
     abstract protected function configureOptions(OptionsResolver $resolver);
 
-    abstract protected function configureDefinition(Definition $definition, array $options);
+    abstract protected function configureDefinition(Definition $definition, array $options, ?string $defaultVisibilityForDirectories);
 
-    private function ensureRequiredPackagesAvailable()
+    protected function configureUnixOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefault('permissions', function (OptionsResolver $subResolver) {
+            $subResolver->setDefault('file', function (OptionsResolver $permsResolver) {
+                $permsResolver->setDefault('public', 0644);
+                $permsResolver->setAllowedTypes('public', 'scalar');
+
+                $permsResolver->setDefault('private', 0600);
+                $permsResolver->setAllowedTypes('private', 'scalar');
+            });
+
+            $subResolver->setDefault('dir', function (OptionsResolver $permsResolver) {
+                $permsResolver->setDefault('public', 0755);
+                $permsResolver->setAllowedTypes('public', 'scalar');
+
+                $permsResolver->setDefault('private', 0700);
+                $permsResolver->setAllowedTypes('private', 'scalar');
+            });
+        });
+    }
+
+    protected function createUnixDefinition(array $permissions, string $defaultVisibilityForDirectories): Definition
+    {
+        return (new Definition(PortableVisibilityConverter::class))
+            ->setFactory([PortableVisibilityConverter::class, 'fromArray'])
+            ->addArgument([
+                'file' => [
+                    'public' => (int) $permissions['file']['public'],
+                    'private' => (int) $permissions['file']['private'],
+                ],
+                'dir' => [
+                    'public' => (int) $permissions['dir']['public'],
+                    'private' => (int) $permissions['dir']['private'],
+                ],
+            ])
+            ->addArgument($defaultVisibilityForDirectories)
+            ->setShared(false)
+        ;
+    }
+
+    private function ensureRequiredPackagesAvailable(): void
     {
         $missingPackages = [];
         foreach ($this->getRequiredPackages() as $requiredClass => $packageName) {

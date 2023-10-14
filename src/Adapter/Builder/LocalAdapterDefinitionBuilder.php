@@ -12,7 +12,7 @@
 namespace League\FlysystemBundle\Adapter\Builder;
 
 use League\Flysystem\Local\LocalFilesystemAdapter;
-use League\Flysystem\UnixVisibility\PortableVisibilityConverter;
+use League\Flysystem\Visibility;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -33,10 +33,12 @@ class LocalAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
         return [];
     }
 
-    protected function configureOptions(OptionsResolver $resolver)
+    protected function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setRequired('directory');
         $resolver->setAllowedTypes('directory', 'string');
+
+        $this->configureUnixOptions($resolver);
 
         $resolver->setDefault('lock', 0);
         $resolver->setAllowedTypes('lock', 'scalar');
@@ -44,47 +46,15 @@ class LocalAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
         $resolver->setDefault('skip_links', false);
         $resolver->setAllowedTypes('skip_links', 'scalar');
 
-        $resolver->setDefault('permissions', function (OptionsResolver $subResolver) {
-            $subResolver->setDefault('file', function (OptionsResolver $permsResolver) {
-                $permsResolver->setDefault('public', 0644);
-                $permsResolver->setAllowedTypes('public', 'scalar');
-
-                $permsResolver->setDefault('private', 0600);
-                $permsResolver->setAllowedTypes('private', 'scalar');
-            });
-
-            $subResolver->setDefault('dir', function (OptionsResolver $permsResolver) {
-                $permsResolver->setDefault('public', 0755);
-                $permsResolver->setAllowedTypes('public', 'scalar');
-
-                $permsResolver->setDefault('private', 0700);
-                $permsResolver->setAllowedTypes('private', 'scalar');
-            });
-        });
-
         $resolver->setDefault('lazy_root_creation', false);
         $resolver->setAllowedTypes('lazy_root_creation', 'scalar');
     }
 
-    protected function configureDefinition(Definition $definition, array $options)
+    protected function configureDefinition(Definition $definition, array $options, ?string $defaultVisibilityForDirectories): void
     {
         $definition->setClass(LocalFilesystemAdapter::class);
         $definition->setArgument(0, $options['directory']);
-        $definition->setArgument(1,
-            (new Definition(PortableVisibilityConverter::class))
-            ->setFactory([PortableVisibilityConverter::class, 'fromArray'])
-            ->addArgument([
-                'file' => [
-                    'public' => (int) $options['permissions']['file']['public'],
-                    'private' => (int) $options['permissions']['file']['private'],
-                ],
-                'dir' => [
-                    'public' => (int) $options['permissions']['dir']['public'],
-                    'private' => (int) $options['permissions']['dir']['private'],
-                ],
-            ])
-            ->setShared(false)
-        );
+        $definition->setArgument(1, $this->createUnixDefinition($options['permissions'], $defaultVisibilityForDirectories ?? Visibility::PRIVATE));
         $definition->setArgument(2, $options['lock']);
         $definition->setArgument(3, $options['skip_links'] ? LocalFilesystemAdapter::SKIP_LINKS : LocalFilesystemAdapter::DISALLOW_LINKS);
         $definition->setArgument(4, null);

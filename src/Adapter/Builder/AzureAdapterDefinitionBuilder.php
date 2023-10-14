@@ -35,7 +35,7 @@ class AzureAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
         ];
     }
 
-    protected function configureOptions(OptionsResolver $resolver)
+    protected function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setRequired('client');
         $resolver->setAllowedTypes('client', 'string');
@@ -47,7 +47,7 @@ class AzureAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
         $resolver->setAllowedTypes('prefix', 'string');
     }
 
-    protected function configureDefinition(Definition $definition, array $options)
+    protected function configureDefinition(Definition $definition, array $options, ?string $defaultVisibilityForDirectories): void
     {
         $definition->setClass(AzureBlobStorageAdapter::class);
         $definition->setArgument(0, new Reference($options['client']));

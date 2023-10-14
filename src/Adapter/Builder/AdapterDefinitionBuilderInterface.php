@@ -25,5 +25,5 @@ interface AdapterDefinitionBuilderInterface
     /**
      * Create the definition for this builder's adapter given an array of options.
      */
-    public function createDefinition(array $options): Definition;
+    public function createDefinition(array $options, ?string $defaultVisibilityForDirectories): Definition;
 }

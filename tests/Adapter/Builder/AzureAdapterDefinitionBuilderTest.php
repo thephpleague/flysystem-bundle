@@ -18,12 +18,12 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class AzureAdapterDefinitionBuilderTest extends TestCase
 {
-    public function createBuilder()
+    public function createBuilder(): AzureAdapterDefinitionBuilder
     {
         return new AzureAdapterDefinitionBuilder();
     }
 
-    public function provideValidOptions()
+    public function provideValidOptions(): \Generator
     {
         yield 'minimal' => [[
             'client' => 'my_client',
@@ -42,7 +42,7 @@ class AzureAdapterDefinitionBuilderTest extends TestCase
      */
     public function testCreateDefinition($options)
     {
-        $this->assertSame(AzureBlobStorageAdapter::class, $this->createBuilder()->createDefinition($options)->getClass());
+        $this->assertSame(AzureBlobStorageAdapter::class, $this->createBuilder()->createDefinition($options, null)->getClass());
     }
 
     public function testOptionsBehavior()
@@ -51,7 +51,7 @@ class AzureAdapterDefinitionBuilderTest extends TestCase
             'client' => 'my_client',
             'container' => 'container_name',
             'prefix' => 'prefix/path',
-        ]);
+        ], null);
 
         $this->assertSame(AzureBlobStorageAdapter::class, $definition->getClass());
         $this->assertInstanceOf(Reference::class, $definition->getArgument(0));

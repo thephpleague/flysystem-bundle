@@ -104,7 +104,7 @@ class FlysystemExtensionTest extends TestCase
         self::assertSame('https://example.org/temporary/test1.txt?expiresAt=1670846026', $fs->temporaryUrl('test1.txt', new \DateTimeImmutable('@1670846026')));
     }
 
-    private function createFysystemKernel()
+    private function createFysystemKernel(): FlysystemAppKernel
     {
         (new Dotenv())->populate([
             'AWS_BUCKET' => 'bucket-name',
@@ -126,7 +126,7 @@ class FlysystemExtensionTest extends TestCase
         return $kernel;
     }
 
-    private function getClientMocks()
+    private function getClientMocks(): array
     {
         $gcloud = $this->createMock(StorageClient::class);
         $gcloud->method('bucket')->willReturn($this->createMock(Bucket::class));

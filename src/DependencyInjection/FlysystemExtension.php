@@ -43,7 +43,7 @@ class FlysystemExtension extends Extension
         $this->createStoragesDefinitions($config, $container);
     }
 
-    private function createStoragesDefinitions(array $config, ContainerBuilder $container)
+    private function createStoragesDefinitions(array $config, ContainerBuilder $container): void
     {
         $definitionFactory = new AdapterDefinitionFactory();
 
@@ -61,7 +61,7 @@ class FlysystemExtension extends Extension
             }
 
             // Create adapter definition
-            if ($adapter = $definitionFactory->createDefinition($storageConfig['adapter'], $storageConfig['options'])) {
+            if ($adapter = $definitionFactory->createDefinition($storageConfig['adapter'], $storageConfig['options'], $storageConfig['directory_visibility'] ?? null)) {
                 // Native adapter
                 $container->setDefinition('flysystem.adapter.'.$storageName, $adapter)->setPublic(false);
             } else {
@@ -82,7 +82,7 @@ class FlysystemExtension extends Extension
         }
     }
 
-    private function createLazyStorageDefinition(string $storageName, array $options)
+    private function createLazyStorageDefinition(string $storageName, array $options): Definition
     {
         $resolver = new OptionsResolver();
         $resolver->setRequired('source');
@@ -98,7 +98,7 @@ class FlysystemExtension extends Extension
         return $definition;
     }
 
-    private function createStorageDefinition(string $storageName, Reference $adapter, array $config)
+    private function createStorageDefinition(string $storageName, Reference $adapter, array $config): Definition
     {
         $publicUrl = null;
         if ($config['public_url']) {

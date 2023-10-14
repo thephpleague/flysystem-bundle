@@ -25,7 +25,7 @@ class EmptyAppKernel extends Kernel
         return [new FlysystemBundle()];
     }
 
-    public function registerContainerConfiguration(LoaderInterface $loader)
+    public function registerContainerConfiguration(LoaderInterface $loader): void
     {
         $loader->load(function (ContainerBuilder $container) {
             $container->loadFromExtension('flysystem', [
