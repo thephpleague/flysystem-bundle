@@ -19,12 +19,12 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class GcloudAdapterDefinitionBuilderTest extends TestCase
 {
-    public function createBuilder()
+    public function createBuilder(): GcloudAdapterDefinitionBuilder
     {
         return new GcloudAdapterDefinitionBuilder();
     }
 
-    public function provideValidOptions()
+    public function provideValidOptions(): \Generator
     {
         yield 'minimal' => [[
             'client' => 'my_client',
@@ -43,7 +43,7 @@ class GcloudAdapterDefinitionBuilderTest extends TestCase
      */
     public function testCreateDefinition($options)
     {
-        $this->assertSame(GoogleCloudStorageAdapter::class, $this->createBuilder()->createDefinition($options)->getClass());
+        $this->assertSame(GoogleCloudStorageAdapter::class, $this->createBuilder()->createDefinition($options, null)->getClass());
     }
 
     public function testOptionsBehavior()
@@ -52,7 +52,7 @@ class GcloudAdapterDefinitionBuilderTest extends TestCase
             'client' => 'my_client',
             'bucket' => 'bucket_name',
             'prefix' => 'prefix/path',
-        ]);
+        ], null);
 
         $this->assertSame(GoogleCloudStorageAdapter::class, $definition->getClass());
 

@@ -12,17 +12,18 @@
 namespace Tests\League\FlysystemBundle\Adapter\Builder;
 
 use League\Flysystem\PhpseclibV3\SftpAdapter;
+use League\Flysystem\Visibility;
 use League\FlysystemBundle\Adapter\Builder\SftpAdapterDefinitionBuilder;
 use PHPUnit\Framework\TestCase;
 
 class SftpAdapterDefinitionBuilderTest extends TestCase
 {
-    public function createBuilder()
+    public function createBuilder(): SftpAdapterDefinitionBuilder
     {
         return new SftpAdapterDefinitionBuilder();
     }
 
-    public function provideValidOptions()
+    public function provideValidOptions(): \Generator
     {
         yield 'minimal' => [[
             'host' => 'ftp.example.com',
@@ -47,7 +48,7 @@ class SftpAdapterDefinitionBuilderTest extends TestCase
      */
     public function testCreateDefinition($options)
     {
-        $this->assertSame(SftpAdapter::class, $this->createBuilder()->createDefinition($options)->getClass());
+        $this->assertSame(SftpAdapter::class, $this->createBuilder()->createDefinition($options, null)->getClass());
     }
 
     public function testOptionsBehavior()
@@ -65,7 +66,7 @@ class SftpAdapterDefinitionBuilderTest extends TestCase
             'directoryPerm' => 0755,
             'permPrivate' => 0700,
             'permPublic' => 0744,
-        ]);
+        ], Visibility::PUBLIC);
 
         $expected = [
             'password' => 'password',
@@ -79,6 +80,16 @@ class SftpAdapterDefinitionBuilderTest extends TestCase
             'permPrivate' => 0700,
             'permPublic' => 0744,
             'connectivityChecker' => null,
+            'permissions' => [
+                'file' => [
+                    'public' => 0644,
+                    'private' => 0600,
+                ],
+                'dir' => [
+                    'public' => 0755,
+                    'private' => 0700,
+                ],
+            ],
             'host' => 'ftp.example.com',
             'username' => 'username',
         ];
@@ -86,5 +97,6 @@ class SftpAdapterDefinitionBuilderTest extends TestCase
         $this->assertSame(SftpAdapter::class, $definition->getClass());
         $this->assertSame($expected, $definition->getArgument(0)->getArgument(0));
         $this->assertSame($expected['root'], $definition->getArgument(1));
+        $this->assertSame(Visibility::PUBLIC, $definition->getArgument(2)->getArgument(1));
     }
 }

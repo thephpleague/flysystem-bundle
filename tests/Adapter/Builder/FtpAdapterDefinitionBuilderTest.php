@@ -12,17 +12,18 @@
 namespace Tests\League\FlysystemBundle\Adapter\Builder;
 
 use League\Flysystem\Ftp\FtpAdapter;
+use League\Flysystem\Visibility;
 use League\FlysystemBundle\Adapter\Builder\FtpAdapterDefinitionBuilder;
 use PHPUnit\Framework\TestCase;
 
 class FtpAdapterDefinitionBuilderTest extends TestCase
 {
-    public function createBuilder()
+    public function createBuilder(): FtpAdapterDefinitionBuilder
     {
         return new FtpAdapterDefinitionBuilder();
     }
 
-    public function provideValidOptions()
+    public function provideValidOptions(): \Generator
     {
         yield 'minimal' => [[
             'host' => 'ftp.example.com',
@@ -49,7 +50,7 @@ class FtpAdapterDefinitionBuilderTest extends TestCase
      */
     public function testCreateDefinition($options)
     {
-        $this->assertSame(FtpAdapter::class, $this->createBuilder()->createDefinition($options)->getClass());
+        $this->assertSame(FtpAdapter::class, $this->createBuilder()->createDefinition($options, null)->getClass());
     }
 
     public function testOptionsBehavior()
@@ -65,7 +66,7 @@ class FtpAdapterDefinitionBuilderTest extends TestCase
             'timeout' => 30,
             'ignore_passive_address' => true,
             'utf8' => false,
-        ]);
+        ], Visibility::PUBLIC);
 
         $expected = [
             'port' => 21,
@@ -74,6 +75,16 @@ class FtpAdapterDefinitionBuilderTest extends TestCase
             'ssl' => true,
             'timeout' => 30,
             'utf8' => false,
+            'permissions' => [
+                'file' => [
+                    'public' => 0644,
+                    'private' => 0600,
+                ],
+                'dir' => [
+                    'public' => 0755,
+                    'private' => 0700,
+                ],
+            ],
             'host' => 'ftp.example.com',
             'username' => 'username',
             'password' => 'password',
@@ -86,5 +97,6 @@ class FtpAdapterDefinitionBuilderTest extends TestCase
 
         $this->assertSame(FtpAdapter::class, $definition->getClass());
         $this->assertSame($expected, $definition->getArgument(0)->getArgument(0));
+        $this->assertSame(Visibility::PUBLIC, $definition->getArgument(3)->getArgument(1));
     }
 }

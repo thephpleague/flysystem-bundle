@@ -38,7 +38,7 @@ class MemoryAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
     {
     }
 
-    protected function configureDefinition(Definition $definition, array $options)
+    protected function configureDefinition(Definition $definition, array $options, ?string $defaultVisibilityForDirectories): void
     {
         $definition->setClass(InMemoryFilesystemAdapter::class);
     }

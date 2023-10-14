@@ -17,13 +17,13 @@ use PHPUnit\Framework\TestCase;
 
 class MemoryAdapterDefinitionBuilderTest extends TestCase
 {
-    public function createBuilder()
+    public function createBuilder(): MemoryAdapterDefinitionBuilder
     {
         return new MemoryAdapterDefinitionBuilder();
     }
 
     public function testOptionsBehavior()
     {
-        $this->assertSame(InMemoryFilesystemAdapter::class, $this->createBuilder()->createDefinition([])->getClass());
+        $this->assertSame(InMemoryFilesystemAdapter::class, $this->createBuilder()->createDefinition([], null)->getClass());
     }
 }

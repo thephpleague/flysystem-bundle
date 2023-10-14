@@ -12,18 +12,19 @@
 namespace Tests\League\FlysystemBundle\Adapter\Builder;
 
 use League\Flysystem\AwsS3V3\AwsS3V3Adapter;
+use League\Flysystem\Visibility;
 use League\FlysystemBundle\Adapter\Builder\AwsAdapterDefinitionBuilder;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Reference;
 
 class AwsAdapterDefinitionBuilderTest extends TestCase
 {
-    public function createBuilder()
+    public function createBuilder(): AwsAdapterDefinitionBuilder
     {
         return new AwsAdapterDefinitionBuilder();
     }
 
-    public function provideValidOptions()
+    public function provideValidOptions(): \Generator
     {
         yield 'minimal' => [[
             'client' => 'my_client',
@@ -50,7 +51,7 @@ class AwsAdapterDefinitionBuilderTest extends TestCase
      */
     public function testCreateDefinition($options)
     {
-        $this->assertSame(AwsS3V3Adapter::class, $this->createBuilder()->createDefinition($options)->getClass());
+        $this->assertSame(AwsS3V3Adapter::class, $this->createBuilder()->createDefinition($options, null)->getClass());
     }
 
     public function testOptionsBehavior()
@@ -63,7 +64,7 @@ class AwsAdapterDefinitionBuilderTest extends TestCase
                 'ServerSideEncryption' => 'AES256',
             ],
             'streamReads' => false,
-        ]);
+        ], Visibility::PRIVATE);
 
         $this->assertSame(AwsS3V3Adapter::class, $definition->getClass());
         $this->assertInstanceOf(Reference::class, $definition->getArgument(0));
@@ -72,5 +73,6 @@ class AwsAdapterDefinitionBuilderTest extends TestCase
         $this->assertSame('prefix/path', $definition->getArgument(2));
         $this->assertSame(['ServerSideEncryption' => 'AES256'], $definition->getArgument(5));
         $this->assertFalse($definition->getArgument(6));
+        $this->assertSame(Visibility::PRIVATE, $definition->getArgument(3)->getArgument(0));
     }
 }

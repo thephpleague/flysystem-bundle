@@ -22,14 +22,14 @@ class FlysystemAppKernel extends Kernel
 {
     use AppKernelTrait;
 
-    private $adapterClients = [];
+    private array $adapterClients = [];
 
     public function registerBundles(): iterable
     {
         return [new FrameworkBundle(), new FlysystemBundle()];
     }
 
-    public function registerContainerConfiguration(LoaderInterface $loader)
+    public function registerContainerConfiguration(LoaderInterface $loader): void
     {
         $adapterClients = $this->adapterClients;
 
@@ -48,7 +48,7 @@ class FlysystemAppKernel extends Kernel
         }
     }
 
-    public function setAdapterClients(array $adapterClients)
+    public function setAdapterClients(array $adapterClients): void
     {
         $this->adapterClients = $adapterClients;
     }

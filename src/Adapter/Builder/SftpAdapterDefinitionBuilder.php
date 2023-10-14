@@ -15,6 +15,7 @@ use League\Flysystem\PhpseclibV2\SftpAdapter as SftpAdapterLegacy;
 use League\Flysystem\PhpseclibV2\SftpConnectionProvider as SftpConnectionProviderLegacy;
 use League\Flysystem\PhpseclibV3\SftpAdapter;
 use League\Flysystem\PhpseclibV3\SftpConnectionProvider;
+use League\Flysystem\Visibility;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -49,7 +50,7 @@ class SftpAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
         ];
     }
 
-    protected function configureOptions(OptionsResolver $resolver)
+    protected function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setRequired('host');
         $resolver->setAllowedTypes('host', 'string');
@@ -89,9 +90,11 @@ class SftpAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
 
         $resolver->setDefault('connectivityChecker', null);
         $resolver->setAllowedTypes('connectivityChecker', ['string', 'null']);
+
+        $this->configureUnixOptions($resolver);
     }
 
-    protected function configureDefinition(Definition $definition, array $options)
+    protected function configureDefinition(Definition $definition, array $options, ?string $defaultVisibilityForDirectories): void
     {
         // Prevent BC
         $adapterFqcn = SftpAdapter::class;
@@ -113,5 +116,6 @@ class SftpAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
                 ->setShared(false)
         );
         $definition->setArgument(1, $options['root']);
+        $definition->setArgument(2, $this->createUnixDefinition($options['permissions'], $defaultVisibilityForDirectories ?? Visibility::PRIVATE));
     }
 }

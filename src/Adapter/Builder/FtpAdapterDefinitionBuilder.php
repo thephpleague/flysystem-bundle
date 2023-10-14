@@ -13,6 +13,7 @@ namespace League\FlysystemBundle\Adapter\Builder;
 
 use League\Flysystem\Ftp\FtpAdapter;
 use League\Flysystem\Ftp\FtpConnectionOptions;
+use League\Flysystem\Visibility;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -36,7 +37,7 @@ class FtpAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
         ];
     }
 
-    protected function configureOptions(OptionsResolver $resolver)
+    protected function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setRequired('host');
         $resolver->setAllowedTypes('host', 'string');
@@ -84,9 +85,11 @@ class FtpAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
 
         $resolver->setDefault('connectivityChecker', null);
         $resolver->setAllowedTypes('connectivityChecker', ['string', 'null']);
+
+        $this->configureUnixOptions($resolver);
     }
 
-    protected function configureDefinition(Definition $definition, array $options)
+    protected function configureDefinition(Definition $definition, array $options, ?string $defaultVisibilityForDirectories): void
     {
         $options['transferMode'] = $options['transfer_mode'];
         $options['systemType'] = $options['system_type'];
@@ -117,5 +120,6 @@ class FtpAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
         );
         $definition->setArgument(1, null);
         $definition->setArgument(2, $connectivityChecker);
+        $definition->setArgument(3, $this->createUnixDefinition($options['permissions'], $defaultVisibilityForDirectories ?? Visibility::PRIVATE));
     }
 }

@@ -12,6 +12,8 @@
 namespace League\FlysystemBundle\Adapter\Builder;
 
 use League\Flysystem\AwsS3V3\AwsS3V3Adapter;
+use League\Flysystem\AwsS3V3\PortableVisibilityConverter;
+use League\Flysystem\Visibility;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -35,7 +37,7 @@ class AwsAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
         ];
     }
 
-    protected function configureOptions(OptionsResolver $resolver)
+    protected function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setRequired('client');
         $resolver->setAllowedTypes('client', 'string');
@@ -53,13 +55,17 @@ class AwsAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
         $resolver->setAllowedTypes('streamReads', 'bool');
     }
 
-    protected function configureDefinition(Definition $definition, array $options)
+    protected function configureDefinition(Definition $definition, array $options, ?string $defaultVisibilityForDirectories): void
     {
         $definition->setClass(AwsS3V3Adapter::class);
         $definition->setArgument(0, new Reference($options['client']));
         $definition->setArgument(1, $options['bucket']);
         $definition->setArgument(2, $options['prefix']);
-        $definition->setArgument(3, null);
+        $definition->setArgument(3,
+            (new Definition(PortableVisibilityConverter::class))
+                ->setArgument(0, $defaultVisibilityForDirectories ?? Visibility::PUBLIC)
+                ->setShared(false)
+        );
         $definition->setArgument(4, null);
         $definition->setArgument(5, $options['options']);
         $definition->setArgument(6, $options['streamReads']);
