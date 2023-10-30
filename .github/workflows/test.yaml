@@ -22,121 +22,45 @@ jobs:
                   wget https://github.com/FriendsOfPHP/PHP-CS-Fixer/releases/download/v3.13.2/php-cs-fixer.phar -q
                   php php-cs-fixer.phar fix --dry-run --diff
 
-    tests-php-8-0-symfony-5-4:
+    phpunit:
+        name: PHPUnit (PHP ${{ matrix.php-version }} - Symfony ${{ matrix.symfony-version }})
         runs-on: ubuntu-latest
         env:
-            SYMFONY_VERSION: 5.4.*
-        steps:
-            - uses: actions/checkout@v3
-            - uses: shivammathur/setup-php@v2
-              with:
-                  php-version: '8.0'
-                  coverage: none
-            - name: PHPUnit
-              run: |
-                  composer require --no-update symfony/config=$SYMFONY_VERSION symfony/http-kernel=$SYMFONY_VERSION symfony/dependency-injection=$SYMFONY_VERSION symfony/options-resolver=$SYMFONY_VERSION
-                  composer require --no-update --dev symfony/framework-bundle=$SYMFONY_VERSION symfony/yaml=$SYMFONY_VERSION
-                  composer update --prefer-dist --no-interaction --no-ansi --no-progress
-                  php vendor/bin/simple-phpunit
+            SYMFONY_REQUIRE: ${{ matrix.symfony-version }}
 
-    tests-php-8-0-symfony-6-0:
-        runs-on: ubuntu-latest
-        env:
-            SYMFONY_VERSION: 6.0.*
-        steps:
-            - uses: actions/checkout@v3
-            - uses: shivammathur/setup-php@v2
-              with:
-                  php-version: '8.0'
-                  coverage: none
-            - name: PHPUnit
-              run: |
-                  composer require --no-update symfony/config=$SYMFONY_VERSION symfony/http-kernel=$SYMFONY_VERSION symfony/dependency-injection=$SYMFONY_VERSION symfony/options-resolver=$SYMFONY_VERSION
-                  composer require --no-update --dev symfony/framework-bundle=$SYMFONY_VERSION symfony/yaml=$SYMFONY_VERSION
-                  composer update --prefer-dist --no-interaction --no-ansi --no-progress
-                  php vendor/bin/simple-phpunit
+        strategy:
+            matrix:
+                php-version:
+                    - '8.1'
+                    - '8.2'
+                symfony-version:
+                    - '5.4.*'
+                    - '6.3.*'
+                include:
+                    - php-version: '8.0'
+                      symfony-version: '5.4.*'
+                    - php-version: '8.2'
+                      symfony-version: '6.4.*'
+                    - php-version: '8.2'
+                      symfony-version: '7.0.*'
 
-    tests-php-8-1-symfony-6-1:
-        runs-on: ubuntu-latest
-        env:
-            SYMFONY_VERSION: 6.1.*
         steps:
-            - uses: actions/checkout@v3
-            - uses: shivammathur/setup-php@v2
-              with:
-                  php-version: '8.1'
-                  coverage: none
-            - name: PHPUnit
-              run: |
-                  composer require --no-update symfony/config=$SYMFONY_VERSION symfony/http-kernel=$SYMFONY_VERSION symfony/dependency-injection=$SYMFONY_VERSION symfony/options-resolver=$SYMFONY_VERSION
-                  composer require --no-update --dev symfony/framework-bundle=$SYMFONY_VERSION symfony/yaml=$SYMFONY_VERSION
-                  composer update --prefer-dist --no-interaction --no-ansi --no-progress
-                  php vendor/bin/simple-phpunit
+            - name: Checkout code
+              uses: actions/checkout@v4
 
-    tests-php-8-1-symfony-6-2:
-        runs-on: ubuntu-latest
-        env:
-            SYMFONY_VERSION: 6.2.*
-        steps:
-            - uses: actions/checkout@v3
-            - uses: shivammathur/setup-php@v2
+            - name: Install PHP with pcov
+              uses: shivammathur/setup-php@v2
               with:
-                  php-version: '8.1'
-                  coverage: none
-            - name: PHPUnit
-              run: |
-                  composer require --no-update symfony/config=$SYMFONY_VERSION symfony/http-kernel=$SYMFONY_VERSION symfony/dependency-injection=$SYMFONY_VERSION symfony/options-resolver=$SYMFONY_VERSION
-                  composer require --no-update --dev symfony/framework-bundle=$SYMFONY_VERSION symfony/yaml=$SYMFONY_VERSION
-                  composer update --prefer-dist --no-interaction --no-ansi --no-progress
-                  php vendor/bin/simple-phpunit
+                coverage: none
+                php-version: ${{ matrix.php-version }}
 
-    tests-php-8-2-symfony-6-1:
-        runs-on: ubuntu-latest
-        env:
-            SYMFONY_VERSION: 6.1.*
-        steps:
-            - uses: actions/checkout@v3
-            - uses: shivammathur/setup-php@v2
-              with:
-                  php-version: '8.2'
-                  coverage: none
-            - name: PHPUnit
+            - name: Install Symfony Flex
               run: |
-                  composer require --no-update symfony/config=$SYMFONY_VERSION symfony/http-kernel=$SYMFONY_VERSION symfony/dependency-injection=$SYMFONY_VERSION symfony/options-resolver=$SYMFONY_VERSION
-                  composer require --no-update --dev symfony/framework-bundle=$SYMFONY_VERSION symfony/yaml=$SYMFONY_VERSION
-                  composer update --prefer-dist --no-interaction --no-ansi --no-progress
-                  php vendor/bin/simple-phpunit
+                  composer config --global --no-plugins allow-plugins.symfony/flex true
+                  composer global require --no-progress --no-scripts --no-plugins symfony/flex
 
-    tests-php-8-2-symfony-6-2:
-        runs-on: ubuntu-latest
-        env:
-            SYMFONY_VERSION: 6.2.*
-        steps:
-            - uses: actions/checkout@v3
-            - uses: shivammathur/setup-php@v2
-              with:
-                  php-version: '8.2'
-                  coverage: none
-            - name: PHPUnit
-              run: |
-                  composer require --no-update symfony/config=$SYMFONY_VERSION symfony/http-kernel=$SYMFONY_VERSION symfony/dependency-injection=$SYMFONY_VERSION symfony/options-resolver=$SYMFONY_VERSION
-                  composer require --no-update --dev symfony/framework-bundle=$SYMFONY_VERSION symfony/yaml=$SYMFONY_VERSION
-                  composer update --prefer-dist --no-interaction --no-ansi --no-progress
-                  php vendor/bin/simple-phpunit
+            - name: Install Composer dependencies
+              uses: ramsey/composer-install@v2
 
-    tests-php-8-2-symfony-6-3:
-        runs-on: ubuntu-latest
-        env:
-            SYMFONY_VERSION: 6.3.*
-        steps:
-            - uses: actions/checkout@v3
-            - uses: shivammathur/setup-php@v2
-              with:
-                  php-version: '8.2'
-                  coverage: none
-            - name: PHPUnit
-              run: |
-                  composer require --no-update symfony/config=$SYMFONY_VERSION symfony/http-kernel=$SYMFONY_VERSION symfony/dependency-injection=$SYMFONY_VERSION symfony/options-resolver=$SYMFONY_VERSION
-                  composer require --no-update --dev symfony/framework-bundle=$SYMFONY_VERSION symfony/yaml=$SYMFONY_VERSION
-                  composer update --prefer-dist --no-interaction --no-ansi --no-progress
-                  php vendor/bin/simple-phpunit
+            - name: Run PHPUnit
+              run: vendor/bin/simple-phpunit
