@@ -40,7 +40,7 @@ class AdapterDefinitionFactory
         ];
     }
 
-    public function createDefinition(string $name, array $options, ?string $defaultVisibilityForDirectories): ?Definition
+    public function createDefinition(string $name, array $options, ?string $defaultVisibilityForDirectories = null): ?Definition
     {
         foreach ($this->builders as $builder) {
             if ($builder->getName() === $name) {
