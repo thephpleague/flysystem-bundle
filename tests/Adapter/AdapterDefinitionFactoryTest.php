@@ -34,7 +34,7 @@ class AdapterDefinitionFactoryTest extends TestCase
     {
         $factory = new AdapterDefinitionFactory();
 
-        $definition = $factory->createDefinition($name, $options, null);
+        $definition = $factory->createDefinition($name, $options);
         $this->assertInstanceOf(Definition::class, $definition);
     }
 }
