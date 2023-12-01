@@ -49,6 +49,7 @@ class Configuration implements ConfigurationInterface
                                 ->defaultValue([])
                                 ->scalarPrototype()->end()
                             ->end()
+                            ->scalarNode('path_normalizer')->defaultNull()->end()
                             ->scalarNode('public_url_generator')->defaultNull()->end()
                             ->scalarNode('temporary_url_generator')->defaultNull()->end()
                             ->booleanNode('read_only')->defaultFalse()->end()
