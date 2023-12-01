@@ -130,7 +130,7 @@ class FlysystemExtension extends Extension
             'disable_asserts' => $config['disable_asserts'],
             'public_url' => $publicUrl,
         ]);
-        $definition->setArgument(2, null);
+        $definition->setArgument(2, $config['path_normalizer'] ? new Reference($config['path_normalizer']) : null);
         $definition->setArgument(3, $config['public_url_generator'] ? new Reference($config['public_url_generator']) : null);
         $definition->setArgument(4, $config['temporary_url_generator'] ? new Reference($config['temporary_url_generator']) : null);
         $definition->addTag('flysystem.storage', ['storage' => $storageName]);
