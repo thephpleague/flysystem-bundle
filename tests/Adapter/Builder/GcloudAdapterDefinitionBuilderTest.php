@@ -66,7 +66,7 @@ class GcloudAdapterDefinitionBuilderTest extends TestCase
             'client' => 'my_client',
             'bucket' => 'bucket_name',
             'prefix' => 'prefix/path',
-            'visibility_handler' => UniformBucketLevelAccessVisibility::class
+            'visibility_handler' => UniformBucketLevelAccessVisibility::class,
         ], null);
 
         $this->assertSame(GoogleCloudStorageAdapter::class, $definition->getClass());
