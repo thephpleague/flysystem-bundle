@@ -12,6 +12,8 @@
 namespace Tests\League\FlysystemBundle\Adapter\Builder;
 
 use League\Flysystem\GoogleCloudStorage\GoogleCloudStorageAdapter;
+use League\Flysystem\GoogleCloudStorage\PortableVisibilityHandler;
+use League\Flysystem\GoogleCloudStorage\UniformBucketLevelAccessVisibility;
 use League\FlysystemBundle\Adapter\Builder\GcloudAdapterDefinitionBuilder;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Definition;
@@ -36,6 +38,18 @@ class GcloudAdapterDefinitionBuilderTest extends TestCase
             'bucket' => 'bucket',
             'prefix' => 'prefix/path',
         ]];
+
+        yield 'portable visibility handler' => [[
+            'client' => 'my_client',
+            'bucket' => 'bucket',
+            'visibility_handler' => PortableVisibilityHandler::class,
+        ]];
+
+        yield 'uniform visibility handler' => [[
+            'client' => 'my_client',
+            'bucket' => 'bucket',
+            'visibility_handler' => UniformBucketLevelAccessVisibility::class,
+        ]];
     }
 
     /**
@@ -52,6 +66,7 @@ class GcloudAdapterDefinitionBuilderTest extends TestCase
             'client' => 'my_client',
             'bucket' => 'bucket_name',
             'prefix' => 'prefix/path',
+            'visibility_handler' => UniformBucketLevelAccessVisibility::class
         ], null);
 
         $this->assertSame(GoogleCloudStorageAdapter::class, $definition->getClass());
@@ -65,5 +80,9 @@ class GcloudAdapterDefinitionBuilderTest extends TestCase
         $this->assertSame('bucket', $bucketDefinition->getFactory()[1]);
 
         $this->assertSame('prefix/path', $definition->getArgument(1));
+
+        /** @var Reference $visibilityHandlerReference */
+        $visibilityHandlerReference = $definition->getArgument(2);
+        $this->assertInstanceOf(Reference::class, $visibilityHandlerReference);
     }
 }

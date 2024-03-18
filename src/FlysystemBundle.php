@@ -11,6 +11,7 @@
 
 namespace League\FlysystemBundle;
 
+use League\FlysystemBundle\DependencyInjection\Compiler\GcloudFactoryPass;
 use League\FlysystemBundle\DependencyInjection\Compiler\LazyFactoryPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
@@ -30,5 +31,6 @@ class FlysystemBundle extends Bundle
         parent::build($container);
 
         $container->addCompilerPass(new LazyFactoryPass());
+        $container->addCompilerPass(new GcloudFactoryPass());
     }
 }

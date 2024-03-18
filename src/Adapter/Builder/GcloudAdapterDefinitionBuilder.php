@@ -45,6 +45,9 @@ class GcloudAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
 
         $resolver->setDefault('prefix', '');
         $resolver->setAllowedTypes('prefix', 'string');
+
+        $resolver->setDefault('visibility_handler', null);
+        $resolver->setAllowedTypes('visibility_handler', ['string', 'null']);
     }
 
     protected function configureDefinition(Definition $definition, array $options, ?string $defaultVisibilityForDirectories): void
@@ -53,8 +56,14 @@ class GcloudAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
         $bucketDefinition->setFactory([new Reference($options['client']), 'bucket']);
         $bucketDefinition->setArgument(0, $options['bucket']);
 
+        $visibilityHandlerReference = null;
+        if ($options['visibility_handler'] !== null) {
+            $visibilityHandlerReference = new Reference($options['visibility_handler']);
+        }
+
         $definition->setClass(GoogleCloudStorageAdapter::class);
         $definition->setArgument(0, $bucketDefinition);
         $definition->setArgument(1, $options['prefix']);
+        $definition->setArgument(2, $visibilityHandlerReference);
     }
 }
