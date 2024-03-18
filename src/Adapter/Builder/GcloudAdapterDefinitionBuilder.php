@@ -57,7 +57,7 @@ class GcloudAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
         $bucketDefinition->setArgument(0, $options['bucket']);
 
         $visibilityHandlerReference = null;
-        if ($options['visibility_handler'] !== null) {
+        if (null !== $options['visibility_handler']) {
             $visibilityHandlerReference = new Reference($options['visibility_handler']);
         }
 
