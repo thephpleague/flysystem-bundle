@@ -34,6 +34,7 @@ class AdapterDefinitionFactory
             new Builder\AzureAdapterDefinitionBuilder(),
             new Builder\FtpAdapterDefinitionBuilder(),
             new Builder\GcloudAdapterDefinitionBuilder(),
+            new Builder\GridFSAdapterDefinitionBuilder(),
             new Builder\LocalAdapterDefinitionBuilder(),
             new Builder\MemoryAdapterDefinitionBuilder(),
             new Builder\SftpAdapterDefinitionBuilder(),
