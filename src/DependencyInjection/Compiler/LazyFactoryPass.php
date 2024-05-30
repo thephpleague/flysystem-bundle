@@ -21,7 +21,7 @@ use Symfony\Component\DependencyInjection\Reference;
  *
  * @internal
  */
-class LazyFactoryPass implements CompilerPassInterface
+final class LazyFactoryPass implements CompilerPassInterface
 {
     /**
      * {@inheritdoc}

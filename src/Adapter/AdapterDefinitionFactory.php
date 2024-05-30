@@ -19,7 +19,7 @@ use Symfony\Component\DependencyInjection\Definition;
  *
  * @internal
  */
-class AdapterDefinitionFactory
+final class AdapterDefinitionFactory
 {
     /**
      * @var AdapterDefinitionBuilderInterface[]

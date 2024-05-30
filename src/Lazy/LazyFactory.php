@@ -18,7 +18,7 @@ use Psr\Container\ContainerInterface;
  *
  * @internal
  */
-class LazyFactory
+final class LazyFactory
 {
     private ContainerInterface $storages;
 

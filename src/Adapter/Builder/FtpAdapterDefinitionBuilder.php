@@ -23,7 +23,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  *
  * @internal
  */
-class FtpAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
+final class FtpAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
 {
     public function getName(): string
     {

@@ -21,7 +21,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  *
  * @internal
  */
-class AzureAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
+final class AzureAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
 {
     public function getName(): string
     {

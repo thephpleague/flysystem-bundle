@@ -24,7 +24,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  *
  * @internal
  */
-class AsyncAwsAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
+final class AsyncAwsAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
 {
     public function getName(): string
     {

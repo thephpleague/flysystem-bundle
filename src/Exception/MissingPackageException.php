@@ -13,10 +13,8 @@ namespace League\FlysystemBundle\Exception;
 
 /**
  * @author Titouan Galopin <galopintitouan@gmail.com>
- *
- * @final
  */
-class MissingPackageException extends \RuntimeException
+final class MissingPackageException extends \RuntimeException
 {
     public function __construct($message = '', \Throwable $previous = null)
     {

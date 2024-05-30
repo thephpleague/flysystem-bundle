@@ -18,10 +18,8 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
  * @author Titouan Galopin <galopintitouan@gmail.com>
- *
- * @final
  */
-class FlysystemBundle extends Bundle
+final class FlysystemBundle extends Bundle
 {
     /**
      * {@inheritdoc}

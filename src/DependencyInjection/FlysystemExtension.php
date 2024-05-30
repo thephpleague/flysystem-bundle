@@ -27,10 +27,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * @author Titouan Galopin <galopintitouan@gmail.com>
- *
- * @final
  */
-class FlysystemExtension extends Extension
+final class FlysystemExtension extends Extension
 {
     public function load(array $configs, ContainerBuilder $container): void
     {

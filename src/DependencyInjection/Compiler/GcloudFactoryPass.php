@@ -11,7 +11,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 /**
  * @internal
  */
-class GcloudFactoryPass implements CompilerPassInterface
+final class GcloudFactoryPass implements CompilerPassInterface
 {
     /**
      * {@inheritdoc}
