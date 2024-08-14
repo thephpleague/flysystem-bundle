@@ -70,12 +70,12 @@ abstract class AbstractAdapterDefinitionBuilder implements AdapterDefinitionBuil
             ->setFactory([PortableVisibilityConverter::class, 'fromArray'])
             ->addArgument([
                 'file' => [
-                    'public' => (int) $permissions['file']['public'],
-                    'private' => (int) $permissions['file']['private'],
+                    'public' => intval($permissions['file']['public'],8),
+                    'private' => intval($permissions['file']['private'],8),
                 ],
                 'dir' => [
-                    'public' => (int) $permissions['dir']['public'],
-                    'private' => (int) $permissions['dir']['private'],
+                    'public' => intval($permissions['dir']['public'], 8),
+                    'private' => intval($permissions['dir']['private'], 8),
                 ],
             ])
             ->addArgument($defaultVisibilityForDirectories)
