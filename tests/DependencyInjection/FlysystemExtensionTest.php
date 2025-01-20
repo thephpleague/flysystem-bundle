@@ -47,7 +47,7 @@ class FlysystemExtensionTest extends TestCase
      */
     public function testFilesystems(string $fsName)
     {
-        $kernel = $this->createFysystemKernel();
+        $kernel = $this->createFlysystemKernel();
         $container = $kernel->getContainer()->get('test.service_container');
 
         $fs = $container->get('flysystem.test.'.$fsName);
@@ -60,7 +60,7 @@ class FlysystemExtensionTest extends TestCase
      */
     public function testTaggedCollection(string $fsName)
     {
-        $kernel = $this->createFysystemKernel();
+        $kernel = $this->createFlysystemKernel();
         $container = $kernel->getContainer()->get('test.service_container');
 
         if (!$container->has('storages_tagged_collection')) {
@@ -74,7 +74,7 @@ class FlysystemExtensionTest extends TestCase
 
     public function testPublicUrl()
     {
-        $kernel = $this->createFysystemKernel();
+        $kernel = $this->createFlysystemKernel();
         $container = $kernel->getContainer()->get('test.service_container');
 
         $fs = $container->get('flysystem.test.fs_public_url');
@@ -84,7 +84,7 @@ class FlysystemExtensionTest extends TestCase
 
     public function testPublicUrls()
     {
-        $kernel = $this->createFysystemKernel();
+        $kernel = $this->createFlysystemKernel();
         $container = $kernel->getContainer()->get('test.service_container');
 
         $fs = $container->get('flysystem.test.fs_public_urls');
@@ -96,7 +96,7 @@ class FlysystemExtensionTest extends TestCase
 
     public function testUrlGenerators()
     {
-        $kernel = $this->createFysystemKernel();
+        $kernel = $this->createFlysystemKernel();
         $container = $kernel->getContainer()->get('test.service_container');
 
         $fs = $container->get('flysystem.test.fs_url_generator');
@@ -107,7 +107,7 @@ class FlysystemExtensionTest extends TestCase
 
     public function testReadOnly()
     {
-        $kernel = $this->createFysystemKernel();
+        $kernel = $this->createFlysystemKernel();
         $container = $kernel->getContainer()->get('test.service_container');
 
         $fs = $container->get('flysystem.test.fs_read_only');
@@ -118,7 +118,7 @@ class FlysystemExtensionTest extends TestCase
         $fs->write('/path/to/file', 'Unable to write in read only');
     }
 
-    private function createFysystemKernel(): FlysystemAppKernel
+    private function createFlysystemKernel(): FlysystemAppKernel
     {
         (new Dotenv())->populate([
             'AWS_BUCKET' => 'bucket-name',
