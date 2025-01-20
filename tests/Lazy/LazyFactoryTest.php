@@ -11,6 +11,7 @@
 
 namespace Tests\League\FlysystemBundle\Lazy;
 
+use League\Flysystem\Filesystem;
 use League\Flysystem\InMemory\InMemoryFilesystemAdapter;
 use League\FlysystemBundle\Lazy\LazyFactory;
 use PHPUnit\Framework\TestCase;
@@ -40,8 +41,8 @@ class LazyFactoryTest extends TestCase
 
     public function testItReturnsTheRequestedStorageService(): void
     {
-        $actual = new InMemoryFilesystemAdapter();
-        $lazy = new InMemoryFilesystemAdapter();
+        $actual = new Filesystem(new InMemoryFilesystemAdapter());
+        $lazy = new Filesystem(new InMemoryFilesystemAdapter());
 
         $containerBuilder = new ContainerBuilder();
         $containerBuilder->set('source_storage', $actual);
