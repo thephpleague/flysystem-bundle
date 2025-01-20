@@ -27,7 +27,7 @@ class FlysystemBundleTest extends TestCase
     /**
      * @dataProvider provideKernels
      */
-    public function testBootKernel(Kernel $kernel)
+    public function testBootKernel(Kernel $kernel): void
     {
         $kernel->boot();
         $this->assertArrayHasKey('FlysystemBundle', $kernel->getBundles());

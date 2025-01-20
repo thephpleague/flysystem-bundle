@@ -11,6 +11,7 @@
 
 namespace League\FlysystemBundle\Lazy;
 
+use League\Flysystem\FilesystemOperator;
 use Psr\Container\ContainerInterface;
 
 /**
@@ -27,7 +28,7 @@ final class LazyFactory
         $this->storages = $storages;
     }
 
-    public function createStorage(string $source, string $storageName)
+    public function createStorage(string $source, string $storageName): FilesystemOperator
     {
         if ($source === $storageName) {
             throw new \InvalidArgumentException('The "lazy" adapter source is referring to itself as "'.$source.'", which would lead to infinite recursion.');

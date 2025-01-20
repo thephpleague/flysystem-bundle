@@ -24,7 +24,7 @@ use Tests\League\FlysystemBundle\Kernel\FlysystemAppKernel;
 
 class FlysystemExtensionTest extends TestCase
 {
-    public function provideFilesystems()
+    public function provideFilesystems(): \Generator
     {
         $fsNames = [
             'fs_aws',
@@ -45,7 +45,7 @@ class FlysystemExtensionTest extends TestCase
     /**
      * @dataProvider provideFilesystems
      */
-    public function testFilesystems(string $fsName)
+    public function testFilesystems(string $fsName): void
     {
         $kernel = $this->createFysystemKernel();
         $container = $kernel->getContainer()->get('test.service_container');
@@ -58,7 +58,7 @@ class FlysystemExtensionTest extends TestCase
     /**
      * @dataProvider provideFilesystems
      */
-    public function testTaggedCollection(string $fsName)
+    public function testTaggedCollection(string $fsName): void
     {
         $kernel = $this->createFysystemKernel();
         $container = $kernel->getContainer()->get('test.service_container');
@@ -72,7 +72,7 @@ class FlysystemExtensionTest extends TestCase
         $this->assertInstanceOf(FilesystemOperator::class, $storages[$fsName]);
     }
 
-    public function testPublicUrl()
+    public function testPublicUrl(): void
     {
         $kernel = $this->createFysystemKernel();
         $container = $kernel->getContainer()->get('test.service_container');
@@ -82,7 +82,7 @@ class FlysystemExtensionTest extends TestCase
         self::assertSame('https://example.org/assets/test1.txt', $fs->publicUrl('test1.txt'));
     }
 
-    public function testPublicUrls()
+    public function testPublicUrls(): void
     {
         $kernel = $this->createFysystemKernel();
         $container = $kernel->getContainer()->get('test.service_container');
@@ -94,7 +94,7 @@ class FlysystemExtensionTest extends TestCase
         self::assertSame('https://cdn3.example.org/yww/test1.txt', $fs->publicUrl('yww/test1.txt'));
     }
 
-    public function testUrlGenerators()
+    public function testUrlGenerators(): void
     {
         $kernel = $this->createFysystemKernel();
         $container = $kernel->getContainer()->get('test.service_container');
@@ -105,7 +105,7 @@ class FlysystemExtensionTest extends TestCase
         self::assertSame('https://example.org/temporary/test1.txt?expiresAt=1670846026', $fs->temporaryUrl('test1.txt', new \DateTimeImmutable('@1670846026')));
     }
 
-    public function testReadOnly()
+    public function testReadOnly(): void
     {
         $kernel = $this->createFysystemKernel();
         $container = $kernel->getContainer()->get('test.service_container');

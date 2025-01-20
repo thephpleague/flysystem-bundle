@@ -49,12 +49,12 @@ class AwsAdapterDefinitionBuilderTest extends TestCase
     /**
      * @dataProvider provideValidOptions
      */
-    public function testCreateDefinition($options)
+    public function testCreateDefinition($options): void
     {
         $this->assertSame(AwsS3V3Adapter::class, $this->createBuilder()->createDefinition($options, null)->getClass());
     }
 
-    public function testOptionsBehavior()
+    public function testOptionsBehavior(): void
     {
         $definition = $this->createBuilder()->createDefinition([
             'client' => 'my_client',

@@ -41,7 +41,7 @@ class AsyncAwsAdapterDefinitionBuilderTest extends TestCase
     /**
      * @dataProvider provideValidOptions
      */
-    public function testCreateDefinition($options)
+    public function testCreateDefinition($options): void
     {
         $definition = $this->createBuilder()->createDefinition($options, Visibility::PRIVATE);
         $this->assertSame(AsyncAwsS3Adapter::class, $definition->getClass());

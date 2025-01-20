@@ -30,7 +30,7 @@ class AdapterDefinitionFactoryTest extends TestCase
     /**
      * @dataProvider provideConfigOptions
      */
-    public function testCreateDefinition($name, $options)
+    public function testCreateDefinition($name, $options): void
     {
         $factory = new AdapterDefinitionFactory();
 

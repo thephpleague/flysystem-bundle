@@ -22,7 +22,7 @@ class MemoryAdapterDefinitionBuilderTest extends TestCase
         return new MemoryAdapterDefinitionBuilder();
     }
 
-    public function testOptionsBehavior()
+    public function testOptionsBehavior(): void
     {
         $this->assertSame(InMemoryFilesystemAdapter::class, $this->createBuilder()->createDefinition([], null)->getClass());
     }

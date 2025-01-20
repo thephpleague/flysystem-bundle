@@ -60,7 +60,7 @@ class GridFSAdapterDefinitionBuilderTest extends TestCase
     /**
      * @dataProvider provideValidOptions
      */
-    public function testCreateDefinition($options)
+    public function testCreateDefinition($options): void
     {
         $this->assertSame(GridFSAdapter::class, $this->createBuilder()->createDefinition($options, null)->getClass());
     }
@@ -86,7 +86,7 @@ class GridFSAdapterDefinitionBuilderTest extends TestCase
     /**
      * @dataProvider provideInvalidOptions
      */
-    public function testInvalidOptions(array $options, string $message)
+    public function testInvalidOptions(array $options, string $message): void
     {
         $builder = $this->createBuilder();
 
@@ -96,7 +96,7 @@ class GridFSAdapterDefinitionBuilderTest extends TestCase
         $builder->createDefinition($options, null);
     }
 
-    public function testInitializeBucketFromDocumentManager()
+    public function testInitializeBucketFromDocumentManager(): void
     {
         $client = new Client();
         $config = new Configuration();
@@ -112,7 +112,7 @@ class GridFSAdapterDefinitionBuilderTest extends TestCase
         $this->assertSame('avatars', $bucket->getBucketName());
     }
 
-    public function testInitializeBucketFromConfig()
+    public function testInitializeBucketFromConfig(): void
     {
         $bucket = GridFSAdapterDefinitionBuilder::initializeBucketFromConfig(
             'mongodb://server:27017/',
