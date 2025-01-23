@@ -38,6 +38,7 @@ final class AdapterDefinitionFactory
             new Builder\LocalAdapterDefinitionBuilder(),
             new Builder\MemoryAdapterDefinitionBuilder(),
             new Builder\SftpAdapterDefinitionBuilder(),
+            new Builder\WebDAVAdapterDefinitionBuilder(),
         ];
     }
 

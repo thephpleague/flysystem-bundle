@@ -45,6 +45,7 @@
         "league/flysystem-memory": "^3.1",
         "league/flysystem-read-only": "^3.15",
         "league/flysystem-sftp-v3": "^3.1",
+        "league/flysystem-webdav": "^3.29",
         "symfony/dotenv": "^5.4 || ^6.0 || ^7.0",
         "symfony/framework-bundle": "^5.4 || ^6.0 || ^7.0",
         "symfony/phpunit-bridge": "^5.4 || ^6.0 || ^7.0",

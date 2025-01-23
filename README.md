@@ -51,7 +51,7 @@ For each storage defined under `flysystem.storages`, an associated service is cr
 name you provide (in this case, a service `default.storage` will be created). The bundle also
 creates a named alias for each of these services.
 
-This means you have two way of using the defined storages:
+This means you have two ways of using the defined storages:
 
 * either using autowiring, by typehinting against the `FilesystemOperator` and using the
   variable name matching one of your storages:
@@ -111,6 +111,7 @@ to interact with your storage.
 4. [Using a lazy adapter to switch storage backend using an environment variable](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/4-using-lazy-adapter-to-switch-at-runtime.md)
 5. [Creating a custom adapter](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/5-creating-a-custom-adapter.md)
 6. [MongoDB GridFS](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/6-gridfs.md)
+7. [WebDAV](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/7-webdav.md)
 
 * [Security issue disclosure procedure](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/A-security-disclosure-procedure.md)
 * [Configuration reference](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/B-configuration-reference.md)
