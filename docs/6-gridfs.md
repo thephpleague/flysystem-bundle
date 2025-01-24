@@ -66,12 +66,11 @@ For a more advanced configuration, create a service for
 services:
     mongodb_client:
         class: 'MongoDB\Client'
-        arguments:
-          - '%env(MONGODB_URI)%'
+        arguments: ['%env(MONGODB_URI)%']
 
     mongodb_database:
         class: 'MongoDB\Database'
-        factory: ['mongodb_client', 'selectDatabase']
+        factory: ['@mongodb_client', 'selectDatabase']
         arguments: ['%env(MONGODB_DB)%']
 
     mongodb_gridfs_bucket:
