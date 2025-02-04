@@ -57,6 +57,8 @@ flysystem:
                 username: 'username'
                 password: 'password'
                 privateKey: 'path/to/or/contents/of/privatekey'
+                passphrase: 'privatekey_passphrase'
+                hostFingerprint: 'host_fingerprint'
                 root: '/path/to/root'
                 timeout: 10
                 directoryPerm: 0744
