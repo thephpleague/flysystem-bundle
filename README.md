@@ -112,6 +112,7 @@ to interact with your storage.
 5. [Creating a custom adapter](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/5-creating-a-custom-adapter.md)
 6. [MongoDB GridFS](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/6-gridfs.md)
 7. [WebDAV](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/7-webdav.md)
+8. [BunnyCDN](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/8-bunnycdn.md)
 
 * [Security issue disclosure procedure](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/A-security-disclosure-procedure.md)
 * [Configuration reference](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/B-configuration-reference.md)

@@ -39,6 +39,7 @@ final class AdapterDefinitionFactory
             new Builder\MemoryAdapterDefinitionBuilder(),
             new Builder\SftpAdapterDefinitionBuilder(),
             new Builder\WebDAVAdapterDefinitionBuilder(),
+            new Builder\BunnyCDNAdapterDefinitionBuilder(),
         ];
     }
 
