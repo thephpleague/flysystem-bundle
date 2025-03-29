@@ -32,6 +32,7 @@ final class AdapterDefinitionFactory
             new Builder\AsyncAwsAdapterDefinitionBuilder(),
             new Builder\AwsAdapterDefinitionBuilder(),
             new Builder\AzureAdapterDefinitionBuilder(),
+            new Builder\AzureOssAdapterDefinitionBuilder(),
             new Builder\FtpAdapterDefinitionBuilder(),
             new Builder\GcloudAdapterDefinitionBuilder(),
             new Builder\GridFSAdapterDefinitionBuilder(),

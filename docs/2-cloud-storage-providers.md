@@ -5,6 +5,7 @@ including many cloud storage providers. This bundle provides the same level of s
 cloud providers by providing corresponding adapters in the configuration.
 
 * [Azure](#azure)
+* [Azure OSS](#azure-oss)
 * [AsyncAws S3](#asyncaws-s3)
 * [AWS S3](#aws-sdk-s3)
 * [DigitalOcean Spaces](#digitalocean-spaces)
@@ -31,6 +32,36 @@ flysystem:
             adapter: 'azure'
             options:
                 client: 'azure_client_service' # The service ID of the MicrosoftAzure\Storage\Blob\BlobRestProxy instance
+                container: 'container_name'
+                prefix: 'optional/path/prefix'
+```
+
+## Azure OSS
+
+### Installation
+
+```
+composer require azure-oss/storage-blob-flysystem
+```
+
+### Usage
+
+```yaml
+# config/packages/flysystem.yaml
+
+services:
+    azure_blob_storage_client:
+        class: 'AzureOss\Storage\Blob\BlobServiceClient'
+        factory: ['AzureOss\Storage\Blob\BlobServiceClient', 'fromConnectionString']
+        arguments:
+            - '%env(AZURE_BLOB_STORAGE_CONNECTION_STRING)%'
+
+flysystem:
+    storages:
+        users.storage:
+            adapter: 'azureoss'
+            options:
+                client: 'azure_blob_storage_client'
                 container: 'container_name'
                 prefix: 'optional/path/prefix'
 ```
