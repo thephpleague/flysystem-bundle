@@ -63,6 +63,10 @@ jobs:
                   composer config --global --no-plugins allow-plugins.symfony/flex true
                   composer global require --no-progress --no-scripts --no-plugins symfony/flex
 
+            - name: Remove azure-oss/storage-blob-flysystem when not compatible
+              if: matrix.php-version == '8.0'
+              run: sed -i "/\bazure-oss\/storage-blob-flysystem\b/d" composer.json
+
             - name: Install Composer dependencies
               uses: ramsey/composer-install@v2
 
