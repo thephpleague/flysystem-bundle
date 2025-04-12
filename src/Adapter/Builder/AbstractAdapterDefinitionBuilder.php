@@ -16,8 +16,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * @author Titouan Galopin <galopintitouan@gmail.com>
- *
- * @internal
  */
 abstract class AbstractAdapterDefinitionBuilder implements AdapterDefinitionBuilderInterface
 {

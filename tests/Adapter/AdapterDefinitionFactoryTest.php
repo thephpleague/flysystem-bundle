@@ -117,7 +117,7 @@ class AdapterDefinitionFactoryTest extends TestCase
      */
     public static function testCreateDefinition($name, $options): void
     {
-        $factory = new AdapterDefinitionFactory();
+        $factory = new AdapterDefinitionFactory([]);
 
         $definition = $factory->createDefinition($name, $options);
         self::assertInstanceOf(Definition::class, $definition);
