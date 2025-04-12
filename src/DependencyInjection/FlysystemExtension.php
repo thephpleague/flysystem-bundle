@@ -17,6 +17,7 @@ use League\Flysystem\FilesystemReader;
 use League\Flysystem\FilesystemWriter;
 use League\Flysystem\ReadOnly\ReadOnlyFilesystemAdapter;
 use League\FlysystemBundle\Adapter\AdapterDefinitionFactory;
+use League\FlysystemBundle\Adapter\Builder\AdapterDefinitionBuilderInterface;
 use League\FlysystemBundle\Exception\MissingPackageException;
 use League\FlysystemBundle\Lazy\LazyFactory;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -30,6 +31,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 final class FlysystemExtension extends Extension
 {
+    /** @var list<AdapterDefinitionBuilderInterface> */
+    private array $adapterDefinitionBuilders = [];
+
     public function load(array $configs, ContainerBuilder $container): void
     {
         $configuration = new Configuration();
@@ -43,9 +47,14 @@ final class FlysystemExtension extends Extension
         $this->createStoragesDefinitions($config, $container);
     }
 
+    public function addAdapterDefinitionBuilder(AdapterDefinitionBuilderInterface $builder): void
+    {
+        $this->adapterDefinitionBuilders[] = $builder;
+    }
+
     private function createStoragesDefinitions(array $config, ContainerBuilder $container): void
     {
-        $definitionFactory = new AdapterDefinitionFactory();
+        $definitionFactory = new AdapterDefinitionFactory($this->adapterDefinitionBuilders);
 
         foreach ($config['storages'] as $storageName => $storageConfig) {
             // If the storage is a lazy one, it's resolved at runtime
