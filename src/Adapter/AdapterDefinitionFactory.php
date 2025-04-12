@@ -27,9 +27,12 @@ final class AdapterDefinitionFactory
      */
     private array $builders;
 
-    public function __construct()
+    /**
+     * @param list<AdapterDefinitionBuilderInterface> $builders
+     */
+    public function __construct(array $builders)
     {
-        $this->builders = [
+        $this->builders = array_merge([
             new Builder\AsyncAwsAdapterDefinitionBuilder(),
             new Builder\AwsAdapterDefinitionBuilder(),
             new Builder\AzureAdapterDefinitionBuilder(),
@@ -41,7 +44,7 @@ final class AdapterDefinitionFactory
             new Builder\SftpAdapterDefinitionBuilder(),
             new Builder\WebDAVAdapterDefinitionBuilder(),
             new Builder\BunnyCDNAdapterDefinitionBuilder(),
-        ];
+        ], $builders);
     }
 
     public function createDefinition(string $name, array $options, ?string $defaultVisibilityForDirectories = null): ?Definition
