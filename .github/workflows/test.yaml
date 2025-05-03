@@ -57,6 +57,7 @@ jobs:
               with:
                 coverage: none
                 php-version: ${{ matrix.php-version }}
+                extensions: mongodb-1.21.0
 
             - name: Install Symfony Flex
               run: |
