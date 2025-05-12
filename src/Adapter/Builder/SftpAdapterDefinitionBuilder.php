@@ -91,6 +91,9 @@ final class SftpAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilde
         $resolver->setDefault('connectivityChecker', null);
         $resolver->setAllowedTypes('connectivityChecker', ['string', 'null']);
 
+        $resolver->setDefault('preferredAlgorithms', []);
+        $resolver->setAllowedTypes('preferredAlgorithms', 'array');
+
         $this->configureUnixOptions($resolver);
     }
 

@@ -67,3 +67,5 @@ fs_sftp:
         privateKey: 'path/to/or/contents/of/privatekey'
         root: '/path/to/root'
         timeout: 10
+        preferredAlgorithms:
+            hostkey: ['rsa-sha2-256', 'ssh-rsa']

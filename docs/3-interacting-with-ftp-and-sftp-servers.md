@@ -59,6 +59,8 @@ flysystem:
                 privateKey: 'path/to/or/contents/of/privatekey'
                 passphrase: 'privatekey_passphrase'
                 hostFingerprint: 'host_fingerprint'
+                preferredAlgorithms:
+                    hostkey: ['rsa-sha2-256', 'ssh-rsa']
                 root: '/path/to/root'
                 timeout: 10
                 directoryPerm: 0744

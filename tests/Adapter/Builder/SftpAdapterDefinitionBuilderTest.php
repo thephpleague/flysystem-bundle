@@ -40,6 +40,9 @@ class SftpAdapterDefinitionBuilderTest extends TestCase
             'passphrase' => null,
             'hostFingerprint' => null,
             'timeout' => 30,
+            'preferredAlgorithms' => [
+                'hostkey' => ['rsa-sha2-256', 'ssh-rsa'],
+            ],
         ]];
     }
 
@@ -80,6 +83,7 @@ class SftpAdapterDefinitionBuilderTest extends TestCase
             'permPrivate' => 0700,
             'permPublic' => 0744,
             'connectivityChecker' => null,
+            'preferredAlgorithms' => [],
             'permissions' => [
                 'file' => [
                     'public' => 0644,
