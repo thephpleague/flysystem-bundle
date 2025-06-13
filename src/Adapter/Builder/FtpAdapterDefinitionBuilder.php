@@ -25,6 +25,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 final class FtpAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
 {
+    use UnixPermissionTrait;
+
     public function getName(): string
     {
         return 'ftp';
