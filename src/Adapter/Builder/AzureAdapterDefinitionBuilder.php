@@ -28,7 +28,7 @@ final class AzureAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuild
         return 'azure';
     }
 
-    protected function getRequiredPackages(): array
+    public function getRequiredPackages(): array
     {
         return [
             AzureBlobStorageAdapter::class => 'league/flysystem-azure-blob-storage',

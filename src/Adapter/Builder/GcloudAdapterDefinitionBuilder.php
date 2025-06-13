@@ -29,7 +29,7 @@ final class GcloudAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuil
         return 'gcloud';
     }
 
-    protected function getRequiredPackages(): array
+    public function getRequiredPackages(): array
     {
         return [
             GoogleCloudStorageAdapter::class => 'league/flysystem-google-cloud-storage',

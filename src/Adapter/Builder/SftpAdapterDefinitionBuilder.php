@@ -34,7 +34,7 @@ final class SftpAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilde
         return 'sftp';
     }
 
-    protected function getRequiredPackages(): array
+    public function getRequiredPackages(): array
     {
         $adapterFqcn = SftpAdapter::class;
         $packageRequire = 'league/flysystem-sftp-v3';

@@ -31,7 +31,7 @@ final class AsyncAwsAdapterDefinitionBuilder extends AbstractAdapterDefinitionBu
         return 'asyncaws';
     }
 
-    protected function getRequiredPackages(): array
+    public function getRequiredPackages(): array
     {
         return [
             AsyncAwsS3Adapter::class => 'league/flysystem-async-aws-s3',
