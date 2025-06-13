@@ -22,6 +22,8 @@ interface AdapterDefinitionBuilderInterface
 {
     public function getName(): string;
 
+    public function getRequiredPackages(): array;
+
     /**
      * Create the definition for this builder's adapter given an array of options.
      */

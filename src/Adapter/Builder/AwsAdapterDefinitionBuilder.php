@@ -30,7 +30,7 @@ final class AwsAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
         return 'aws';
     }
 
-    protected function getRequiredPackages(): array
+    public function getRequiredPackages(): array
     {
         return [
             AwsS3V3Adapter::class => 'league/flysystem-aws-s3-v3',

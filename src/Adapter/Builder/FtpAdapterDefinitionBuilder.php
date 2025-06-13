@@ -32,7 +32,7 @@ final class FtpAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
         return 'ftp';
     }
 
-    protected function getRequiredPackages(): array
+    public function getRequiredPackages(): array
     {
         return [
             FtpAdapter::class => 'league/flysystem-ftp',

@@ -23,8 +23,6 @@ abstract class AbstractAdapterDefinitionBuilder implements AdapterDefinitionBuil
 {
     final public function createDefinition(array $options, ?string $defaultVisibilityForDirectories): Definition
     {
-        $this->ensureRequiredPackagesAvailable();
-
         $resolver = new OptionsResolver();
         $this->configureOptions($resolver);
 
@@ -35,7 +33,7 @@ abstract class AbstractAdapterDefinitionBuilder implements AdapterDefinitionBuil
         return $definition;
     }
 
-    abstract protected function getRequiredPackages(): array;
+    abstract public function getRequiredPackages(): array;
 
     abstract protected function configureOptions(OptionsResolver $resolver);
 

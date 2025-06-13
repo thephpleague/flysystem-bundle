@@ -32,7 +32,7 @@ final class GridFSAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuil
         return 'gridfs';
     }
 
-    protected function getRequiredPackages(): array
+    public function getRequiredPackages(): array
     {
         return [
             GridFSAdapter::class => 'league/flysystem-gridfs',

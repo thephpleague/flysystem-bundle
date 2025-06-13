@@ -26,7 +26,7 @@ final class BunnyCDNAdapterDefinitionBuilder extends AbstractAdapterDefinitionBu
         return 'bunnycdn';
     }
 
-    protected function getRequiredPackages(): array
+    public function getRequiredPackages(): array
     {
         return [
             BunnyCDNAdapter::class => 'platformcommunity/flysystem-bunnycdn',

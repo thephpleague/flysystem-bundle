@@ -30,7 +30,7 @@ final class LocalAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuild
         return 'local';
     }
 
-    protected function getRequiredPackages(): array
+    public function getRequiredPackages(): array
     {
         return [];
     }

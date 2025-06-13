@@ -12,6 +12,7 @@
 namespace League\FlysystemBundle\Adapter;
 
 use League\FlysystemBundle\Adapter\Builder\AdapterDefinitionBuilderInterface;
+use League\FlysystemBundle\Exception\MissingPackageException;
 use Symfony\Component\DependencyInjection\Definition;
 
 /**
@@ -46,11 +47,31 @@ final class AdapterDefinitionFactory
     public function createDefinition(string $name, array $options, ?string $defaultVisibilityForDirectories = null): ?Definition
     {
         foreach ($this->builders as $builder) {
-            if ($builder->getName() === $name) {
-                return $builder->createDefinition($options, $defaultVisibilityForDirectories);
+            if ($builder->getName() !== $name) {
+                continue;
             }
+
+            $this->ensureRequiredPackagesBuilderAvailable($builder);
+
+            return $builder->createDefinition($options, $defaultVisibilityForDirectories);
         }
 
         return null;
+    }
+
+    private function ensureRequiredPackagesBuilderAvailable(AdapterDefinitionBuilderInterface $builder): void
+    {
+        $missingPackages = [];
+        foreach ($builder->getRequiredPackages() as $requiredClass => $packageName) {
+            if (!class_exists($requiredClass)) {
+                $missingPackages[] = $packageName;
+            }
+        }
+
+        if (!$missingPackages) {
+            return;
+        }
+
+        throw new MissingPackageException(sprintf("Missing package%s, to use the \"%s\" adapter, run:\n\ncomposer require %s", \count($missingPackages) > 1 ? 's' : '', $this->getName(), implode(' ', $missingPackages)));
     }
 }

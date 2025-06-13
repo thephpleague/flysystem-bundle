@@ -27,7 +27,7 @@ final class MemoryAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuil
         return 'memory';
     }
 
-    protected function getRequiredPackages(): array
+    public function getRequiredPackages(): array
     {
         return [
             InMemoryFilesystemAdapter::class => 'league/flysystem-memory',

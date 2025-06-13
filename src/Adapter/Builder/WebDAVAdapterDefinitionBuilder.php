@@ -28,7 +28,7 @@ final class WebDAVAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuil
         return 'webdav';
     }
 
-    protected function getRequiredPackages(): array
+    public function getRequiredPackages(): array
     {
         return [
             WebDAVAdapter::class => 'league/flysystem-webdav',
