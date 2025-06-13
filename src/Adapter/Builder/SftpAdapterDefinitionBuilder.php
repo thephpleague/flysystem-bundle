@@ -27,6 +27,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 final class SftpAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
 {
+    use UnixPermissionTrait;
+
     public function getName(): string
     {
         return 'sftp';

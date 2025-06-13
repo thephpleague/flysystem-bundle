@@ -23,6 +23,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 final class LocalAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
 {
+    use UnixPermissionTrait;
+
     public function getName(): string
     {
         return 'local';
