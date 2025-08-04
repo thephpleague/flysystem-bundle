@@ -24,7 +24,7 @@ use Tests\League\FlysystemBundle\Kernel\FlysystemAppKernel;
 
 class FlysystemExtensionTest extends TestCase
 {
-    public function provideFilesystems(): \Generator
+    public static function provideFilesystems(): \Generator
     {
         $fsNames = [
             'fs_aws',

@@ -23,7 +23,7 @@ class SftpAdapterDefinitionBuilderTest extends TestCase
         return new SftpAdapterDefinitionBuilder();
     }
 
-    public function provideValidOptions(): \Generator
+    public static function provideValidOptions(): \Generator
     {
         yield 'minimal' => [[
             'host' => 'ftp.example.com',

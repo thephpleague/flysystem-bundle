@@ -18,7 +18,7 @@ use Symfony\Component\Yaml\Yaml;
 
 class AdapterDefinitionFactoryTest extends TestCase
 {
-    public function provideConfigOptions(): \Generator
+    public static function provideConfigOptions(): \Generator
     {
         $config = Yaml::parseFile(__DIR__.'/options.yaml');
 

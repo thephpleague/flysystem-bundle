@@ -23,7 +23,7 @@ class AzureAdapterDefinitionBuilderTest extends TestCase
         return new AzureAdapterDefinitionBuilder();
     }
 
-    public function provideValidOptions(): \Generator
+    public static function provideValidOptions(): \Generator
     {
         yield 'minimal' => [[
             'client' => 'my_client',
