@@ -13,9 +13,6 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
  */
 final class GcloudFactoryPass implements CompilerPassInterface
 {
-    /**
-     * {@inheritdoc}
-     */
     public function process(ContainerBuilder $container): void
     {
         if (!class_exists(GoogleCloudStorageAdapter::class)) {
