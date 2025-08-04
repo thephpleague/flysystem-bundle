@@ -31,22 +31,21 @@ jobs:
         strategy:
             matrix:
                 php-version:
-                    - '8.1'
-                    - '8.2'
-                    - '8.3'
+                    - '8.4'
                 symfony-version:
                     - '5.4.*'
-                    - '6.0.*'
-                    - '6.1.*'
-                    - '6.2.*'
-                    - '6.3.*'
+                    - '6.4.*'
+                    - '7.4.*'
+                    - '8.0.*'
                 include:
                     - php-version: '8.0'
                       symfony-version: '5.4.*'
                     - php-version: '8.2'
                       symfony-version: '6.4.*'
                     - php-version: '8.2'
-                      symfony-version: '7.0.*'
+                      symfony-version: '7.4.*'
+                    - php-version: '8.4'
+                      symfony-version: '8.0.*'
 
         steps:
             - name: Checkout code
@@ -66,6 +65,8 @@ jobs:
 
             - name: Install Composer dependencies
               uses: ramsey/composer-install@v2
+              with:
+                dependency-versions: highest
 
             - name: Run PHPUnit
               run: vendor/bin/simple-phpunit
