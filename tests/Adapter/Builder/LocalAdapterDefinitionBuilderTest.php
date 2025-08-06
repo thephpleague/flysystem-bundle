@@ -23,7 +23,7 @@ class LocalAdapterDefinitionBuilderTest extends TestCase
         return new LocalAdapterDefinitionBuilder();
     }
 
-    public function provideValidOptions(): \Generator
+    public static function provideValidOptions(): \Generator
     {
         yield 'minimal' => [[
             'directory' => __DIR__,

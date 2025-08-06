@@ -26,7 +26,7 @@ class GcloudAdapterDefinitionBuilderTest extends TestCase
         return new GcloudAdapterDefinitionBuilder();
     }
 
-    public function provideValidOptions(): \Generator
+    public static function provideValidOptions(): \Generator
     {
         yield 'minimal' => [[
             'client' => 'my_client',

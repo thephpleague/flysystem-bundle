@@ -18,7 +18,7 @@ use Tests\League\FlysystemBundle\Kernel\FrameworkAppKernel;
 
 class FlysystemBundleTest extends TestCase
 {
-    public function provideKernels(): \Generator
+    public static function provideKernels(): \Generator
     {
         yield 'empty' => [new EmptyAppKernel('test', true)];
         yield 'framework' => [new FrameworkAppKernel('test', true)];
