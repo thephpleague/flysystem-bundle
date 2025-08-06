@@ -21,9 +21,6 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
  */
 final class FlysystemBundle extends Bundle
 {
-    /**
-     * {@inheritdoc}
-     */
     public function build(ContainerBuilder $container): void
     {
         parent::build($container);

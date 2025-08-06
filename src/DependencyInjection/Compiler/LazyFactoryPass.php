@@ -23,9 +23,6 @@ use Symfony\Component\DependencyInjection\Reference;
  */
 final class LazyFactoryPass implements CompilerPassInterface
 {
-    /**
-     * {@inheritdoc}
-     */
     public function process(ContainerBuilder $container): void
     {
         $factories = [];
