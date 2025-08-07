@@ -35,6 +35,7 @@ jobs:
                 symfony-version:
                     - '5.4.*'
                     - '6.4.*'
+                    - '7.3.*'
                     - '7.4.*'
                     - '8.0.*'
                 include:
@@ -43,10 +44,7 @@ jobs:
                     - php-version: '8.2'
                       symfony-version: '6.4.*'
                     - php-version: '8.2'
-                      symfony-version: '7.4.*'
-                    - php-version: '8.4'
-                      symfony-version: '8.0.*'
-
+                      symfony-version: '7.3.*'
         steps:
             - name: Checkout code
               uses: actions/checkout@v4
@@ -62,6 +60,11 @@ jobs:
               run: |
                   composer config --global --no-plugins allow-plugins.symfony/flex true
                   composer global require --no-progress --no-scripts --no-plugins symfony/flex
+
+            - name: Remove incompatible packages
+              if: matrix.symfony-version == '8.0.*'
+              run: |
+                  composer remove --no-update --dev doctrine/mongodb-odm
 
             - name: Install Composer dependencies
               uses: ramsey/composer-install@v2
