@@ -17,10 +17,10 @@ jobs:
               with:
                   php-version: '8.4'
                   coverage: none
+                  tools: php-cs-fixer
             - name: php-cs-fixer
               run: |
-                  wget https://github.com/FriendsOfPHP/PHP-CS-Fixer/releases/download/v3.85.1/php-cs-fixer.phar -q
-                  php php-cs-fixer.phar fix --dry-run --diff
+                  php-cs-fixer fix --dry-run --diff
 
     phpunit:
         name: PHPUnit (PHP ${{ matrix.php-version }} - Symfony ${{ matrix.symfony-version }})
@@ -54,11 +54,7 @@ jobs:
               with:
                 coverage: none
                 php-version: ${{ matrix.php-version }}
-
-            - name: Install Symfony Flex
-              run: |
-                  composer config --global --no-plugins allow-plugins.symfony/flex true
-                  composer global require --no-progress --no-scripts --no-plugins symfony/flex
+                tools: flex
 
             - name: Remove incompatible packages
               if: matrix.symfony-version == '8.0.*'
