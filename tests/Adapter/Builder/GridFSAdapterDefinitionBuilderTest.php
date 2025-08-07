@@ -98,6 +98,10 @@ class GridFSAdapterDefinitionBuilderTest extends TestCase
 
     public function testInitializeBucketFromDocumentManager(): void
     {
+        if (!class_exists(DocumentManager::class)) {
+            self::markTestSkipped('Doctrine ODM is not installed, skipping test.');
+        }
+
         $client = new Client();
         $config = new Configuration();
         $config->setDefaultDB('testing');

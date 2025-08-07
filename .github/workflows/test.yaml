@@ -31,23 +31,20 @@ jobs:
         strategy:
             matrix:
                 php-version:
-                    - '8.1'
-                    - '8.2'
-                    - '8.3'
+                    - '8.4'
                 symfony-version:
                     - '5.4.*'
-                    - '6.0.*'
-                    - '6.1.*'
-                    - '6.2.*'
-                    - '6.3.*'
+                    - '6.4.*'
+                    - '7.3.*'
+                    - '7.4.*'
+                    - '8.0.*'
                 include:
                     - php-version: '8.0'
                       symfony-version: '5.4.*'
                     - php-version: '8.2'
                       symfony-version: '6.4.*'
                     - php-version: '8.2'
-                      symfony-version: '7.0.*'
-
+                      symfony-version: '7.3.*'
         steps:
             - name: Checkout code
               uses: actions/checkout@v4
@@ -59,8 +56,15 @@ jobs:
                 php-version: ${{ matrix.php-version }}
                 tools: flex
 
+            - name: Remove incompatible packages
+              if: matrix.symfony-version == '8.0.*'
+              run: |
+                  composer remove --no-update --dev doctrine/mongodb-odm
+
             - name: Install Composer dependencies
               uses: ramsey/composer-install@v2
+              with:
+                dependency-versions: highest
 
             - name: Run PHPUnit
               run: vendor/bin/simple-phpunit
