@@ -38,7 +38,7 @@ For each storage defined under `flysystem.storages`, an associated service is cr
 name you provide (in this case, a service `default.storage` will be created). The bundle also
 creates a named alias for each of these services.
 
-This means you have two way of using the defined storages:
+This means you have two ways of using the defined storages:
 
 * either using autowiring, by typehinting against the `FilesystemOperator` and using the
   variable name matching one of your storages:
@@ -131,7 +131,7 @@ class MyService
 
 ## Using memory storage in tests
 
-One of the best reason to use a filesystem abstraction in your project is the ability
+One of the best reasons to use a filesystem abstraction in your project is the ability
 it gives you to swap the actual implementation during tests.
 
 More specifically, it can be useful to swap from a persisted storage to a memory one during 
@@ -170,7 +170,7 @@ This configuration will swap every reference to the `users.storage` service (or 
 
 ## Using read only to disallow any write operations
 
-In some context, it can be useful to protect any write operations on your storages service.
+In some contexts, it can be useful to protect any write operations on your storages service.
 
 To achieve this, you need to install the read-only package :
 
