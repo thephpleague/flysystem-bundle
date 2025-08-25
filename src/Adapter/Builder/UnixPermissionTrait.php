@@ -16,14 +16,18 @@ use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
+ * @internal
+ *
  * @author Maxime Hélias <maximehelias16@gmail.com>
  */
 trait UnixPermissionTrait
 {
     protected function configureUnixOptions(OptionsResolver $resolver): void
     {
-        $resolver->setDefault('permissions', function (OptionsResolver $subResolver) {
-            $subResolver->setDefault('file', function (OptionsResolver $permsResolver) {
+        $method = method_exists($resolver, 'setOptions') ? 'setOptions' : 'setDefault';
+
+        $resolver->$method('permissions', function (OptionsResolver $subResolver) use ($method) {
+            $subResolver->$method('file', function (OptionsResolver $permsResolver) {
                 $permsResolver->setDefault('public', 0644);
                 $permsResolver->setAllowedTypes('public', 'scalar');
 
@@ -31,7 +35,7 @@ trait UnixPermissionTrait
                 $permsResolver->setAllowedTypes('private', 'scalar');
             });
 
-            $subResolver->setDefault('dir', function (OptionsResolver $permsResolver) {
+            $subResolver->$method('dir', function (OptionsResolver $permsResolver) {
                 $permsResolver->setDefault('public', 0755);
                 $permsResolver->setAllowedTypes('public', 'scalar');
 
