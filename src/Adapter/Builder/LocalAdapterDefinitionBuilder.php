@@ -13,6 +13,8 @@ namespace League\FlysystemBundle\Adapter\Builder;
 
 use League\Flysystem\Local\LocalFilesystemAdapter;
 use League\Flysystem\Visibility;
+use Symfony\Component\Config\Definition\Builder\NodeDefinition;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -21,7 +23,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  *
  * @internal
  */
-final class LocalAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
+final class LocalAdapterDefinitionBuilder implements AdapterDefinitionBuilderInterface
 {
     use UnixPermissionTrait;
 
@@ -35,7 +37,10 @@ final class LocalAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuild
         return [];
     }
 
-    protected function configureOptions(OptionsResolver $resolver): void
+    /**
+     * @deprecated since 3.5, use addConfiguration() with the new config format instead
+     */
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setRequired('directory');
         $resolver->setAllowedTypes('directory', 'string');
@@ -52,14 +57,49 @@ final class LocalAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuild
         $resolver->setAllowedTypes('lazy_root_creation', 'scalar');
     }
 
-    protected function configureDefinition(Definition $definition, array $options, ?string $defaultVisibilityForDirectories): void
+    public function addConfiguration(NodeDefinition $node): void
     {
-        $definition->setClass(LocalFilesystemAdapter::class);
-        $definition->setArgument(0, $options['directory']);
-        $definition->setArgument(1, $this->createUnixDefinition($options['permissions'], $defaultVisibilityForDirectories ?? Visibility::PRIVATE));
-        $definition->setArgument(2, $options['lock']);
-        $definition->setArgument(3, $options['skip_links'] ? LocalFilesystemAdapter::SKIP_LINKS : LocalFilesystemAdapter::DISALLOW_LINKS);
-        $definition->setArgument(4, null);
-        $definition->setArgument(5, $options['lazy_root_creation']);
+        $node
+            ->children()
+                ->scalarNode('directory')
+                    ->isRequired()
+                    ->info('Directory path for local storage')
+                ->end()
+
+                ->integerNode('lock')
+                    ->defaultValue(0)
+                    ->info('Lock flags for file operations')
+                ->end()
+
+                ->booleanNode('skip_links')
+                    ->defaultFalse()
+                    ->info('Whether to skip symbolic links')
+                ->end()
+
+                ->booleanNode('lazy_root_creation')
+                    ->defaultFalse()
+                    ->info('Whether to create the root directory lazily')
+                ->end()
+            ->end()
+        ;
+
+        // Add Unix permissions configuration using the trait
+        $this->addUnixPermissionsConfiguration($node);
+    }
+
+    public function createAdapter(ContainerBuilder $container, string $storageName, array $options, ?string $defaultVisibilityForDirectories): ?string
+    {
+        $adapterId = 'flysystem.adapter.'.$storageName;
+
+        $container
+            ->setDefinition($adapterId, new Definition(LocalFilesystemAdapter::class))
+            ->setArgument(0, $options['directory'])
+            ->setArgument(1, $this->createUnixDefinition($options['permissions'] ?? [], $defaultVisibilityForDirectories ?? Visibility::PRIVATE))
+            ->setArgument(2, $options['lock'] ?? 0)
+            ->setArgument(3, ($options['skip_links'] ?? false) ? LocalFilesystemAdapter::SKIP_LINKS : LocalFilesystemAdapter::DISALLOW_LINKS)
+            ->setArgument(4, null)
+            ->setArgument(5, $options['lazy_root_creation'] ?? false);
+
+        return $adapterId;
     }
 }

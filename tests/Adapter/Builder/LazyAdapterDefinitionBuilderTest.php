@@ -11,25 +11,25 @@
 
 namespace Tests\League\FlysystemBundle\Adapter\Builder;
 
-use League\Flysystem\InMemory\InMemoryFilesystemAdapter;
-use League\FlysystemBundle\Adapter\Builder\MemoryAdapterDefinitionBuilder;
+use League\FlysystemBundle\Adapter\Builder\LazyAdapterDefinitionBuilder;
 use League\FlysystemBundle\Test\AbstractAdapterDefinitionBuilderTest;
 use Symfony\Component\DependencyInjection\Definition;
 
-class MemoryAdapterDefinitionBuilderTest extends AbstractAdapterDefinitionBuilderTest
+class LazyAdapterDefinitionBuilderTest extends AbstractAdapterDefinitionBuilderTest
 {
-    protected function createBuilder(): MemoryAdapterDefinitionBuilder
+    protected function createBuilder(): LazyAdapterDefinitionBuilder
     {
-        return new MemoryAdapterDefinitionBuilder();
+        return new LazyAdapterDefinitionBuilder();
     }
 
     public static function provideValidOptions(): \Generator
     {
-        yield 'full' => [[]];
+        yield 'minimal' => [[
+            'source' => 'fs_service',
+        ]];
     }
 
     protected function assertDefinition(Definition $definition): void
     {
-        $this->assertSame(InMemoryFilesystemAdapter::class, $definition->getClass());
     }
 }

@@ -6,37 +6,33 @@ return static function (ContainerConfigurator $container) {
     $container->extension('flysystem', [
         'storages' => [
             'fs_asyncaws' => [
-                'adapter' => 'asyncaws',
-                'options' => [
+                'asyncaws' => [
                     'client' => 'asyncaws_client_service',
                     'bucket' => '%env(AWS_BUCKET)%',
                     'prefix' => 'optional/path/prefix',
                 ],
             ],
             'fs_aws' => [
-                'adapter' => 'aws',
-                'visibility' => 'private',
-                'retain_visibility' => false,
-                'options' => [
+                'aws' => [
                     'client' => 'aws_client_service',
                     'bucket' => '%env(AWS_BUCKET)%',
                     'prefix' => 'optional/path/prefix',
                 ],
+                'visibility' => 'private',
+                'retain_visibility' => false,
             ],
             'fs_azure' => [
-                'adapter' => 'azure',
-                'options' => [
+                'azure' => [
                     'client' => 'azure_client_service',
                     'container' => 'container_name',
                     'prefix' => 'optional/path/prefix',
                 ],
             ],
             'fs_custom' => [
-                'adapter' => 'custom_adapter',
+                'service' => 'custom_adapter',
             ],
             'fs_ftp' => [
-                'adapter' => 'ftp',
-                'options' => [
+                'ftp' => [
                     'host' => 'ftp.example.com',
                     'username' => 'username',
                     'password' => 'password',
@@ -49,22 +45,19 @@ return static function (ContainerConfigurator $container) {
                 ],
             ],
             'fs_gcloud' => [
-                'adapter' => 'gcloud',
-                'options' => [
+                'gcloud' => [
                     'client' => 'gcloud_client_service',
                     'bucket' => 'bucket_name',
                     'prefix' => 'optional/path/prefix',
                 ],
             ],
             'fs_lazy' => [
-                'adapter' => 'lazy',
-                'options' => [
+                'lazy' => [
                     'source' => '%env(LAZY_SOURCE)%',
                 ],
             ],
             'fs_local' => [
-                'adapter' => 'local',
-                'options' => [
+                'local' => [
                     'directory' => '/tmp/storage',
                     'lock' => 0,
                     'skip_links' => false,
@@ -81,11 +74,10 @@ return static function (ContainerConfigurator $container) {
                 ],
             ],
             'fs_memory' => [
-                'adapter' => 'memory',
+                'memory' => null,
             ],
             'fs_sftp' => [
-                'adapter' => 'sftp',
-                'options' => [
+                'sftp' => [
                     'host' => 'example.com',
                     'port' => 22,
                     'username' => 'username',
@@ -96,15 +88,13 @@ return static function (ContainerConfigurator $container) {
                 ],
             ],
             'fs_public_url' => [
-                'adapter' => 'local',
-                'options' => [
+                'local' => [
                     'directory' => '/tmp/storage',
                 ],
                 'public_url' => 'https://example.org/assets/',
             ],
             'fs_public_urls' => [
-                'adapter' => 'local',
-                'options' => [
+                'local' => [
                     'directory' => '/tmp/storage',
                 ],
                 'public_url' => [
@@ -114,16 +104,14 @@ return static function (ContainerConfigurator $container) {
                 ],
             ],
             'fs_url_generator' => [
-                'adapter' => 'local',
-                'options' => [
+                'local' => [
                     'directory' => '/tmp/storage',
                 ],
                 'public_url_generator' => 'flysystem.test.public_url_generator',
                 'temporary_url_generator' => 'flysystem.test.temporary_url_generator',
             ],
             'fs_read_only' => [
-                'adapter' => 'local',
-                'options' => [
+                'local' => [
                     'directory' => '/tmp/storage',
                 ],
                 'read_only' => true,

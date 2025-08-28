@@ -7,7 +7,7 @@
 
 ## Installation
 
-flysystem-bundle requires PHP 7.1+ and Symfony 4.2+.
+flysystem-bundle requires PHP 8.0+ and Symfony 5.4+.
 
 You can install the bundle using Symfony Flex:
 
@@ -26,8 +26,7 @@ use Flysystem in your application as soon as you install the bundle:
 flysystem:
     storages:
         default.storage:
-            adapter: 'local'
-            options:
+            local:
                 directory: '%kernel.project_dir%/var/storage/default'
 ```
 
@@ -100,13 +99,11 @@ autowired arguments. For example:
 flysystem:
     storages:
         users.storage:
-            adapter: 'local'
-            options:
+            local:
                 directory: '%kernel.project_dir%/storage/users'
                 
         projects.storage:
-            adapter: 'local'
-            options:
+            local:
                 directory: '%kernel.project_dir%/storage/projects'
 ``` 
 
@@ -151,8 +148,7 @@ Then, you can overwrite your storages in the test environment:
 flysystem:
     storages:
         users.storage:
-            adapter: 'local'
-            options:
+            local:
                 directory: '%kernel.project_dir%/storage/users'
 ``` 
 
@@ -162,7 +158,7 @@ flysystem:
 flysystem:
     storages:
         users.storage:
-            adapter: 'memory'
+            memory: ~
 ```
 
 This configuration will swap every reference to the `users.storage` service (or to the
@@ -186,8 +182,7 @@ And then, you can configure your storage with the `read_only` option.
 flysystem:
     storages:
         users.storage:
-            adapter: 'local'
-            options:
+            local:
                 directory: '%kernel.project_dir%/storage/users'
             read_only: true
 ```

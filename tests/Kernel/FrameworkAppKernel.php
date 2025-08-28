@@ -43,8 +43,7 @@ class FrameworkAppKernel extends Kernel
             $container->loadFromExtension('flysystem', [
                 'storages' => [
                     'uploads.storage' => [
-                        'adapter' => 'local',
-                        'options' => ['directory' => $storageDirectory],
+                        'local' => ['directory' => $storageDirectory],
                     ],
                 ],
             ]);

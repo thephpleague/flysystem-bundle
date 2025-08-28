@@ -12,6 +12,8 @@
 namespace League\FlysystemBundle\Adapter\Builder;
 
 use PlatformCommunity\Flysystem\BunnyCDN\BunnyCDNAdapter;
+use Symfony\Component\Config\Definition\Builder\NodeDefinition;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -19,7 +21,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 /**
  * @internal
  */
-final class BunnyCDNAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
+final class BunnyCDNAdapterDefinitionBuilder implements AdapterDefinitionBuilderInterface
 {
     public function getName(): string
     {
@@ -33,7 +35,10 @@ final class BunnyCDNAdapterDefinitionBuilder extends AbstractAdapterDefinitionBu
         ];
     }
 
-    protected function configureOptions(OptionsResolver $resolver): void
+    /**
+     * @deprecated since 3.5, use addConfiguration() with the new config format instead
+     */
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setRequired('client');
         $resolver->setAllowedTypes('client', 'string');
@@ -42,12 +47,31 @@ final class BunnyCDNAdapterDefinitionBuilder extends AbstractAdapterDefinitionBu
         $resolver->setAllowedTypes('pull_zone', 'string');
     }
 
-    protected function configureDefinition(Definition $definition, array $options, ?string $defaultVisibilityForDirectories): void
+    public function addConfiguration(NodeDefinition $node): void
     {
-        $definition->setClass(BunnyCDNAdapter::class);
-        $definition->setArguments([
-            new Reference($options['client']),
-            $options['pull_zone'],
-        ]);
+        $node
+            ->children()
+                ->scalarNode('client')
+                    ->isRequired()
+                    ->info('The BunnyCDN client service name')
+                ->end()
+                ->scalarNode('pull_zone')
+                    ->defaultValue('')
+                    ->info('The BunnyCDN pull zone name')
+                ->end()
+            ->end()
+        ;
+    }
+
+    public function createAdapter(ContainerBuilder $container, string $storageName, array $options, ?string $defaultVisibilityForDirectories): ?string
+    {
+        $adapterId = 'flysystem.adapter.'.$storageName;
+
+        $container
+            ->setDefinition($adapterId, new Definition(BunnyCDNAdapter::class))
+            ->setArgument(0, new Reference($options['client']))
+            ->setArgument(1, $options['pull_zone']);
+
+        return $adapterId;
     }
 }

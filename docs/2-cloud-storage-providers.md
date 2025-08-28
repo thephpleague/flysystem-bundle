@@ -28,8 +28,7 @@ composer require league/flysystem-azure-blob-storage
 flysystem:
     storages:
         users.storage:
-            adapter: 'azure'
-            options:
+            azure:
                 client: 'azure_client_service' # The service ID of the MicrosoftAzure\Storage\Blob\BlobRestProxy instance
                 container: 'container_name'
                 prefix: 'optional/path/prefix'
@@ -51,8 +50,7 @@ composer require league/flysystem-async-aws-s3
 flysystem:
     storages:
         users.storage:
-            adapter: 'asyncaws'
-            options:
+            asyncaws:
                 client: 'aws_client_service' # The service ID of the AsyncAws\S3\S3Client instance
                 bucket: 'bucket_name'
                 prefix: 'optional/path/prefix'
@@ -74,9 +72,8 @@ composer require league/flysystem-aws-s3-v3
 flysystem:
     storages:
         users.storage:
-            adapter: 'aws'
             # visibility: public # Make the uploaded file publicly accessible in S3
-            options:
+            aws:
                 client: 'aws_client_service' # The service ID of the Aws\S3\S3Client instance
                 bucket: 'bucket_name'
                 prefix: 'optional/path/prefix'
@@ -99,8 +96,7 @@ composer require league/flysystem-google-cloud-storage
 flysystem:
     storages:
         users.storage:
-            adapter: 'gcloud'
-            options:
+            gcloud:
                 client: 'gcloud_client_service' # The service ID of the Google\Cloud\Storage\StorageClient instance
                 bucket: 'bucket_name'
                 prefix: 'optional/path/prefix'
@@ -127,8 +123,7 @@ services:
 flysystem:
     storages:
         cdn.storage:
-            adapter: 'asyncaws'
-            options:
+            asyncaws:
                 client: 'digitalocean_spaces_client'
                 bucket: '%env(DIGITALOCEAN_SPACES_BUCKET)%'
 ```
@@ -153,8 +148,7 @@ services:
 flysystem:
     storages:
         cdn.storage:
-            adapter: 'asyncaws'
-            options:
+            asyncaws:
                 client: 'scaleway_spaces_client'
                 bucket: '%env(SCALEWAY_SPACES_BUCKET)%'
 ```
@@ -179,8 +173,7 @@ services:
 flysystem:
     storages:
         cdn.storage:
-            adapter: 'asyncaws'
-            options:
+            asyncaws:
                 client: 'cloudflare_r2_client'
                 bucket: '%env(CLOUDFLARE_R2_BUCKET)%'
 ```

@@ -42,23 +42,20 @@ services:
 flysystem:
     storages:
         uploads.storage.aws:
-            adapter: 'aws'
-            options:
+            aws:
                 client: 'Aws\S3\S3Client'
                 bucket: 'my-bucket'
                 prefix: '%env(S3_STORAGE_PREFIX)%'
 
         uploads.storage.local:
-            adapter: 'local'
-            options:
+            local:
                 directory: '%kernel.project_dir%/var/storage/uploads'
 
         uploads.storage.memory:
-            adapter: 'memory'
+            memory: ~
 
         uploads.storage:
-            adapter: 'lazy'
-            options:
+            lazy:
                 source: '%env(APP_UPLOADS_SOURCE)%'
 ```
 

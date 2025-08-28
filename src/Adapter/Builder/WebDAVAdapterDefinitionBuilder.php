@@ -12,6 +12,8 @@
 namespace League\FlysystemBundle\Adapter\Builder;
 
 use League\Flysystem\WebDAV\WebDAVAdapter;
+use Symfony\Component\Config\Definition\Builder\NodeDefinition;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -21,7 +23,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  *
  * @internal
  */
-final class WebDAVAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
+final class WebDAVAdapterDefinitionBuilder implements AdapterDefinitionBuilderInterface
 {
     public function getName(): string
     {
@@ -35,7 +37,10 @@ final class WebDAVAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuil
         ];
     }
 
-    protected function configureOptions(OptionsResolver $resolver): void
+    /**
+     * @deprecated since 3.5, use addConfiguration() with the new config format instead
+     */
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setRequired('client');
         $resolver->setAllowedTypes('client', 'string');
@@ -53,15 +58,46 @@ final class WebDAVAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuil
         $resolver->setAllowedTypes('manual_move', 'bool');
     }
 
-    protected function configureDefinition(Definition $definition, array $options, ?string $defaultVisibilityForDirectories): void
+    public function addConfiguration(NodeDefinition $node): void
     {
-        $definition->setClass(WebDAVAdapter::class);
-        $definition->setArguments([
-            new Reference($options['client']),
-            $options['prefix'],
-            $options['visibility_handling'],
-            $options['manual_copy'],
-            $options['manual_move'],
-        ]);
+        $node
+            ->children()
+                ->scalarNode('client')
+                    ->isRequired()
+                    ->info('The WebDAV client service name')
+                ->end()
+                ->scalarNode('prefix')
+                    ->defaultValue('')
+                    ->info('Optional path prefix to prepend to all paths')
+                ->end()
+                ->scalarNode('visibility_handling')
+                    ->defaultValue(WebDAVAdapter::ON_VISIBILITY_THROW_ERROR)
+                    ->info('How to handle visibility operations')
+                ->end()
+                ->booleanNode('manual_copy')
+                    ->defaultFalse()
+                    ->info('Whether to handle copy operations manually')
+                ->end()
+                ->booleanNode('manual_move')
+                    ->defaultFalse()
+                    ->info('Whether to handle move operations manually')
+                ->end()
+            ->end()
+        ;
+    }
+
+    public function createAdapter(ContainerBuilder $container, string $storageName, array $options, ?string $defaultVisibilityForDirectories): ?string
+    {
+        $adapterId = 'flysystem.adapter.webdav.'.$storageName;
+
+        $container
+            ->setDefinition($adapterId, new Definition(WebDAVAdapter::class))
+            ->setArgument(0, new Reference($options['client']))
+            ->setArgument(1, $options['prefix'])
+            ->setArgument(2, $options['visibility_handling'])
+            ->setArgument(3, $options['manual_copy'])
+            ->setArgument(4, $options['manual_move']);
+
+        return $adapterId;
     }
 }

@@ -138,7 +138,6 @@ The `<storage>` argument is the configured Flysystem storage name (for example `
 8. [BunnyCDN](docs/8-bunnycdn.md)
 
 * [Security issue disclosure procedure](docs/A-security-disclosure-procedure.md)
-* [Configuration reference](docs/B-configuration-reference.md)
 
 ## Security Issues
 

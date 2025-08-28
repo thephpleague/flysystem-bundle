@@ -35,7 +35,7 @@ class FlysystemAppKernel extends Kernel
 
         $loader->load(function (ContainerBuilder $container) use ($adapterClients) {
             foreach ($adapterClients as $service => $mock) {
-                $container->setDefinition($service, new Definition())->setSynthetic(true);
+                $container->setDefinition($service, new Definition(\stdClass::class))->setSynthetic(true);
             }
         });
 

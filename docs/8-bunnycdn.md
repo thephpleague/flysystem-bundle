@@ -26,8 +26,7 @@ services:
 flysystem:
     storages:
         bunny.storage:
-            adapter: 'bunnycdn'
-            options:
+            bunnycdn:
                 client: 'bunny_client'
                 pull_zone: 'https://testing.b-cdn.net/' # optional
 ```

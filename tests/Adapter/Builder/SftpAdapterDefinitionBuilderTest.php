@@ -14,11 +14,12 @@ namespace Tests\League\FlysystemBundle\Adapter\Builder;
 use League\Flysystem\PhpseclibV3\SftpAdapter;
 use League\Flysystem\Visibility;
 use League\FlysystemBundle\Adapter\Builder\SftpAdapterDefinitionBuilder;
-use PHPUnit\Framework\TestCase;
+use League\FlysystemBundle\Test\AbstractAdapterDefinitionBuilderTest;
+use Symfony\Component\DependencyInjection\Definition;
 
-class SftpAdapterDefinitionBuilderTest extends TestCase
+class SftpAdapterDefinitionBuilderTest extends AbstractAdapterDefinitionBuilderTest
 {
-    public function createBuilder(): SftpAdapterDefinitionBuilder
+    protected function createBuilder(): SftpAdapterDefinitionBuilder
     {
         return new SftpAdapterDefinitionBuilder();
     }
@@ -34,56 +35,33 @@ class SftpAdapterDefinitionBuilderTest extends TestCase
             'host' => 'ftp.example.com',
             'username' => 'username',
             'password' => 'password',
-            'port' => 22,
-            'root' => '/path/to/root',
             'privateKey' => '/path/to/or/contents/of/privatekey',
             'passphrase' => null,
-            'hostFingerprint' => null,
+            'port' => 22,
             'timeout' => 30,
+            'hostFingerprint' => null,
+            'connectivityChecker' => 'my_service_check',
             'preferredAlgorithms' => [
                 'hostkey' => ['rsa-sha2-256', 'ssh-rsa'],
             ],
+            'root' => '/path/to/root',
         ]];
     }
 
-    /**
-     * @dataProvider provideValidOptions
-     */
-    public function testCreateDefinition($options): void
+    protected function assertDefinition(Definition $definition): void
     {
-        $this->assertSame(SftpAdapter::class, $this->createBuilder()->createDefinition($options, null)->getClass());
-    }
-
-    public function testOptionsBehavior(): void
-    {
-        $definition = $this->createBuilder()->createDefinition([
+        $expected = [
             'host' => 'ftp.example.com',
             'username' => 'username',
             'password' => 'password',
-            'port' => 22,
-            'root' => '/path/to/root',
             'privateKey' => '/path/to/or/contents/of/privatekey',
             'passphrase' => null,
-            'hostFingerprint' => null,
-            'timeout' => 30,
-            'directoryPerm' => 0755,
-            'permPrivate' => 0700,
-            'permPublic' => 0744,
-        ], Visibility::PUBLIC);
-
-        $expected = [
-            'password' => 'password',
             'port' => 22,
-            'root' => '/path/to/root',
-            'privateKey' => '/path/to/or/contents/of/privatekey',
-            'passphrase' => null,
-            'hostFingerprint' => null,
             'timeout' => 30,
-            'directoryPerm' => 0755,
-            'permPrivate' => 0700,
-            'permPublic' => 0744,
-            'connectivityChecker' => null,
-            'preferredAlgorithms' => [],
+            'hostFingerprint' => null,
+            'preferredAlgorithms' => [
+                'hostkey' => ['rsa-sha2-256', 'ssh-rsa'],
+            ],
             'permissions' => [
                 'file' => [
                     'public' => 0644,
@@ -94,13 +72,13 @@ class SftpAdapterDefinitionBuilderTest extends TestCase
                     'private' => 0700,
                 ],
             ],
-            'host' => 'ftp.example.com',
-            'username' => 'username',
         ];
 
         $this->assertSame(SftpAdapter::class, $definition->getClass());
-        $this->assertSame($expected, $definition->getArgument(0)->getArgument(0));
-        $this->assertSame($expected['root'], $definition->getArgument(1));
-        $this->assertSame(Visibility::PUBLIC, $definition->getArgument(2)->getArgument(1));
+        $connectionProviderOptions = $definition->getArgument(0)->getArgument(0);
+        unset($connectionProviderOptions['connectivityChecker']);
+        $this->assertSame($expected, $connectionProviderOptions);
+        $this->assertSame('/path/to/root', $definition->getArgument(1));
+        $this->assertSame(Visibility::PRIVATE, $definition->getArgument(2)->getArgument(1));
     }
 }

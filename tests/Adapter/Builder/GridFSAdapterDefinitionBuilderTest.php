@@ -15,14 +15,14 @@ use Doctrine\ODM\MongoDB\Configuration;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use League\Flysystem\GridFS\GridFSAdapter;
 use League\FlysystemBundle\Adapter\Builder\GridFSAdapterDefinitionBuilder;
+use League\FlysystemBundle\Test\AbstractAdapterDefinitionBuilderTest;
 use MongoDB\Client;
-use MongoDB\GridFS\Bucket;
-use PHPUnit\Framework\TestCase;
+use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 
-class GridFSAdapterDefinitionBuilderTest extends TestCase
+class GridFSAdapterDefinitionBuilderTest extends AbstractAdapterDefinitionBuilderTest
 {
-    public function createBuilder(): GridFSAdapterDefinitionBuilder
+    protected function createBuilder(): GridFSAdapterDefinitionBuilder
     {
         return new GridFSAdapterDefinitionBuilder();
     }
@@ -39,17 +39,18 @@ class GridFSAdapterDefinitionBuilderTest extends TestCase
             'bucket' => 'avatars',
         ]];
 
-        yield 'config_minimal' => [[
+        yield 'minimal' => [[
             'mongodb_uri' => 'mongodb://localhost:27017/',
             'database' => 'testing',
         ]];
 
-        yield 'config_full' => [[
+        yield 'full' => [[
             'mongodb_uri' => 'mongodb://server1:27017,server2:27017/',
             'mongodb_uri_options' => ['appname' => 'flysystem'],
             'mongodb_driver_options' => ['disableClientPersistence' => false],
             'database' => 'testing',
             'bucket' => 'avatars',
+            'prefix' => 'prefix/path',
         ]];
 
         yield 'service' => [[
@@ -57,12 +58,19 @@ class GridFSAdapterDefinitionBuilderTest extends TestCase
         ]];
     }
 
-    /**
-     * @dataProvider provideValidOptions
-     */
-    public function testCreateDefinition($options): void
+    protected function assertDefinition(Definition $definition): void
     {
-        $this->assertSame(GridFSAdapter::class, $this->createBuilder()->createDefinition($options, null)->getClass());
+        $this->assertSame(GridFSAdapter::class, $definition->getClass());
+
+        $bucketDefinition = $definition->getArgument(0);
+        $this->assertInstanceOf(Definition::class, $bucketDefinition);
+        $this->assertSame('mongodb://server1:27017,server2:27017/', $bucketDefinition->getArgument(0));
+        $this->assertSame(['appname' => 'flysystem'], $bucketDefinition->getArgument(1));
+        $this->assertSame(['disableClientPersistence' => false], $bucketDefinition->getArgument(2));
+        $this->assertSame('testing', $bucketDefinition->getArgument(3));
+        $this->assertSame('avatars', $bucketDefinition->getArgument(4));
+
+        $this->assertSame('prefix/path', $definition->getArgument(1));
     }
 
     public static function provideInvalidOptions(): \Generator
@@ -93,7 +101,7 @@ class GridFSAdapterDefinitionBuilderTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage($message);
 
-        $builder->createDefinition($options, null);
+        $builder->createAdapter($this->getContainer(), 'test_storage', $options, null);
     }
 
     public function testInitializeBucketFromDocumentManager(): void
@@ -111,7 +119,6 @@ class GridFSAdapterDefinitionBuilderTest extends TestCase
 
         $bucket = GridFSAdapterDefinitionBuilder::initializeBucketFromDocumentManager($dm, null, 'avatars');
 
-        $this->assertInstanceOf(Bucket::class, $bucket);
         $this->assertSame('testing', $bucket->getDatabaseName());
         $this->assertSame('avatars', $bucket->getBucketName());
     }
@@ -126,7 +133,6 @@ class GridFSAdapterDefinitionBuilderTest extends TestCase
             'avatars'
         );
 
-        $this->assertInstanceOf(Bucket::class, $bucket);
         $this->assertSame('testing', $bucket->getDatabaseName());
         $this->assertSame('avatars', $bucket->getBucketName());
     }

@@ -13,12 +13,13 @@ namespace Tests\League\FlysystemBundle\Adapter\Builder;
 
 use League\Flysystem\AzureBlobStorage\AzureBlobStorageAdapter;
 use League\FlysystemBundle\Adapter\Builder\AzureAdapterDefinitionBuilder;
-use PHPUnit\Framework\TestCase;
+use League\FlysystemBundle\Test\AbstractAdapterDefinitionBuilderTest;
+use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-class AzureAdapterDefinitionBuilderTest extends TestCase
+class AzureAdapterDefinitionBuilderTest extends AbstractAdapterDefinitionBuilderTest
 {
-    public function createBuilder(): AzureAdapterDefinitionBuilder
+    protected function createBuilder(): AzureAdapterDefinitionBuilder
     {
         return new AzureAdapterDefinitionBuilder();
     }
@@ -30,29 +31,15 @@ class AzureAdapterDefinitionBuilderTest extends TestCase
             'container' => 'container_name',
         ]];
 
-        yield 'prefix' => [[
+        yield 'full' => [[
             'client' => 'my_client',
             'container' => 'container_name',
             'prefix' => 'prefix/path',
         ]];
     }
 
-    /**
-     * @dataProvider provideValidOptions
-     */
-    public function testCreateDefinition($options): void
+    protected function assertDefinition(Definition $definition): void
     {
-        $this->assertSame(AzureBlobStorageAdapter::class, $this->createBuilder()->createDefinition($options, null)->getClass());
-    }
-
-    public function testOptionsBehavior(): void
-    {
-        $definition = $this->createBuilder()->createDefinition([
-            'client' => 'my_client',
-            'container' => 'container_name',
-            'prefix' => 'prefix/path',
-        ], null);
-
         $this->assertSame(AzureBlobStorageAdapter::class, $definition->getClass());
         $this->assertInstanceOf(Reference::class, $definition->getArgument(0));
         $this->assertSame('my_client', (string) $definition->getArgument(0));

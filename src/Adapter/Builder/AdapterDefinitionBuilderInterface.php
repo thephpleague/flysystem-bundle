@@ -11,7 +11,8 @@
 
 namespace League\FlysystemBundle\Adapter\Builder;
 
-use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\Config\Definition\Builder\NodeDefinition;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
  * @author Titouan Galopin <galopintitouan@gmail.com>
@@ -23,7 +24,12 @@ interface AdapterDefinitionBuilderInterface
     public function getRequiredPackages(): array;
 
     /**
-     * Create the definition for this builder's adapter given an array of options.
+     * Add the configuration for this adapter to the configuration tree.
      */
-    public function createDefinition(array $options, ?string $defaultVisibilityForDirectories): Definition;
+    public function addConfiguration(NodeDefinition $node): void;
+
+    /**
+     * Create the adapter service and return its service ID.
+     */
+    public function createAdapter(ContainerBuilder $container, string $storageName, array $options, ?string $defaultVisibilityForDirectories): ?string;
 }

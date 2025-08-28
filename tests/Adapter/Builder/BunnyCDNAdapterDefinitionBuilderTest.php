@@ -11,14 +11,14 @@
 
 namespace Tests\League\FlysystemBundle\Adapter\Builder;
 
-use League\Flysystem\Visibility;
 use League\FlysystemBundle\Adapter\Builder\BunnyCDNAdapterDefinitionBuilder;
-use PHPUnit\Framework\TestCase;
+use League\FlysystemBundle\Test\AbstractAdapterDefinitionBuilderTest;
 use PlatformCommunity\Flysystem\BunnyCDN\BunnyCDNAdapter;
+use Symfony\Component\DependencyInjection\Definition;
 
-class BunnyCDNAdapterDefinitionBuilderTest extends TestCase
+class BunnyCDNAdapterDefinitionBuilderTest extends AbstractAdapterDefinitionBuilderTest
 {
-    public function createBuilder(): BunnyCDNAdapterDefinitionBuilder
+    protected function createBuilder(): BunnyCDNAdapterDefinitionBuilder
     {
         return new BunnyCDNAdapterDefinitionBuilder();
     }
@@ -35,21 +35,8 @@ class BunnyCDNAdapterDefinitionBuilderTest extends TestCase
         ]];
     }
 
-    /**
-     * @dataProvider provideValidOptions
-     */
-    public function testCreateDefinition(array $options): void
+    protected function assertDefinition(Definition $definition): void
     {
-        $this->assertSame(BunnyCDNAdapter::class, $this->createBuilder()->createDefinition($options, null)->getClass());
-    }
-
-    public function testOptionsBehavior(): void
-    {
-        $definition = $this->createBuilder()->createDefinition([
-            'client' => 'bunny_client',
-            'pull_zone' => 'z1',
-        ], Visibility::PUBLIC);
-
         $this->assertSame(BunnyCDNAdapter::class, $definition->getClass());
         $this->assertSame('bunny_client', (string) $definition->getArgument(0));
         $this->assertSame('z1', $definition->getArgument(1));
