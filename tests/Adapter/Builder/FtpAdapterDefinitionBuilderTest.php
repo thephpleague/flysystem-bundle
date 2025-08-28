@@ -14,11 +14,12 @@ namespace Tests\League\FlysystemBundle\Adapter\Builder;
 use League\Flysystem\Ftp\FtpAdapter;
 use League\Flysystem\Visibility;
 use League\FlysystemBundle\Adapter\Builder\FtpAdapterDefinitionBuilder;
-use PHPUnit\Framework\TestCase;
+use League\FlysystemBundle\Test\AbstractAdapterDefinitionBuilderTest;
+use Symfony\Component\DependencyInjection\Definition;
 
-class FtpAdapterDefinitionBuilderTest extends TestCase
+class FtpAdapterDefinitionBuilderTest extends AbstractAdapterDefinitionBuilderTest
 {
-    public function createBuilder(): FtpAdapterDefinitionBuilder
+    protected function createBuilder(): FtpAdapterDefinitionBuilder
     {
         return new FtpAdapterDefinitionBuilder();
     }
@@ -42,33 +43,19 @@ class FtpAdapterDefinitionBuilderTest extends TestCase
             'timeout' => 30,
             'ignore_passive_address' => true,
             'utf8' => false,
+            'system_type' => 'unix',
+            'recurse_manually' => false,
+            'use_raw_list_options' => true,
+            'connectivityChecker' => 'my_checker',
         ]];
     }
 
-    /**
-     * @dataProvider provideValidOptions
-     */
-    public function testCreateDefinition($options): void
+    protected function assertDefinition(Definition $definition): void
     {
-        $this->assertSame(FtpAdapter::class, $this->createBuilder()->createDefinition($options, null)->getClass());
-    }
-
-    public function testOptionsBehavior(): void
-    {
-        $definition = $this->createBuilder()->createDefinition([
+        $expected = [
             'host' => 'ftp.example.com',
             'username' => 'username',
             'password' => 'password',
-            'port' => 21,
-            'root' => '/path/to/root',
-            'passive' => true,
-            'ssl' => true,
-            'timeout' => 30,
-            'ignore_passive_address' => true,
-            'utf8' => false,
-        ], Visibility::PUBLIC);
-
-        $expected = [
             'port' => 21,
             'root' => '/path/to/root',
             'passive' => true,
@@ -85,18 +72,17 @@ class FtpAdapterDefinitionBuilderTest extends TestCase
                     'private' => 0700,
                 ],
             ],
-            'host' => 'ftp.example.com',
-            'username' => 'username',
-            'password' => 'password',
             'transferMode' => null,
-            'systemType' => null,
-            'timestampsOnUnixListingsEnabled' => false,
+            'systemType' => 'unix',
             'ignorePassiveAddress' => true,
-            'recurseManually' => true,
+            'timestampsOnUnixListingsEnabled' => false,
+            'recurseManually' => false,
+            'useRawListOptions' => true,
         ];
 
         $this->assertSame(FtpAdapter::class, $definition->getClass());
         $this->assertSame($expected, $definition->getArgument(0)->getArgument(0));
-        $this->assertSame(Visibility::PUBLIC, $definition->getArgument(3)->getArgument(1));
+        $this->assertSame('my_checker', (string) $definition->getArgument(2));
+        $this->assertSame(Visibility::PRIVATE, $definition->getArgument(3)->getArgument(1));
     }
 }

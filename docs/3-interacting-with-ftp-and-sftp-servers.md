@@ -20,8 +20,7 @@ composer require league/flysystem-ftp
 flysystem:
     storages:
         backup.storage:
-            adapter: 'ftp'
-            options:
+            ftp:
                 host: 'ftp.example.com'
                 username: 'username'
                 password: 'password'
@@ -50,8 +49,7 @@ composer require league/flysystem-sftp-v3
 flysystem:
     storages:
         backup.storage:
-            adapter: 'sftp'
-            options:
+            sftp:
                 host: 'example.com'
                 port: 22
                 username: 'username'

@@ -29,7 +29,11 @@ class EmptyAppKernel extends Kernel
     {
         $loader->load(function (ContainerBuilder $container) {
             $container->loadFromExtension('flysystem', [
-                'storages' => ['uploads.storage' => ['adapter' => 'local', 'options' => ['directory' => __DIR__]]],
+                'storages' => [
+                    'uploads.storage' => [
+                        'local' => ['directory' => __DIR__],
+                    ],
+                ],
             ]);
         });
     }

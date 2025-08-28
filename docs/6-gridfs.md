@@ -18,8 +18,7 @@ For applications that uses Doctrine MongoDB ODM, set the `doctrine_connection` n
 flysystem:
     storages:
         users.storage:
-            adapter: 'gridfs'
-            options:
+            gridfs:
                 # Name of a Doctrine MongoDB ODM connection
                 doctrine_connection: 'default'
                 # Use the default DB from the Doctrine MongoDB ODM configuration
@@ -37,8 +36,7 @@ To initialize the GridFS bucket from configuration, set the `mongodb_uri` and `d
 flysystem:
     storages:
         users.storage:
-            adapter: 'gridfs'
-            options:
+            gridfs:
                 # MongoDB client configuration
                 mongodb_uri: '%env(MONGODB_URI)%'
                 mongodb_uri_options: []
@@ -80,8 +78,7 @@ services:
 flysystem:
     storages:
         users.storage:
-            adapter: 'gridfs'
-            options:
+            gridfs:
                 # Service name
                 bucket: 'mongodb_gridfs_bucket'
 ```

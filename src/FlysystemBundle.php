@@ -11,13 +11,16 @@
 
 namespace League\FlysystemBundle;
 
-use League\FlysystemBundle\DependencyInjection\Compiler\GcloudFactoryPass;
+use League\FlysystemBundle\Adapter\Builder;
 use League\FlysystemBundle\DependencyInjection\Compiler\LazyFactoryPass;
+use League\FlysystemBundle\DependencyInjection\FlysystemExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
  * @author Titouan Galopin <galopintitouan@gmail.com>
+ *
+ * @internal
  */
 final class FlysystemBundle extends Bundle
 {
@@ -25,7 +28,21 @@ final class FlysystemBundle extends Bundle
     {
         parent::build($container);
 
+        /** @var FlysystemExtension $extension */
+        $extension = $container->getExtension('flysystem');
+        $extension->addAdapterDefinitionBuilder(new Builder\AsyncAwsAdapterDefinitionBuilder());
+        $extension->addAdapterDefinitionBuilder(new Builder\AwsAdapterDefinitionBuilder());
+        $extension->addAdapterDefinitionBuilder(new Builder\AzureAdapterDefinitionBuilder());
+        $extension->addAdapterDefinitionBuilder(new Builder\FtpAdapterDefinitionBuilder());
+        $extension->addAdapterDefinitionBuilder(new Builder\GcloudAdapterDefinitionBuilder());
+        $extension->addAdapterDefinitionBuilder(new Builder\GridFSAdapterDefinitionBuilder());
+        $extension->addAdapterDefinitionBuilder(new Builder\LazyAdapterDefinitionBuilder());
+        $extension->addAdapterDefinitionBuilder(new Builder\LocalAdapterDefinitionBuilder());
+        $extension->addAdapterDefinitionBuilder(new Builder\MemoryAdapterDefinitionBuilder());
+        $extension->addAdapterDefinitionBuilder(new Builder\SftpAdapterDefinitionBuilder());
+        $extension->addAdapterDefinitionBuilder(new Builder\WebDAVAdapterDefinitionBuilder());
+        $extension->addAdapterDefinitionBuilder(new Builder\BunnyCDNAdapterDefinitionBuilder());
+
         $container->addCompilerPass(new LazyFactoryPass());
-        $container->addCompilerPass(new GcloudFactoryPass());
     }
 }

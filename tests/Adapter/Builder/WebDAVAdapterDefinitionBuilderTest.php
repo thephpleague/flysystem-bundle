@@ -11,17 +11,17 @@
 
 namespace Tests\League\FlysystemBundle\Adapter\Builder;
 
-use League\Flysystem\Visibility;
 use League\Flysystem\WebDAV\WebDAVAdapter;
 use League\FlysystemBundle\Adapter\Builder\WebDAVAdapterDefinitionBuilder;
-use PHPUnit\Framework\TestCase;
+use League\FlysystemBundle\Test\AbstractAdapterDefinitionBuilderTest;
+use Symfony\Component\DependencyInjection\Definition;
 
 /**
  * @author Kévin Dunglas <kevin@dunglas.dev>
  */
-class WebDAVAdapterDefinitionBuilderTest extends TestCase
+class WebDAVAdapterDefinitionBuilderTest extends AbstractAdapterDefinitionBuilderTest
 {
-    public function createBuilder(): WebDAVAdapterDefinitionBuilder
+    protected function createBuilder(): WebDAVAdapterDefinitionBuilder
     {
         return new WebDAVAdapterDefinitionBuilder();
     }
@@ -35,30 +35,14 @@ class WebDAVAdapterDefinitionBuilderTest extends TestCase
         yield 'full' => [[
             'client' => 'webdav_client',
             'prefix' => 'optional/path/prefix',
-            'visibility_handling' => WebDAVAdapter::ON_VISIBILITY_THROW_ERROR,
+            'visibility_handling' => WebDAVAdapter::ON_VISIBILITY_IGNORE,
             'manual_copy' => false,
             'manual_move' => false,
         ]];
     }
 
-    /**
-     * @dataProvider provideValidOptions
-     */
-    public function testCreateDefinition(array $options): void
+    protected function assertDefinition(Definition $definition): void
     {
-        $this->assertSame(WebDAVAdapter::class, $this->createBuilder()->createDefinition($options, null)->getClass());
-    }
-
-    public function testOptionsBehavior(): void
-    {
-        $definition = $this->createBuilder()->createDefinition([
-            'client' => 'webdav_client',
-            'prefix' => 'optional/path/prefix',
-            'visibility_handling' => WebDAVAdapter::ON_VISIBILITY_IGNORE,
-            'manual_copy' => false,
-            'manual_move' => false,
-        ], Visibility::PUBLIC);
-
         $this->assertSame(WebDAVAdapter::class, $definition->getClass());
         $this->assertSame('webdav_client', (string) $definition->getArgument(0));
         $this->assertSame('optional/path/prefix', $definition->getArgument(1));

@@ -64,10 +64,6 @@ class FlysystemExtensionTest extends TestCase
         $kernel = $this->createFlysystemKernel();
         $container = $kernel->getContainer()->get('test.service_container');
 
-        if (!$container->has('storages_tagged_collection')) {
-            $this->markTestSkipped('Symfony 4.3+ is required to use indexed tagged service collections');
-        }
-
         $storages = iterator_to_array($container->get('storages_tagged_collection')->locator);
 
         $this->assertInstanceOf(FilesystemOperator::class, $storages[$fsName]);

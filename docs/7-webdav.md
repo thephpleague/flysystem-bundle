@@ -24,8 +24,7 @@ services:
 flysystem:
     storages:
         webdav.storage:
-            adapter: 'webdav'
-            options:
+            webdav:
                 client: 'webdav_client'
                 prefix: 'optional/path/prefix'
                 visibility_handling: !php/const \League\Flysystem\WebDAV\WebDAVAdapter::ON_VISIBILITY_THROW_ERROR # throw

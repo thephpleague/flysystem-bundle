@@ -12,6 +12,8 @@
 namespace League\FlysystemBundle\Adapter\Builder;
 
 use League\Flysystem\AzureBlobStorage\AzureBlobStorageAdapter;
+use Symfony\Component\Config\Definition\Builder\NodeDefinition;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -21,7 +23,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  *
  * @internal
  */
-final class AzureAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuilder
+final class AzureAdapterDefinitionBuilder implements AdapterDefinitionBuilderInterface
 {
     public function getName(): string
     {
@@ -35,7 +37,10 @@ final class AzureAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuild
         ];
     }
 
-    protected function configureOptions(OptionsResolver $resolver): void
+    /**
+     * @deprecated since 3.5, use addConfiguration() with the new config format instead
+     */
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setRequired('client');
         $resolver->setAllowedTypes('client', 'string');
@@ -47,11 +52,36 @@ final class AzureAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuild
         $resolver->setAllowedTypes('prefix', 'string');
     }
 
-    protected function configureDefinition(Definition $definition, array $options, ?string $defaultVisibilityForDirectories): void
+    public function addConfiguration(NodeDefinition $node): void
     {
-        $definition->setClass(AzureBlobStorageAdapter::class);
-        $definition->setArgument(0, new Reference($options['client']));
-        $definition->setArgument(1, $options['container']);
-        $definition->setArgument(2, $options['prefix']);
+        $node
+            ->children()
+                ->scalarNode('client')
+                    ->isRequired()
+                    ->info('The Azure Blob Storage client service name')
+                ->end()
+                ->scalarNode('container')
+                    ->isRequired()
+                    ->info('The name of the Azure Blob Storage container')
+                ->end()
+                ->scalarNode('prefix')
+                    ->defaultValue('')
+                    ->info('Optional path prefix to prepend to all blob names')
+                ->end()
+            ->end()
+        ;
+    }
+
+    public function createAdapter(ContainerBuilder $container, string $storageName, array $options, ?string $defaultVisibilityForDirectories): ?string
+    {
+        $adapterId = 'flysystem.adapter.'.$storageName;
+
+        $container
+            ->setDefinition($adapterId, new Definition(AzureBlobStorageAdapter::class))
+            ->setArgument(0, new Reference($options['client']))
+            ->setArgument(1, $options['container'])
+            ->setArgument(2, $options['prefix']);
+
+        return $adapterId;
     }
 }

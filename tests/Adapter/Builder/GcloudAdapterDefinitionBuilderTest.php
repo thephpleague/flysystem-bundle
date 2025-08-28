@@ -11,17 +11,15 @@
 
 namespace Tests\League\FlysystemBundle\Adapter\Builder;
 
-use League\Flysystem\GoogleCloudStorage\GoogleCloudStorageAdapter;
-use League\Flysystem\GoogleCloudStorage\PortableVisibilityHandler;
 use League\Flysystem\GoogleCloudStorage\UniformBucketLevelAccessVisibility;
 use League\FlysystemBundle\Adapter\Builder\GcloudAdapterDefinitionBuilder;
-use PHPUnit\Framework\TestCase;
+use League\FlysystemBundle\Test\AbstractAdapterDefinitionBuilderTest;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
-class GcloudAdapterDefinitionBuilderTest extends TestCase
+class GcloudAdapterDefinitionBuilderTest extends AbstractAdapterDefinitionBuilderTest
 {
-    public function createBuilder(): GcloudAdapterDefinitionBuilder
+    protected function createBuilder(): GcloudAdapterDefinitionBuilder
     {
         return new GcloudAdapterDefinitionBuilder();
     }
@@ -37,45 +35,16 @@ class GcloudAdapterDefinitionBuilderTest extends TestCase
             'client' => 'my_client',
             'bucket' => 'bucket',
             'prefix' => 'prefix/path',
-        ]];
-
-        yield 'portable visibility handler' => [[
-            'client' => 'my_client',
-            'bucket' => 'bucket',
-            'visibility_handler' => PortableVisibilityHandler::class,
-        ]];
-
-        yield 'uniform visibility handler' => [[
-            'client' => 'my_client',
-            'bucket' => 'bucket',
-            'visibility_handler' => UniformBucketLevelAccessVisibility::class,
-        ]];
-    }
-
-    /**
-     * @dataProvider provideValidOptions
-     */
-    public function testCreateDefinition($options): void
-    {
-        $this->assertSame(GoogleCloudStorageAdapter::class, $this->createBuilder()->createDefinition($options, null)->getClass());
-    }
-
-    public function testOptionsBehavior(): void
-    {
-        $definition = $this->createBuilder()->createDefinition([
-            'client' => 'my_client',
-            'bucket' => 'bucket_name',
-            'prefix' => 'prefix/path',
             'visibility_handler' => UniformBucketLevelAccessVisibility::class,
             'streamReads' => true,
-        ], null);
+        ]];
+    }
 
-        $this->assertSame(GoogleCloudStorageAdapter::class, $definition->getClass());
-
-        /** @var Definition $bucketDefinition */
+    protected function assertDefinition(Definition $definition): void
+    {
         $bucketDefinition = $definition->getArgument(0);
         $this->assertInstanceOf(Definition::class, $bucketDefinition);
-        $this->assertSame('bucket_name', $bucketDefinition->getArgument(0));
+        $this->assertSame('bucket', $bucketDefinition->getArgument(0));
         $this->assertInstanceOf(Reference::class, $bucketDefinition->getFactory()[0]);
         $this->assertSame('my_client', (string) $bucketDefinition->getFactory()[0]);
         $this->assertSame('bucket', $bucketDefinition->getFactory()[1]);
@@ -86,5 +55,6 @@ class GcloudAdapterDefinitionBuilderTest extends TestCase
         /** @var Reference $visibilityHandlerReference */
         $visibilityHandlerReference = $definition->getArgument(2);
         $this->assertInstanceOf(Reference::class, $visibilityHandlerReference);
+        $this->assertSame(UniformBucketLevelAccessVisibility::class, (string) $visibilityHandlerReference);
     }
 }
