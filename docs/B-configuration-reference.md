@@ -52,6 +52,7 @@ flysystem:
                         private: 0o700
             visibility: ~ # default null. Possible values are 'public' or 'private'
             directory_visibility: ~ # default null. Possible values are 'public' or 'private'
+            retain_visibility: true # default true, will then lead to adapters performing visibility checks (e.g. GetObjectAcl command for S3 adapters)
             case_sensitive: true
             disable_asserts: false
 

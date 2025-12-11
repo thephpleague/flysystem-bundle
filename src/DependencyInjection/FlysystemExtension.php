@@ -124,6 +124,7 @@ final class FlysystemExtension extends Extension
         $definition->setArgument(1, [
             'visibility' => $config['visibility'],
             'directory_visibility' => $config['directory_visibility'],
+            'retain_visibility' => $config['retain_visibility'],
             'case_sensitive' => $config['case_sensitive'],
             'disable_asserts' => $config['disable_asserts'],
             'public_url' => $publicUrl,

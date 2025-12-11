@@ -161,7 +161,7 @@ flysystem:
 ## Cloudflare R2
 
 The Cloudflare R2 is compatible with the AWS S3 API, meaning that you can use the same configuration
-as for a AWS storage. For example:
+as for an AWS storage. For example:
 
 ```yaml
 # config/packages/flysystem.yaml
