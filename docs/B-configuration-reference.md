@@ -52,7 +52,7 @@ flysystem:
                         private: 0o700
             visibility: ~ # default null. Possible values are 'public' or 'private'
             directory_visibility: ~ # default null. Possible values are 'public' or 'private'
-            retain_visibility: ~ # default null. When set to `true` or `null`, it will lead to adapters performing visibility checks (e.g. GetObjectAcl command for S3 adapters), hence `false` prevents retrieving an object's current visibility
+            retain_visibility: ~ # default null. When set to `true` or `null`, it will lead to adapters performing visibility checks (e.g. GetObjectAcl command for S3 adapters) on copy and move actions, hence `false` prevents retrieving an object's current visibility and use the value as set in `visibility` instead
             case_sensitive: true
             disable_asserts: false
 
