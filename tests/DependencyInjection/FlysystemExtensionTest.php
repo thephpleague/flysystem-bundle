@@ -15,6 +15,7 @@ use AsyncAws\S3\S3Client as AsyncS3Client;
 use Aws\S3\S3Client;
 use Google\Cloud\Storage\Bucket;
 use Google\Cloud\Storage\StorageClient;
+use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemOperator;
 use League\Flysystem\UnableToWriteFile;
 use MicrosoftAzure\Storage\Blob\BlobRestProxy;
@@ -116,6 +117,28 @@ class FlysystemExtensionTest extends TestCase
         $this->expectExceptionMessage('Unable to write file at location: path/to/file. This is a readonly adapter.');
 
         $fs->write('/path/to/file', 'Unable to write in read only');
+    }
+
+    public function testNotRetainingVisibilityPreventsAclCommandInvocation(): void
+    {
+        $kernel = $this->createFlysystemKernel();
+        $container = $kernel->getContainer()->get('test.service_container');
+
+        $calledGetObjectAcl = false;
+
+        /** @var S3Client $mock */
+        $mock = $container->get('aws_client_service');
+        $mock->method('getCommand')->with($this->callback(function ($name) use (&$calledGetObjectAcl) {
+            if ('GetObjectAcl' === $name) {
+                $calledGetObjectAcl = true;
+            }
+        }));
+
+        /** @var Filesystem $fs */
+        $fs = $container->get('flysystem.test.fs_aws');
+        $fs->copy('test.txt', 'test2.txt');
+
+        self::assertFalse($calledGetObjectAcl, 'The ACL command should not be called when `retain_visibility` is set to `false`.');
     }
 
     private function createFlysystemKernel(): FlysystemAppKernel

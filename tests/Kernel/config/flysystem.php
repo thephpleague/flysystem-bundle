@@ -15,6 +15,8 @@ return static function (ContainerConfigurator $container) {
             ],
             'fs_aws' => [
                 'adapter' => 'aws',
+                'visibility' => 'private',
+                'retain_visibility' => false,
                 'options' => [
                     'client' => 'aws_client_service',
                     'bucket' => '%env(AWS_BUCKET)%',
