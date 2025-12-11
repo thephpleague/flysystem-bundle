@@ -161,7 +161,7 @@ flysystem:
 ## Cloudflare R2
 
 The Cloudflare R2 is compatible with the AWS S3 API, meaning that you can use the same configuration
-as for an AWS storage. For example:
+as for an AWS storage. Both the regular and the async AWS Client can be used. As example:
 
 ```yaml
 # config/packages/flysystem.yaml
@@ -182,6 +182,23 @@ flysystem:
             options:
                 client: 'cloudflare_r2_client'
                 bucket: '%env(CLOUDFLARE_R2_BUCKET)%'
+```
+
+Cloudflare R2 does not have implemented ACL-related features yet, and thereby making use of Flysystem's `move` and `copy` 
+methods requires configuring explicit value for `visibility` and setting `retain_visibility` to `false` to prevent the 
+S3 adapter to call the `GetObjectAcl` command to retrieve an object's current ACL visibility, then resulting in an exception.
+
+```yaml
+flysystem:
+    storages:
+        cdn.storage:
+            # ...
+            visibility: private # or public
+            
+            # to use the visibility as defined above instead of retaining the object's visibility, and not having to run
+            # the unsupported `GetObjectAcl` command to get the object's current visibility.
+            retain_visibility: false  
+            # ...
 ```
 
 ## Next

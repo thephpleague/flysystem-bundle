@@ -42,7 +42,7 @@ final class Configuration implements ConfigurationInterface
                             ->end()
                             ->scalarNode('visibility')->defaultNull()->end()
                             ->scalarNode('directory_visibility')->defaultNull()->end()
-                            ->booleanNode('retain_visibility')->defaultTrue()->end()
+                            ->booleanNode('retain_visibility')->defaultNull()->end()
                             ->booleanNode('case_sensitive')->defaultTrue()->end()
                             ->booleanNode('disable_asserts')->defaultFalse()->end()
                             ->arrayNode('public_url')
