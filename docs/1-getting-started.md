@@ -178,7 +178,7 @@ To achieve this, you need to install the read-only package :
 composer require league/flysystem-read-only
 ```
 
-And then, you can configure your storage with the `readonly` options.
+And then, you can configure your storage with the `read_only` option.
 
 ```yaml
 # config/packages/flysystem.yaml
@@ -189,7 +189,7 @@ flysystem:
             adapter: 'local'
             options:
                 directory: '%kernel.project_dir%/storage/users'
-            readonly: true
+            read_only: true
 ```
 
 With this configuration, any write operation will throw a suitable exception.
