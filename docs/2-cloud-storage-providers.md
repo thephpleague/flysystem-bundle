@@ -104,6 +104,7 @@ flysystem:
                 client: 'gcloud_client_service' # The service ID of the Google\Cloud\Storage\StorageClient instance
                 bucket: 'bucket_name'
                 prefix: 'optional/path/prefix'
+                streamReads: false
 ```
 
 ## DigitalOcean Spaces

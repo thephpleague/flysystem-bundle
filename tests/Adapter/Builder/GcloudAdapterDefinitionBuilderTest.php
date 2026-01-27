@@ -67,6 +67,7 @@ class GcloudAdapterDefinitionBuilderTest extends TestCase
             'bucket' => 'bucket_name',
             'prefix' => 'prefix/path',
             'visibility_handler' => UniformBucketLevelAccessVisibility::class,
+            'streamReads' => true,
         ], null);
 
         $this->assertSame(GoogleCloudStorageAdapter::class, $definition->getClass());
@@ -80,6 +81,7 @@ class GcloudAdapterDefinitionBuilderTest extends TestCase
         $this->assertSame('bucket', $bucketDefinition->getFactory()[1]);
 
         $this->assertSame('prefix/path', $definition->getArgument(1));
+        $this->assertTrue($definition->getArgument(5));
 
         /** @var Reference $visibilityHandlerReference */
         $visibilityHandlerReference = $definition->getArgument(2);
