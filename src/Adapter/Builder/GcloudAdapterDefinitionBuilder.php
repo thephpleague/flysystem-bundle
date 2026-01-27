@@ -48,6 +48,9 @@ final class GcloudAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuil
 
         $resolver->setDefault('visibility_handler', null);
         $resolver->setAllowedTypes('visibility_handler', ['string', 'null']);
+
+        $resolver->setDefault('streamReads', false);
+        $resolver->setAllowedTypes('streamReads', 'bool');
     }
 
     protected function configureDefinition(Definition $definition, array $options, ?string $defaultVisibilityForDirectories): void
@@ -65,5 +68,6 @@ final class GcloudAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuil
         $definition->setArgument(0, $bucketDefinition);
         $definition->setArgument(1, $options['prefix']);
         $definition->setArgument(2, $visibilityHandlerReference);
+        $definition->setArgument(5, $options['streamReads']);
     }
 }
