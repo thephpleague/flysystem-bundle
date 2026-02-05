@@ -12,6 +12,7 @@
 namespace League\FlysystemBundle\Adapter\Builder;
 
 use League\Flysystem\GoogleCloudStorage\GoogleCloudStorageAdapter;
+use League\Flysystem\Visibility;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -68,6 +69,8 @@ final class GcloudAdapterDefinitionBuilder extends AbstractAdapterDefinitionBuil
         $definition->setArgument(0, $bucketDefinition);
         $definition->setArgument(1, $options['prefix']);
         $definition->setArgument(2, $visibilityHandlerReference);
+        $definition->setArgument(3, Visibility::PRIVATE);
+        $definition->setArgument(4, null);
         $definition->setArgument(5, $options['streamReads']);
     }
 }
