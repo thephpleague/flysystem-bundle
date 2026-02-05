@@ -52,11 +52,6 @@ jobs:
                 php-version: ${{ matrix.php-version }}
                 tools: flex
 
-            - name: Remove incompatible packages
-              if: matrix.symfony-version == '8.0.*'
-              run: |
-                  composer remove --no-update --dev doctrine/mongodb-odm
-
             - name: Install Composer dependencies
               uses: ramsey/composer-install@v2
               with:
