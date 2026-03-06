@@ -46,6 +46,7 @@
         "league/flysystem-read-only": "^3.15",
         "league/flysystem-sftp-v3": "^3.1",
         "league/flysystem-webdav": "^3.29",
+        "league/flysystem-ziparchive": "3.x-dev",
         "platformcommunity/flysystem-bunnycdn": "^3.3",
         "symfony/dotenv": "^6.0 || ^7.0 || ^8.0",
         "symfony/framework-bundle": "^6.0 || ^7.0 || ^8.0",
