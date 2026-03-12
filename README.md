@@ -1,7 +1,7 @@
 # flysystem-bundle
 
 [![Packagist Version](https://img.shields.io/packagist/v/league/flysystem-bundle.svg?style=flat-square)](https://packagist.org/packages/league/flysystem-bundle)
-[![Software license](https://img.shields.io/github/license/thephpleague/flysystem-bundle.svg?style=flat-square)](https://github.com/thephpleague/flysystem-bundle/blob/master/LICENSE)
+[![Software license](https://img.shields.io/github/license/thephpleague/flysystem-bundle.svg?style=flat-square)](LICENSE)
 
 flysystem-bundle is a Symfony bundle integrating the [Flysystem](https://flysystem.thephpleague.com)
 library into Symfony applications. 
@@ -12,7 +12,7 @@ on the execution environment (local files in development, cloud storage in produ
 > Note: you are reading the documentation for flysystem-bundle 3.0, which relies on Flysystem 3.  
 > If you use Flysystem 1.x, use [flysystem-bundle 1.x](https://github.com/thephpleague/flysystem-bundle/tree/1.x).  
 > If you use Flysystem 2.x, use [flysystem-bundle 2.x](https://github.com/thephpleague/flysystem-bundle/tree/2.x).  
-> Read the [Upgrade guide](https://github.com/thephpleague/flysystem-bundle/blob/master/UPGRADE.md) to learn how to upgrade.
+> Read the [Upgrade guide](UPGRADE.md) to learn how to upgrade.
 
 ## Installation
 
@@ -51,47 +51,61 @@ For each storage defined under `flysystem.storages`, an associated service is cr
 name you provide (in this case, a service `default.storage` will be created). The bundle also
 creates a named alias for each of these services.
 
-This means you have two ways of using the defined storages:
+This means you can inject the storage services in your services and controllers like this:
 
-* either using autowiring, by typehinting against the `FilesystemOperator` and using the
-  variable name matching one of your storages:
+**1) Using service autowiring:** typehint your service/controller argument with
+`FilesystemOperator` and use the `#[Target]` attribute to select the storage by name:
 
-    ```php
-    use League\Flysystem\FilesystemOperator;
-    
-    class MyService
-    {
-        private FilesystemOperator $storage;
-        
-        // The variable name $defaultStorage matters: it needs to be the camelized version
-        // of the name of your storage. 
-        public function __construct(FilesystemOperator $defaultStorage)
-        {
-            $this->storage = $defaultStorage;
-        }
-        
-        // ...
+```php
+use League\Flysystem\FilesystemOperator;
+
+class MyService
+{
+    public function __construct(
+        #[Target('default.storage')] private FilesystemOperator $storage,
+    ) {
     }
-    ```
-    
-  The same goes for controllers:
-    
-    ```php
-    use League\Flysystem\FilesystemOperator;
-    
-    class MyController
-    {
-        // The variable name $defaultStorage matters: it needs to be the camelized version
-        // of the name of your storage. 
-        public function index(FilesystemOperator $defaultStorage)
-        {
-            // ...
-        }
-    }
-    ```
 
-* or using manual injection, by injecting the service named `default.storage` inside 
-  your services.
+    // ...
+}
+```
+
+Instead of using the `#[Target]` attribute, you can also typehint your service/controller
+argument with `FilesystemOperator` and use the camelCase version of your storage
+name as the variable name. However, this practice is discouraged and won't work in
+future Symfony versions:
+
+```php
+use League\Flysystem\FilesystemOperator;
+
+class MyService
+{
+    private FilesystemOperator $storage;
+
+    // The variable name $defaultStorage matters: it needs to be the
+    // camelCase version of the name of your storage (foo.bar.baz -> fooBarBaz)
+    public function __construct(FilesystemOperator $defaultStorage)
+    {
+        $this->storage = $defaultStorage;
+    }
+
+    // ...
+}
+```
+
+**2) Using manual service registration:** in your services, inject the service
+that this bundle creates for each of your storages following the pattern
+`'flysystem.adapter.'.$storageName`:
+
+```yaml
+# config/services.yaml
+services:
+    # ...
+
+    App\MyService:
+        arguments:
+            $storage: @flysystem.adapter.default.storage
+```
   
 Once you have a FilesystemOperator, you can call methods from the
 [Filesystem API](https://flysystem.thephpleague.com/v2/docs/usage/filesystem-api/)
@@ -99,28 +113,28 @@ to interact with your storage.
 
 ## Full documentation
 
-1. [Getting started](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/1-getting-started.md)
+1. [Getting started](docs/1-getting-started.md)
 2. Cloud storage providers:
-   [AsyncAws S3](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/2-cloud-storage-providers.md#asyncaws-s3),
-   [AWS SDK S3](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/2-cloud-storage-providers.md#aws-sdk-s3),
-   [Azure](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/2-cloud-storage-providers.md#azure),
-   [Google Cloud Storage](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/2-cloud-storage-providers.md#google-cloud-storage),
-   [DigitalOcean Spaces](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/2-cloud-storage-providers.md#digitalocean-spaces),
-   [Scaleway Object Storage](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/2-cloud-storage-providers.md#scaleway-object-storage)
-3. [Interacting with FTP and SFTP servers](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/3-interacting-with-ftp-and-sftp-servers.md)
-4. [Using a lazy adapter to switch storage backend using an environment variable](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/4-using-lazy-adapter-to-switch-at-runtime.md)
-5. [Creating a custom adapter](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/5-creating-a-custom-adapter.md)
-6. [MongoDB GridFS](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/6-gridfs.md)
-7. [WebDAV](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/7-webdav.md)
-8. [BunnyCDN](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/8-bunnycdn.md)
+   [AsyncAws S3](docs/2-cloud-storage-providers.md#asyncaws-s3),
+   [AWS SDK S3](docs/2-cloud-storage-providers.md#aws-sdk-s3),
+   [Azure](docs/2-cloud-storage-providers.md#azure),
+   [Google Cloud Storage](docs/2-cloud-storage-providers.md#google-cloud-storage),
+   [DigitalOcean Spaces](docs/2-cloud-storage-providers.md#digitalocean-spaces),
+   [Scaleway Object Storage](docs/2-cloud-storage-providers.md#scaleway-object-storage)
+3. [Interacting with FTP and SFTP servers](docs/3-interacting-with-ftp-and-sftp-servers.md)
+4. [Using a lazy adapter to switch storage backend using an environment variable](docs/4-using-lazy-adapter-to-switch-at-runtime.md)
+5. [Creating a custom adapter](docs/5-creating-a-custom-adapter.md)
+6. [MongoDB GridFS](docs/6-gridfs.md)
+7. [WebDAV](docs/7-webdav.md)
+8. [BunnyCDN](docs/8-bunnycdn.md)
 
-* [Security issue disclosure procedure](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/A-security-disclosure-procedure.md)
-* [Configuration reference](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/B-configuration-reference.md)
+* [Security issue disclosure procedure](docs/A-security-disclosure-procedure.md)
+* [Configuration reference](docs/B-configuration-reference.md)
 
 ## Security Issues
 
 If you discover a security vulnerability within the bundle, please follow
-[our disclosure procedure](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/A-security-disclosure-procedure.md).
+[our disclosure procedure](docs/A-security-disclosure-procedure.md).
 
 ## Backward Compatibility promise
 
