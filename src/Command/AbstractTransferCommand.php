@@ -64,6 +64,7 @@ abstract class AbstractTransferCommand extends Command
         $source = (string) $input->getArgument('source');
         $destination = $input->getArgument('destination');
         $destination = null === $destination ? basename($source) : (string) $destination;
+        $destination = $this->normalizeDestination($source, $destination);
 
         try {
             $storage = $this->getStorage($storageName);
@@ -151,6 +152,11 @@ abstract class AbstractTransferCommand extends Command
         }
 
         return $storage;
+    }
+
+    protected function normalizeDestination(string $source, string $destination): string
+    {
+        return $destination;
     }
 
     abstract protected function transfer(FilesystemOperator $storage, string $source, string $destination): void;

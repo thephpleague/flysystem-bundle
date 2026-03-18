@@ -17,6 +17,7 @@ use League\Flysystem\FilesystemReader;
 use League\Flysystem\FilesystemWriter;
 use League\Flysystem\ReadOnly\ReadOnlyFilesystemAdapter;
 use League\FlysystemBundle\Adapter\AdapterDefinitionFactory;
+use League\FlysystemBundle\Command\PullCommand;
 use League\FlysystemBundle\Command\PushCommand;
 use League\FlysystemBundle\Exception\MissingPackageException;
 use League\FlysystemBundle\Lazy\LazyFactory;
@@ -46,6 +47,7 @@ final class FlysystemExtension extends Extension
 
         if (ContainerBuilder::willBeAvailable('symfony/console', Command::class, ['symfony/framework-bundle'])) {
             $this->registerPushCommand($container);
+            $this->registerPullCommand($container);
         }
 
         $this->createStoragesDefinitions($config, $container);
@@ -55,6 +57,16 @@ final class FlysystemExtension extends Extension
     {
         $container
             ->register(PushCommand::class, PushCommand::class)
+            ->setPublic(false)
+            ->setArgument('$storages', tagged_locator('flysystem.storage', 'storage'))
+            ->addTag('console.command')
+        ;
+    }
+
+    private function registerPullCommand(ContainerBuilder $container): void
+    {
+        $container
+            ->register(PullCommand::class, PullCommand::class)
             ->setPublic(false)
             ->setArgument('$storages', tagged_locator('flysystem.storage', 'storage'))
             ->addTag('console.command')
