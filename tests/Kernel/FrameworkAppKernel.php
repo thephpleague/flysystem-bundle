@@ -21,6 +21,11 @@ class FrameworkAppKernel extends Kernel
 {
     use AppKernelTrait;
 
+    public function __construct(string $environment, bool $debug, private readonly string $storageDirectory = __DIR__)
+    {
+        parent::__construct($environment, $debug);
+    }
+
     public function registerBundles(): iterable
     {
         return [new FrameworkBundle(), new FlysystemBundle()];
@@ -28,13 +33,18 @@ class FrameworkAppKernel extends Kernel
 
     public function registerContainerConfiguration(LoaderInterface $loader): void
     {
+        $storageDirectory = $this->storageDirectory;
+
         $loader->load(function (ContainerBuilder $container) {
             $container->loadFromExtension('framework', ['secret' => '$ecret', 'test' => true, 'http_method_override' => false]);
+        });
+
+        $loader->load(function (ContainerBuilder $container) use ($storageDirectory) {
             $container->loadFromExtension('flysystem', [
                 'storages' => [
                     'uploads.storage' => [
                         'adapter' => 'local',
-                        'options' => ['directory' => __DIR__],
+                        'options' => ['directory' => $storageDirectory],
                     ],
                 ],
             ]);
