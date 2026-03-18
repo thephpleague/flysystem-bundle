@@ -11,6 +11,7 @@
 
 namespace Tests\League\FlysystemBundle\Command;
 
+use League\Flysystem\FilesystemOperator;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -79,6 +80,31 @@ class TransferCommandTest extends KernelTestCase
         self::assertStringContainsString('What is the source path to transfer?', $tester->getDisplay());
         self::assertStringContainsString('What is the destination path?', $tester->getDisplay());
         self::assertStringContainsString('Pushed', $tester->getDisplay());
+    }
+
+    public function testPullCommandPullsAStorageFileToTheLocalFilesystem(): void
+    {
+        self::bootKernel();
+        $application = new Application(self::$kernel);
+        $container = static::getContainer();
+
+        /** @var FilesystemOperator $storage */
+        $storage = $container->get('uploads.storage');
+        $storage->write('remote.txt', 'pull-content');
+
+        $command = $application->find('flysystem:pull');
+        $tester = new CommandTester($command);
+
+        $destination = $this->workingDirectory.'/nested/local.txt';
+        $exitCode = $tester->execute([
+            'storage' => 'uploads.storage',
+            'source' => 'remote.txt',
+            'destination' => $destination,
+        ]);
+
+        self::assertSame(0, $exitCode);
+        self::assertSame('pull-content', file_get_contents($destination));
+        self::assertStringContainsString('Pulled', $tester->getDisplay());
     }
 
     public function testPushCommandFailsForUnknownStorage(): void
