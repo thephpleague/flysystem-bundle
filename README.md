@@ -111,6 +111,15 @@ Once you have a FilesystemOperator, you can call methods from the
 [Filesystem API](https://flysystem.thephpleague.com/v2/docs/usage/filesystem-api/)
 to interact with your storage.
 
+If you need to transfer files between the local filesystem and one of your configured storages, the bundle also provides two console commands:
+
+```bash
+bin/console flysystem:push <storage> <local-source> [remote-destination]
+bin/console flysystem:pull <storage> <remote-source> [local-destination]
+```
+
+The `<storage>` argument is the configured Flysystem storage name (for example `default.storage`), not the adapter type. When the destination is omitted, the basename of the source path is used.
+
 ## Full documentation
 
 1. [Getting started](docs/1-getting-started.md)

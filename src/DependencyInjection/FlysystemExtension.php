@@ -17,13 +17,18 @@ use League\Flysystem\FilesystemReader;
 use League\Flysystem\FilesystemWriter;
 use League\Flysystem\ReadOnly\ReadOnlyFilesystemAdapter;
 use League\FlysystemBundle\Adapter\AdapterDefinitionFactory;
+use League\FlysystemBundle\Command\PullCommand;
+use League\FlysystemBundle\Command\PushCommand;
 use League\FlysystemBundle\Exception\MissingPackageException;
 use League\FlysystemBundle\Lazy\LazyFactory;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+
+use function Symfony\Component\DependencyInjection\Loader\Configurator\tagged_locator;
 
 /**
  * @author Titouan Galopin <galopintitouan@gmail.com>
@@ -40,7 +45,32 @@ final class FlysystemExtension extends Extension
             ->setPublic(false)
         ;
 
+        if (ContainerBuilder::willBeAvailable('symfony/console', Command::class, ['symfony/framework-bundle'])) {
+            $this->registerPushCommand($container);
+            $this->registerPullCommand($container);
+        }
+
         $this->createStoragesDefinitions($config, $container);
+    }
+
+    private function registerPushCommand(ContainerBuilder $container): void
+    {
+        $container
+            ->register(PushCommand::class, PushCommand::class)
+            ->setPublic(false)
+            ->setArgument('$storages', tagged_locator('flysystem.storage', 'storage'))
+            ->addTag('console.command')
+        ;
+    }
+
+    private function registerPullCommand(ContainerBuilder $container): void
+    {
+        $container
+            ->register(PullCommand::class, PullCommand::class)
+            ->setPublic(false)
+            ->setArgument('$storages', tagged_locator('flysystem.storage', 'storage'))
+            ->addTag('console.command')
+        ;
     }
 
     private function createStoragesDefinitions(array $config, ContainerBuilder $container): void
