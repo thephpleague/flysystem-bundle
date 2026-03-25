@@ -14,6 +14,7 @@ namespace Tests\League\FlysystemBundle\Command;
 use League\Flysystem\FilesystemOperator;
 use Symfony\Bundle\FrameworkBundle\Console\Application;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
 use Tests\League\FlysystemBundle\Kernel\FrameworkAppKernel;
 
@@ -53,7 +54,7 @@ class TransferCommandTest extends KernelTestCase
             'source' => $localFile,
         ]);
 
-        self::assertSame(0, $exitCode);
+        self::assertSame(Command::SUCCESS, $exitCode);
         self::assertSame('push-content', file_get_contents($this->storageDirectory.'/push.txt'));
         self::assertStringContainsString('Pushed', $tester->getDisplay());
     }
@@ -76,7 +77,7 @@ class TransferCommandTest extends KernelTestCase
 
         $exitCode = $tester->execute([], ['interactive' => true]);
 
-        self::assertSame(0, $exitCode);
+        self::assertSame(Command::SUCCESS, $exitCode);
         self::assertSame('interactive-push-content', file_get_contents($this->storageDirectory.'/'.$destination));
         self::assertStringContainsString('Which configured Flysystem storage should be used?', $tester->getDisplay());
         self::assertStringContainsString('What is the source path to transfer?', $tester->getDisplay());
@@ -104,7 +105,7 @@ class TransferCommandTest extends KernelTestCase
             'destination' => $destination,
         ]);
 
-        self::assertSame(0, $exitCode);
+        self::assertSame(Command::SUCCESS, $exitCode);
         self::assertSame('pull-content', file_get_contents($destination));
         self::assertStringContainsString('Pulled', $tester->getDisplay());
     }
@@ -131,7 +132,7 @@ class TransferCommandTest extends KernelTestCase
             'destination' => $destination,
         ]);
 
-        self::assertSame(1, $exitCode);
+        self::assertSame(Command::FAILURE, $exitCode);
         self::assertSame('existing-content', file_get_contents($destination));
         self::assertStringContainsString('already exists', $tester->getDisplay());
     }
@@ -159,7 +160,7 @@ class TransferCommandTest extends KernelTestCase
             '--force' => true,
         ]);
 
-        self::assertSame(0, $exitCode);
+        self::assertSame(Command::SUCCESS, $exitCode);
         self::assertSame('pull-content', file_get_contents($destination));
         self::assertStringContainsString('Pulled', $tester->getDisplay());
     }
@@ -179,7 +180,7 @@ class TransferCommandTest extends KernelTestCase
             'source' => $localFile,
         ]);
 
-        self::assertSame(2, $exitCode);
+        self::assertSame(Command::INVALID, $exitCode);
         self::assertStringContainsString('The storage "unknown.storage" does not exist.', $tester->getDisplay());
     }
 
