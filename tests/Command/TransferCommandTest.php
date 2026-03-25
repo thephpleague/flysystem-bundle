@@ -39,6 +39,13 @@ class TransferCommandTest extends KernelTestCase
         mkdir($this->workingDirectory, 0755, true);
     }
 
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+
+        $this->removeDirectory(sys_get_temp_dir().'/'.self::BASE_DIR);
+    }
+
     public function testPushCommandPushesALocalFileToTheConfiguredStorage(): void
     {
         file_put_contents($localFile = $this->workingDirectory.'/push.txt', 'push-content');
