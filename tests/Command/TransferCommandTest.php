@@ -92,6 +92,59 @@ class TransferCommandTest extends KernelTestCase
         self::assertStringContainsString('Pushed', $tester->getDisplay());
     }
 
+    public function testPushCommandFailsWhenDestinationAlreadyExists(): void
+    {
+        self::bootKernel();
+        $application = new Application(self::$kernel);
+        $container = static::getContainer();
+
+        /** @var FilesystemOperator $storage */
+        $storage = $container->get('uploads.storage');
+        $storage->write('existing.txt', 'existing-content');
+
+        $command = $application->find('flysystem:push');
+        $tester = new CommandTester($command);
+
+        file_put_contents($localFile = $this->workingDirectory.'/new.txt', 'new-content');
+
+        $exitCode = $tester->execute([
+            'storage' => 'uploads.storage',
+            'source' => $localFile,
+            'destination' => 'existing.txt',
+        ]);
+
+        self::assertSame(Command::FAILURE, $exitCode);
+        self::assertSame('existing-content', $storage->read('existing.txt'));
+        self::assertStringContainsString('already exists', $tester->getDisplay());
+    }
+
+    public function testPushCommandOverwritesWhenDestinationAlreadyExistsWithForce(): void
+    {
+        self::bootKernel();
+        $application = new Application(self::$kernel);
+        $container = static::getContainer();
+
+        /** @var FilesystemOperator $storage */
+        $storage = $container->get('uploads.storage');
+        $storage->write('existing.txt', 'existing-content');
+
+        $command = $application->find('flysystem:push');
+        $tester = new CommandTester($command);
+
+        file_put_contents($localFile = $this->workingDirectory.'/new.txt', 'new-content');
+
+        $exitCode = $tester->execute([
+            'storage' => 'uploads.storage',
+            'source' => $localFile,
+            'destination' => 'existing.txt',
+            '--force' => true,
+        ]);
+
+        self::assertSame(Command::SUCCESS, $exitCode);
+        self::assertSame('new-content', $storage->read('existing.txt'));
+        self::assertStringContainsString('Pushed', $tester->getDisplay());
+    }
+
     public function testPullCommandPullsAStorageFileToTheLocalFilesystem(): void
     {
         self::bootKernel();

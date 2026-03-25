@@ -23,6 +23,10 @@ final class PushCommand extends AbstractTransferCommand
             throw new \InvalidArgumentException(sprintf('The source file "%s" does not exist or is not a regular file.', $source));
         }
 
+        if (!$force && $storage->fileExists($destination)) {
+            throw new \RuntimeException(sprintf('The destination file "%s" already exists on the storage. Use the --force option to overwrite it.', $destination));
+        }
+
         $resource = fopen($source, 'rb');
         if (false === $resource) {
             throw new \RuntimeException(sprintf('Unable to open the source file "%s" for reading.', $source));
