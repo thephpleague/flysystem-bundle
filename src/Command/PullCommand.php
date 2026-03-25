@@ -52,7 +52,10 @@ final class PullCommand extends AbstractTransferCommand
         }
 
         try {
-            stream_copy_to_stream($resource, $local);
+            $bytesCopied = stream_copy_to_stream($resource, $local);
+            if (false === $bytesCopied) {
+                throw new \RuntimeException(sprintf('Failed to write "%s" to "%s": stream copy failed.', $source, $destination));
+            }
         } finally {
             fclose($resource);
             fclose($local);
