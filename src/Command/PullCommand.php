@@ -26,11 +26,15 @@ final class PullCommand extends AbstractTransferCommand
         return rtrim($destination, '/\\').DIRECTORY_SEPARATOR.basename($source);
     }
 
-    protected function transfer(FilesystemOperator $storage, string $source, string $destination): void
+    protected function transfer(FilesystemOperator $storage, string $source, string $destination, bool $force = false): void
     {
         $directory = dirname($destination);
         if ('.' !== $directory && !is_dir($directory) && !mkdir($directory, 0777, true) && !is_dir($directory)) {
             throw new \RuntimeException(sprintf('Unable to create the destination directory "%s".', $directory));
+        }
+
+        if (!$force && is_file($destination)) {
+            throw new \RuntimeException(sprintf('The destination file "%s" already exists. Use the --force option to overwrite it.', $destination));
         }
 
         $resource = $storage->readStream($source);

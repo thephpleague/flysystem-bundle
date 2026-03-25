@@ -17,7 +17,7 @@ use Symfony\Component\Console\Attribute\AsCommand;
 #[AsCommand(name: 'flysystem:push', description: 'Push a local file to a configured Flysystem storage.')]
 final class PushCommand extends AbstractTransferCommand
 {
-    protected function transfer(FilesystemOperator $storage, string $source, string $destination): void
+    protected function transfer(FilesystemOperator $storage, string $source, string $destination, bool $force = false): void
     {
         if (!is_file($source)) {
             throw new \InvalidArgumentException(sprintf('The source file "%s" does not exist or is not a regular file.', $source));

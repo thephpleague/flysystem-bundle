@@ -107,6 +107,61 @@ class TransferCommandTest extends KernelTestCase
         self::assertStringContainsString('Pulled', $tester->getDisplay());
     }
 
+    public function testPullCommandFailsWhenDestinationAlreadyExists(): void
+    {
+        self::bootKernel();
+        $application = new Application(self::$kernel);
+        $container = static::getContainer();
+
+        /** @var FilesystemOperator $storage */
+        $storage = $container->get('uploads.storage');
+        $storage->write('remote.txt', 'pull-content');
+
+        $destination = $this->workingDirectory.'/local.txt';
+        file_put_contents($destination, 'existing-content');
+
+        $command = $application->find('flysystem:pull');
+        $tester = new CommandTester($command);
+
+        $exitCode = $tester->execute([
+            'storage' => 'uploads.storage',
+            'source' => 'remote.txt',
+            'destination' => $destination,
+        ]);
+
+        self::assertSame(1, $exitCode);
+        self::assertSame('existing-content', file_get_contents($destination));
+        self::assertStringContainsString('already exists', $tester->getDisplay());
+    }
+
+    public function testPullCommandOverwritesWhenDestinationAlreadyExistsWithForce(): void
+    {
+        self::bootKernel();
+        $application = new Application(self::$kernel);
+        $container = static::getContainer();
+
+        /** @var FilesystemOperator $storage */
+        $storage = $container->get('uploads.storage');
+        $storage->write('remote.txt', 'pull-content');
+
+        $destination = $this->workingDirectory.'/local.txt';
+        file_put_contents($destination, 'existing-content');
+
+        $command = $application->find('flysystem:pull');
+        $tester = new CommandTester($command);
+
+        $exitCode = $tester->execute([
+            'storage' => 'uploads.storage',
+            'source' => 'remote.txt',
+            'destination' => $destination,
+            '--force' => true,
+        ]);
+
+        self::assertSame(0, $exitCode);
+        self::assertSame('pull-content', file_get_contents($destination));
+        self::assertStringContainsString('Pulled', $tester->getDisplay());
+    }
+
     public function testPushCommandFailsForUnknownStorage(): void
     {
         file_put_contents($localFile = $this->workingDirectory.'/push.txt', 'push-content');

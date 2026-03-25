@@ -17,6 +17,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Style\SymfonyStyle;
@@ -34,7 +35,8 @@ abstract class AbstractTransferCommand extends Command
         $this
             ->addArgument('storage', InputArgument::REQUIRED, 'The configured Flysystem storage name.')
             ->addArgument('source', InputArgument::REQUIRED, 'The source path to transfer.')
-            ->addArgument('destination', InputArgument::OPTIONAL, 'The destination path. Defaults to the source basename.');
+            ->addArgument('destination', InputArgument::OPTIONAL, 'The destination path. Defaults to the source basename.')
+            ->addOption('force', null, InputOption::VALUE_NONE, 'Overwrite the destination file if it already exists.');
     }
 
     protected function interact(InputInterface $input, OutputInterface $output): void
@@ -66,9 +68,11 @@ abstract class AbstractTransferCommand extends Command
         $destination = null === $destination ? basename($source) : (string) $destination;
         $destination = $this->normalizeDestination($source, $destination);
 
+        $force = (bool) $input->getOption('force');
+
         try {
             $storage = $this->getStorage($storageName);
-            $this->transfer($storage, $source, $destination);
+            $this->transfer($storage, $source, $destination, $force);
         } catch (InvalidArgumentException|\InvalidArgumentException $exception) {
             $io->error($exception->getMessage());
 
@@ -159,7 +163,7 @@ abstract class AbstractTransferCommand extends Command
         return $destination;
     }
 
-    abstract protected function transfer(FilesystemOperator $storage, string $source, string $destination): void;
+    abstract protected function transfer(FilesystemOperator $storage, string $source, string $destination, bool $force = false): void;
 
     abstract protected function createSuccessMessage(string $storageName, string $source, string $destination): string;
 }
