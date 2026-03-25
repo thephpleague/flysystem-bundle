@@ -19,6 +19,8 @@ use Tests\League\FlysystemBundle\Kernel\FrameworkAppKernel;
 
 class TransferCommandTest extends KernelTestCase
 {
+    private const BASE_DIR = 'flysystem-bundle-command-tests';
+
     private string $storageDirectory;
     private string $workingDirectory;
 
@@ -26,7 +28,7 @@ class TransferCommandTest extends KernelTestCase
     {
         parent::setUp();
 
-        $base = sys_get_temp_dir().'/flysystem-bundle-command-tests';
+        $base = sys_get_temp_dir().'/'.self::BASE_DIR;
         $this->removeDirectory($base);
 
         $this->storageDirectory = $base.'/storage';
@@ -188,7 +190,7 @@ class TransferCommandTest extends KernelTestCase
 
     private static function getStorageDirectory(): string
     {
-        $storageDirectory = sys_get_temp_dir().'/flysystem-bundle-command-tests/storage';
+        $storageDirectory = sys_get_temp_dir().'/'.self::BASE_DIR.'/storage';
 
         if (!is_dir($storageDirectory)) {
             mkdir($storageDirectory, 0755, true);
