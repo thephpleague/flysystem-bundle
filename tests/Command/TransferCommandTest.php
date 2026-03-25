@@ -32,8 +32,8 @@ class TransferCommandTest extends KernelTestCase
         $this->storageDirectory = $base.'/storage';
         $this->workingDirectory = $base.'/work';
 
-        mkdir($this->storageDirectory, 0777, true);
-        mkdir($this->workingDirectory, 0777, true);
+        mkdir($this->storageDirectory, 0755, true);
+        mkdir($this->workingDirectory, 0755, true);
     }
 
     public function testPushCommandPushesALocalFileToTheConfiguredStorage(): void
@@ -191,7 +191,7 @@ class TransferCommandTest extends KernelTestCase
         $storageDirectory = sys_get_temp_dir().'/flysystem-bundle-command-tests/storage';
 
         if (!is_dir($storageDirectory)) {
-            mkdir($storageDirectory, 0777, true);
+            mkdir($storageDirectory, 0755, true);
         }
 
         return $storageDirectory;

@@ -29,7 +29,7 @@ final class PullCommand extends AbstractTransferCommand
     protected function transfer(FilesystemOperator $storage, string $source, string $destination, bool $force = false): void
     {
         $directory = dirname($destination);
-        if ('.' !== $directory && !is_dir($directory) && !mkdir($directory, 0777, true) && !is_dir($directory)) {
+        if ('.' !== $directory && !is_dir($directory) && !mkdir($directory, 0755, true) && !is_dir($directory)) {
             throw new \RuntimeException(sprintf('Unable to create the destination directory "%s".', $directory));
         }
 
