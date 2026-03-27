@@ -48,8 +48,8 @@ final class WebDAVAdapterDefinitionBuilder implements AdapterDefinitionBuilderIn
         $resolver->setDefault('prefix', '');
         $resolver->setAllowedTypes('prefix', 'string');
 
-        $resolver->setDefault('visibility_handling', WebDAVAdapter::ON_VISIBILITY_THROW_ERROR);
-        $resolver->setAllowedTypes('visibility_handling', ['string']);
+        $resolver->setDefault('visibility_handling', 'throw');
+        $resolver->setAllowedValues('visibility_handling', ['throw', 'ignore']);
 
         $resolver->setDefault('manual_copy', false);
         $resolver->setAllowedTypes('manual_copy', 'bool');
@@ -70,8 +70,9 @@ final class WebDAVAdapterDefinitionBuilder implements AdapterDefinitionBuilderIn
                     ->defaultValue('')
                     ->info('Optional path prefix to prepend to all paths')
                 ->end()
-                ->scalarNode('visibility_handling')
-                    ->defaultValue(WebDAVAdapter::ON_VISIBILITY_THROW_ERROR)
+                ->enumNode('visibility_handling')
+                    ->values(['throw', 'ignore'])
+                    ->defaultValue('throw')
                     ->info('How to handle visibility operations')
                 ->end()
                 ->booleanNode('manual_copy')
