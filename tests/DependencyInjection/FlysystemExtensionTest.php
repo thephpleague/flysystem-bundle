@@ -18,8 +18,13 @@ use Google\Cloud\Storage\StorageClient;
 use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemOperator;
 use League\Flysystem\UnableToWriteFile;
+use League\FlysystemBundle\Adapter\Builder\AdapterDefinitionBuilderInterface;
+use League\FlysystemBundle\DependencyInjection\FlysystemExtension;
 use MicrosoftAzure\Storage\Blob\BlobRestProxy;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Config\Definition\Builder\NodeDefinition;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\Dotenv\Dotenv;
 use Tests\League\FlysystemBundle\Kernel\FlysystemAppKernel;
 
@@ -135,6 +140,48 @@ class FlysystemExtensionTest extends TestCase
         $fs->copy('test.txt', 'test2.txt');
 
         self::assertFalse($calledGetObjectAcl, 'The ACL command should not be called when `retain_visibility` is set to `false`.');
+    }
+
+    public function testPrependCallsPrependOnBuildersThatImplementIt(): void
+    {
+        $container = new ContainerBuilder();
+        $prepended = false;
+
+        $builder = new class($prepended) implements AdapterDefinitionBuilderInterface, PrependExtensionInterface {
+            public function __construct(private bool &$prepended)
+            {
+            }
+
+            public function getName(): string
+            {
+                return 'test';
+            }
+
+            public function getRequiredPackages(): array
+            {
+                return [];
+            }
+
+            public function addConfiguration(NodeDefinition $node): void
+            {
+            }
+
+            public function createAdapter(ContainerBuilder $container, string $storageName, array $options, ?string $defaultVisibilityForDirectories): ?string
+            {
+                return null;
+            }
+
+            public function prepend(ContainerBuilder $container): void
+            {
+                $this->prepended = true;
+            }
+        };
+
+        $extension = new FlysystemExtension();
+        $extension->addAdapterDefinitionBuilder($builder);
+        $extension->prepend($container);
+
+        $this->assertTrue($prepended);
     }
 
     private function createFlysystemKernel(): FlysystemAppKernel

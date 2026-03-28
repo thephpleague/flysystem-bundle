@@ -26,6 +26,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Extension\Extension;
+use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -36,13 +37,22 @@ use function Symfony\Component\DependencyInjection\Loader\Configurator\tagged_lo
  *
  * @internal
  */
-final class FlysystemExtension extends Extension
+final class FlysystemExtension extends Extension implements PrependExtensionInterface
 {
     /** @var list<AdapterDefinitionBuilderInterface> */
     private array $adapterDefinitionBuilders = [];
 
     /** @var array<string, AdapterDefinitionBuilderInterface>|null */
     private ?array $adapterDefinitionBuildersCache = null;
+
+    public function prepend(ContainerBuilder $container): void
+    {
+        foreach ($this->getAdapterDefinitionBuilders() as $builder) {
+            if ($builder instanceof PrependExtensionInterface) {
+                $builder->prepend($container);
+            }
+        }
+    }
 
     public function getConfiguration(array $config, ContainerBuilder $container): ?ConfigurationInterface
     {
