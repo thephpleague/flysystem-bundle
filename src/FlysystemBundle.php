@@ -19,8 +19,6 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 /**
  * @author Titouan Galopin <galopintitouan@gmail.com>
- *
- * @internal
  */
 final class FlysystemBundle extends Bundle
 {
