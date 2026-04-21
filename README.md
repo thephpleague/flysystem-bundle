@@ -39,8 +39,7 @@ use Flysystem in your application as soon as you install the bundle:
 flysystem:
     storages:
         default.storage:
-            adapter: 'local'
-            options:
+            local:
                 directory: '%kernel.project_dir%/var/storage/default'
 ```
 
