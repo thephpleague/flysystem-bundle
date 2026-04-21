@@ -235,7 +235,7 @@ final class FlysystemExtension extends Extension implements PrependExtensionInte
             trigger_deprecation(
                 'league/flysystem-bundle',
                 '3.5',
-                'Using the legacy format with "adapter" and "options" keys is deprecated. Use the new discoverable format instead. See the migration guide for details.'
+                'Using the legacy format with "adapter" and "options" keys is deprecated. Use the new discoverable format instead. See the documentation for details.'
             );
 
             return $config['adapter'];
