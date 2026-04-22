@@ -145,7 +145,7 @@ final class FtpAdapterDefinitionBuilder implements AdapterDefinitionBuilderInter
                 ->end()
                 ->scalarNode('transfer_mode')
                     ->defaultNull()
-                    ->info('Transfer mode (FTP_ASCII or FTP_BINARY constante on ftp extension)')
+                    ->info('Transfer mode (FTP_ASCII or FTP_BINARY constant on ftp extension)')
                 ->end()
                 ->enumNode('system_type')
                     ->values([null, 'windows', 'unix'])
