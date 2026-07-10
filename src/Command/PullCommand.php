@@ -44,9 +44,7 @@ final class PullCommand extends AbstractTransferCommand
 
         $local = fopen($destination, 'wb');
         if (false === $local) {
-            if (is_resource($resource)) {
-                fclose($resource);
-            }
+            fclose($resource);
 
             throw new \RuntimeException(sprintf('Unable to open the destination file "%s" for writing.', $destination));
         }
