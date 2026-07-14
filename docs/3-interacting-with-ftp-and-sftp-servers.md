@@ -61,9 +61,13 @@ flysystem:
                     hostkey: ['rsa-sha2-256', 'ssh-rsa']
                 root: '/path/to/root'
                 timeout: 10
-                directoryPerm: 0744
-                permPublic: 0700
-                permPrivate: 0744
+                permissions:
+                    file:
+                        public: 0o644
+                        private: 0o600
+                    dir:
+                        public: 0o755
+                        private: 0o700
 ```
 
 ## Next
