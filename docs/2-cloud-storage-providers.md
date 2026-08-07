@@ -14,6 +14,12 @@ cloud providers by providing corresponding adapters in the configuration.
 
 ## Azure
 
+> [!WARNING]
+> The built-in `azure` adapter (based on `league/flysystem-azure-blob-storage`) is **deprecated**
+> since 3.8, as the underlying package is abandoned. Use
+> [`php-oss-for-azure/azure-storage-blob-flysystem-bundle-php`](https://github.com/php-oss-for-azure/azure-storage-blob-flysystem-bundle-php)
+> instead, which provides its own adapter that plugs directly into this bundle.
+
 ### Installation
 
 ```

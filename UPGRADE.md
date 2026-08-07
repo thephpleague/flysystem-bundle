@@ -1,3 +1,10 @@
+# Upgrading from 3.0 to 4.0 (not released yet)
+
+* Removed the built-in `azure` adapter (`AzureAdapterDefinitionBuilder`, based on
+  `league/flysystem-azure-blob-storage`), as this package is abandoned. Use
+  [`php-oss-for-azure/azure-storage-blob-flysystem-bundle-php`](https://github.com/php-oss-for-azure/azure-storage-blob-flysystem-bundle-php)
+  instead, which provides its own adapter that plugs directly into this bundle.
+
 # Upgrading from 2.0 to 3.0
 
 flysystem-bundle 3.0 dropped support for End-Of-Life versions of PHP, Symfony and Flysystem.
