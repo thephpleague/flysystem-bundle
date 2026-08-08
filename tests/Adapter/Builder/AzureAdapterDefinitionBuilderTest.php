@@ -14,14 +14,27 @@ namespace Tests\League\FlysystemBundle\Adapter\Builder;
 use League\Flysystem\AzureBlobStorage\AzureBlobStorageAdapter;
 use League\FlysystemBundle\Adapter\Builder\AzureAdapterDefinitionBuilder;
 use League\FlysystemBundle\Test\AbstractAdapterDefinitionBuilderTest;
+use Symfony\Bridge\PhpUnit\ExpectDeprecationTrait;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 
 class AzureAdapterDefinitionBuilderTest extends AbstractAdapterDefinitionBuilderTest
 {
+    use ExpectDeprecationTrait;
+
     protected function createBuilder(): AzureAdapterDefinitionBuilder
     {
         return new AzureAdapterDefinitionBuilder();
+    }
+
+    /**
+     * @group legacy
+     */
+    public function testGetRequiredPackages(): void
+    {
+        $this->expectDeprecation('Since league/flysystem-bundle 3.8: The built-in "azure" adapter is deprecated as "league/flysystem-azure-blob-storage" is abandoned. Use "php-oss-for-azure/azure-storage-blob-flysystem-bundle-php" instead: https://github.com/php-oss-for-azure/azure-storage-blob-flysystem-bundle-php');
+
+        parent::testGetRequiredPackages();
     }
 
     public static function provideValidOptions(): \Generator

@@ -22,6 +22,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  * @author Titouan Galopin <galopintitouan@gmail.com>
  *
  * @internal
+ *
+ * @deprecated since 3.8, "league/flysystem-azure-blob-storage" is abandoned, use
+ *             "php-oss-for-azure/azure-storage-blob-flysystem-bundle-php" instead:
+ *             https://github.com/php-oss-for-azure/azure-storage-blob-flysystem-bundle-php
  */
 final class AzureAdapterDefinitionBuilder implements AdapterDefinitionBuilderInterface
 {
@@ -32,6 +36,12 @@ final class AzureAdapterDefinitionBuilder implements AdapterDefinitionBuilderInt
 
     public function getRequiredPackages(): array
     {
+        trigger_deprecation(
+            'league/flysystem-bundle',
+            '3.8',
+            'The built-in "azure" adapter is deprecated as "league/flysystem-azure-blob-storage" is abandoned. Use "php-oss-for-azure/azure-storage-blob-flysystem-bundle-php" instead: https://github.com/php-oss-for-azure/azure-storage-blob-flysystem-bundle-php',
+        );
+
         return [
             AzureBlobStorageAdapter::class => 'league/flysystem-azure-blob-storage',
         ];
