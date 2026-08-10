@@ -204,4 +204,4 @@ flysystem:
 
 ## Next
 
-[Interacting with FTP and SFTP servers](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/3-interacting-with-ftp-and-sftp-servers.md)
+[Interacting with FTP and SFTP servers](https://github.com/thephpleague/flysystem-bundle/blob/3.x/docs/3-interacting-with-ftp-and-sftp-servers.md)
