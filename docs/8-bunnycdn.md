@@ -4,24 +4,24 @@ Flysystem is able to [interact with BunnyCDN Storage servers](https://bunny.net/
 To configure this bundle for such usage, you can rely on adapters in the same way you would
 for other storages.
 
-### Installation
+## Installation
 
 ```
 composer require platformcommunity/flysystem-bunnycdn
 ```
 
-### Usage
+## Usage
 
 ```yaml
 # config/packages/flysystem.yaml
 
 services:
-  bunny_client:
-    class: PlatformCommunity\Flysystem\BunnyCDN\BunnyCDNClient
-    arguments:
-      $storage_zone_name: 'storage-zone'
-      $api_key: 'api-key'
-      $region: '!php/const:PlatformCommunity\Flysystem\BunnyCDN\BunnyCDNRegion::FALKENSTEIN'
+    bunny_client:
+        class: PlatformCommunity\Flysystem\BunnyCDN\BunnyCDNClient
+        arguments:
+            $storage_zone_name: 'storage-zone'
+            $api_key: 'api-key'
+            $region: !php/const PlatformCommunity\Flysystem\BunnyCDN\BunnyCDNRegion::FALKENSTEIN
 
 flysystem:
     storages:

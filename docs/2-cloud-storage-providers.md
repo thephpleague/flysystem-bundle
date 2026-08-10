@@ -1,15 +1,15 @@
 # Cloud storage providers
 
-One of the core feature of Flysystem is its ability to interact easily with remote filesystems,
+One of the core features of Flysystem is its ability to interact easily with remote filesystems,
 including many cloud storage providers. This bundle provides the same level of support for these
 cloud providers by providing corresponding adapters in the configuration.
 
 * [Azure](#azure)
 * [AsyncAws S3](#asyncaws-s3)
-* [AWS S3](#aws-sdk-s3)
+* [AWS SDK S3](#aws-sdk-s3)
+* [Google Cloud Storage](#google-cloud-storage)
 * [DigitalOcean Spaces](#digitalocean-spaces)
 * [Scaleway Object Storage](#scaleway-object-storage)
-* [Google Cloud Storage](#google-cloud-storage)
 * [Cloudflare R2](#cloudflare-r2)
 
 ## Azure
@@ -98,7 +98,7 @@ composer require league/flysystem-google-cloud-storage
 
 ```yaml
 # config/packages/flysystem.yaml
- 
+
 flysystem:
     storages:
         users.storage:
@@ -111,15 +111,15 @@ flysystem:
 
 ## DigitalOcean Spaces
 
-The DigitalOcean Spaces are compatible with the AWS S3 API, meaning that you can use the same configuration
-as for a AWS storage. For example:
+The DigitalOcean Spaces is compatible with the AWS S3 API, meaning that you can use the same configuration
+as for an AWS storage. For example:
 
 ```yaml
 # config/packages/flysystem.yaml
 
 services:
     digitalocean_spaces_client:
-        class: 'AsyncAws\S3\S3Client'
+        class: AsyncAws\S3\S3Client
         arguments:
             -
                 endpoint: '%env(DIGITALOCEAN_SPACES_ENDPOINT)%'
@@ -137,16 +137,16 @@ flysystem:
 ## Scaleway Object Storage
 
 The Scaleway Object Storage is compatible with the AWS S3 API, meaning that you can use the same configuration
-as for a AWS storage. For example:
+as for an AWS storage. For example:
 
 ```yaml
 # config/packages/flysystem.yaml
 
 services:
     scaleway_spaces_client:
-        class: 'AsyncAws\S3\S3Client'
+        class: AsyncAws\S3\S3Client
         arguments:
-            -   
+            -
                 endpoint: '%env(SCALEWAY_SPACES_ENDPOINT)%'
                 accessKeyId: '%env(SCALEWAY_SPACES_ID)%'
                 accessKeySecret: '%env(SCALEWAY_SPACES_SECRET)%'
@@ -162,16 +162,16 @@ flysystem:
 ## Cloudflare R2
 
 The Cloudflare R2 is compatible with the AWS S3 API, meaning that you can use the same configuration
-as for an AWS storage. Both the regular and the async AWS Client can be used. As example:
+as for an AWS storage. Both the regular and the async AWS Client can be used. For example:
 
 ```yaml
 # config/packages/flysystem.yaml
 
 services:
     cloudflare_r2_client:
-        class: 'AsyncAws\S3\S3Client'
+        class: AsyncAws\S3\S3Client
         arguments:
-            -   
+            -
                 endpoint: '%env(CLOUDFLARE_R2_ENDPOINT)%'
                 accessKeyId: '%env(CLOUDFLARE_R2_ID)%'
                 accessKeySecret: '%env(CLOUDFLARE_R2_SECRET)%'
@@ -184,9 +184,10 @@ flysystem:
                 bucket: '%env(CLOUDFLARE_R2_BUCKET)%'
 ```
 
-Cloudflare R2 does not have implemented ACL-related features yet, and thereby making use of Flysystem's `move` and `copy` 
-methods requires configuring explicit value for `visibility` and setting `retain_visibility` to `false` to prevent the 
-S3 adapter to call the `GetObjectAcl` command to retrieve an object's current ACL visibility, then resulting in an exception.
+Cloudflare R2 does not implement ACL-related features yet, so using Flysystem's `move` and `copy` methods requires
+setting an explicit `visibility` value and setting `retain_visibility` to `false`, to prevent the S3 adapter from
+calling the unsupported `GetObjectAcl` command to retrieve an object's current ACL visibility (which would otherwise
+result in an exception).
 
 ```yaml
 flysystem:
@@ -194,10 +195,10 @@ flysystem:
         cdn.storage:
             # ...
             visibility: private # or public
-            
+
             # to use the visibility as defined above instead of retaining the object's visibility, and not having to run
             # the unsupported `GetObjectAcl` command to get the object's current visibility.
-            retain_visibility: false  
+            retain_visibility: false
             # ...
 ```
 

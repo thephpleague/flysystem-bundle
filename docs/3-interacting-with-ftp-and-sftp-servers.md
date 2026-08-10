@@ -31,6 +31,23 @@ flysystem:
                 timeout: 30
                 ignore_passive_address: ~
                 utf8: false
+                # Force the transfer mode instead of letting the adapter detect it
+                # (FTP_ASCII or FTP_BINARY constant on the ftp extension)
+                transfer_mode: ~
+                # Force the FTP server system type instead of letting the adapter detect it
+                system_type: ~ # 'windows' or 'unix'
+                timestamps_on_unix_listings_enabled: false
+                recurse_manually: true
+                use_raw_list_options: ~
+                # Service ID of a League\Flysystem\Ftp\ConnectivityChecker implementation
+                connectivityChecker: ~ # e.g. 'App\Flysystem\MyConnectivityChecker'
+                permissions:
+                    file:
+                        public: 0o644
+                        private: 0o600
+                    dir:
+                        public: 0o755
+                        private: 0o700
 ```
 
 ## SFTP

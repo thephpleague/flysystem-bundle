@@ -1,25 +1,25 @@
-# WebDAV 
+# WebDAV
 
 Flysystem is able to [interact with WebDAV servers](https://flysystem.thephpleague.com/docs/adapter/webdav/).
 To configure this bundle for such usage, you can rely on adapters in the same way you would
 for other storages.
 
-### Installation
+## Installation
 
 ```
 composer require league/flysystem-webdav
 ```
 
-### Usage
+## Usage
 
 ```yaml
 # config/packages/flysystem.yaml
 
 services:
-  webdav_client:
-    class: Sabre\DAV\Client
-    arguments:
-      - { baseUri: 'https://webdav.example.com/', userName: 'your_user', password: 'superSecret1234' }
+    webdav_client:
+        class: Sabre\DAV\Client
+        arguments:
+            - { baseUri: 'https://webdav.example.com/', userName: 'your_user', password: 'superSecret1234' }
 
 flysystem:
     storages:
@@ -27,7 +27,13 @@ flysystem:
             webdav:
                 client: 'webdav_client'
                 prefix: 'optional/path/prefix'
-                visibility_handling: !php/const \League\Flysystem\WebDAV\WebDAVAdapter::ON_VISIBILITY_THROW_ERROR # throw
+                # 'throw' (default) or 'ignore'; equivalent to the adapter's
+                # ON_VISIBILITY_THROW_ERROR / ON_VISIBILITY_IGNORE constants
+                visibility_handling: throw
                 manual_copy: false
                 manual_move: false
 ```
+
+## Next
+
+[BunnyCDN](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/8-bunnycdn.md)

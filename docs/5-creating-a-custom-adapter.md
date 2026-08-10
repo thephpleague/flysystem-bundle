@@ -1,6 +1,6 @@
 # Creating a custom adapter
 
-[Read the associated library documentation](https://flysystem.thephpleague.com/v2/docs/advanced/creating-an-adapter/)
+[Read the associated library documentation](https://flysystem.thephpleague.com/docs/advanced/creating-an-adapter/)
 
 If you have highly specific requirements, you may need to create your own
 Flysystem adapter. To do so, you first need to create the adapter code itself
@@ -9,8 +9,8 @@ and then use it in your storages configuration.
 ## Creating the adapter class
 
 A Flysystem adapter is a class implementing the `League\Flysystem\FilesystemAdapter` interface.
-To learn all the details about how to create this class, you can read the 
-[library documentation](https://flysystem.thephpleague.com/v2/docs/advanced/creating-an-adapter/).
+To learn all the details about how to create this class, you can read the
+[library documentation](https://flysystem.thephpleague.com/docs/advanced/creating-an-adapter/).
 
 You can create this class anywhere you want in your application. We usually recommend a clear
 namespace and class name such as `App\Flysystem\MyCustomAdapter`.
@@ -37,7 +37,7 @@ flysystem:
 
 ## Creating a custom adapter builder (advanced)
 
-For more complex custom adapters that require configuration validation, IDE auto-completion, 
+For more complex custom adapters that require configuration validation, IDE auto-completion,
 and integration with the bundle's configuration system, you can create a custom adapter builder.
 
 This allows you to define your custom adapter directly in the configuration:
@@ -107,7 +107,7 @@ class MyCustomAdapterDefinitionBuilder implements AdapterDefinitionBuilderInterf
 
         $definition = new Definition(MyCustomAdapter::class);
         $definition->setPublic(false);
-        
+
         // Configure your adapter with the options
         $definition->setArgument(0, $options['option1']);
         $definition->setArgument(1, $options['option2']);
@@ -182,7 +182,7 @@ class Kernel extends BaseKernel
 }
 ```
 
-Once registered, you can use the `debug:config flysystem` command to see your custom adapter 
+Once registered, you can use the `debug:config flysystem` command to see your custom adapter
 and all its available options in the configuration tree.
 
 ### Testing your custom builder
@@ -230,3 +230,7 @@ class MyCustomAdapterDefinitionBuilderTest extends AbstractAdapterDefinitionBuil
 ```
 
 This provides comprehensive testing of your builder's configuration and adapter creation logic.
+
+## Next
+
+[MongoDB GridFS](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/6-gridfs.md)
