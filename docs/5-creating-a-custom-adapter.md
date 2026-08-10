@@ -233,4 +233,4 @@ This provides comprehensive testing of your builder's configuration and adapter 
 
 ## Next
 
-[MongoDB GridFS](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/6-gridfs.md)
+[MongoDB GridFS](https://github.com/thephpleague/flysystem-bundle/blob/3.x/docs/6-gridfs.md)

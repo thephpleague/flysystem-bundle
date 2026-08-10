@@ -243,4 +243,4 @@ public URLs) don't require `public_url` or `public_url_generator` to be configur
 
 ## Next
 
-[Cloud storage providers](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/2-cloud-storage-providers.md)
+[Cloud storage providers](https://github.com/thephpleague/flysystem-bundle/blob/3.x/docs/2-cloud-storage-providers.md)

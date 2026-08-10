@@ -101,4 +101,4 @@ class MyService
 
 ## Next
 
-[Creating a custom adapter](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/5-creating-a-custom-adapter.md)
+[Creating a custom adapter](https://github.com/thephpleague/flysystem-bundle/blob/3.x/docs/5-creating-a-custom-adapter.md)

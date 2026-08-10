@@ -36,4 +36,4 @@ flysystem:
 
 ## Next
 
-[BunnyCDN](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/8-bunnycdn.md)
+[BunnyCDN](https://github.com/thephpleague/flysystem-bundle/blob/3.x/docs/8-bunnycdn.md)

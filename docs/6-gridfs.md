@@ -85,4 +85,4 @@ flysystem:
 
 ## Next
 
-[WebDAV](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/7-webdav.md)
+[WebDAV](https://github.com/thephpleague/flysystem-bundle/blob/3.x/docs/7-webdav.md)
