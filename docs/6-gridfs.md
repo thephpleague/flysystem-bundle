@@ -2,7 +2,7 @@
 
 GridFS stores files in a MongoDB database.
 
-Install the GridFS adapter:
+## Installation
 
 ```
 composer require league/flysystem-gridfs
@@ -10,7 +10,7 @@ composer require league/flysystem-gridfs
 
 ## With `doctrine/mongodb-odm-bundle`
 
-For applications that uses Doctrine MongoDB ODM, set the `doctrine_connection` name to use:    
+For applications that use Doctrine MongoDB ODM, set the `doctrine_connection` name to use:
 
 ```yaml
 # config/packages/flysystem.yaml
@@ -63,16 +63,16 @@ For a more advanced configuration, create a service for
 
 services:
     mongodb_client:
-        class: 'MongoDB\Client'
+        class: MongoDB\Client
         arguments: ['%env(MONGODB_URI)%']
 
     mongodb_database:
-        class: 'MongoDB\Database'
+        class: MongoDB\Database
         factory: ['@mongodb_client', 'selectDatabase']
         arguments: ['%env(MONGODB_DB)%']
 
     mongodb_gridfs_bucket:
-        class: 'MongoDB\GridFS\Bucket'
+        class: MongoDB\GridFS\Bucket
         factory: ['@mongodb_database', 'selectGridFSBucket']
 
 flysystem:
@@ -82,3 +82,7 @@ flysystem:
                 # Service name
                 bucket: 'mongodb_gridfs_bucket'
 ```
+
+## Next
+
+[WebDAV](https://github.com/thephpleague/flysystem-bundle/blob/master/docs/7-webdav.md)

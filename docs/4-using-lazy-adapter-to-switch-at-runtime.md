@@ -1,12 +1,12 @@
 # Using a lazy adapter to switch storage backend using an environment variable
 
-One of the main reason why using a filesystem abstraction is useful is because
+One of the main reasons why using a filesystem abstraction is useful is because
 you can switch the storage backend depending on the execution environment
 (local files in development, cloud storage in production and memory in tests).
 
-The classical way of doing this would be to create a 
+The classical way of doing this would be to create a
 `config/packages/dev/flysystem.yaml` file that would override the configuration
-defined in `config/packages/flysystem.yaml`, thus creating a different storage 
+defined in `config/packages/flysystem.yaml`, thus creating a different storage
 service for each environment.
 
 Using this technique is recommended in most cases: by declaring your services
@@ -77,33 +77,27 @@ APP_UPLOADS_SOURCE=uploads.storage.aws
 APP_UPLOADS_SOURCE=uploads.storage.local
 
 # To use the memory storage
-APP_UPLOADS_SOURCE=uploads.storage.memory 
+APP_UPLOADS_SOURCE=uploads.storage.memory
 ```
 
-Other than being created at runtime, the `lazy` adapter is behaving in the exact
-same way as any other storage:
+Other than being created at runtime, the `lazy` adapter behaves in the exact same way as any
+other storage: it can be injected using the `#[Target]` attribute or manual service registration
+— see [Basic usage](1-getting-started.md#basic-usage) for the full explanation. For example:
 
-* you can use it with autowiring, by typehinting against the `FilesystemOperator` and using the
-  variable name matching its name:
+```php
+use League\Flysystem\FilesystemOperator;
+use Symfony\Component\DependencyInjection\Attribute\Target;
 
-    ```php
-    use League\Flysystem\FilesystemOperator;
-    
-    class MyService
-    {
-        private $storage;
-        
-        public function __construct(FilesystemOperator $uploadsStorage)
-        {
-            $this->storage = $uploadsStorage;
-        }
-        
-        // ...
+class MyService
+{
+    public function __construct(
+        #[Target('uploads.storage')] private FilesystemOperator $storage,
+    ) {
     }
-    ```
 
-* you can use it in manual injection by injecting the service named `uploads.storage` inside 
-  your services. 
+    // ...
+}
+```
 
 ## Next
 

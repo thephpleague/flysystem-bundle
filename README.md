@@ -4,7 +4,7 @@
 [![Software license](https://img.shields.io/github/license/thephpleague/flysystem-bundle.svg?style=flat-square)](LICENSE)
 
 flysystem-bundle is a Symfony bundle integrating the [Flysystem](https://flysystem.thephpleague.com)
-library into Symfony applications. 
+library into Symfony applications.
 
 It provides an efficient abstraction for the filesystem in order to change the storage backend depending
 on the execution environment (local files in development, cloud storage in production and memory in tests).
@@ -16,10 +16,10 @@ on the execution environment (local files in development, cloud storage in produ
 
 ## Installation
 
-flysystem-bundle 3.x requires PHP 8.0+ and Symfony 5.4+.
+flysystem-bundle 3.x requires PHP 8.2+ and Symfony 6.0+.
 
-> If you need support for a lower PHP/Symfony version, consider using 
-> [flysystem-bundle 2.x](https://github.com/thephpleague/flysystem-bundle/tree/2.x) which support Flysystem 3.x 
+> If you need support for a lower PHP/Symfony version, consider using
+> [flysystem-bundle 2.x](https://github.com/thephpleague/flysystem-bundle/tree/2.x) which support Flysystem 3.x
 > and older PHP/Symfony versions.
 
 You can install the bundle using Symfony Flex:
@@ -57,6 +57,7 @@ This means you can inject the storage services in your services and controllers 
 
 ```php
 use League\Flysystem\FilesystemOperator;
+use Symfony\Component\DependencyInjection\Attribute\Target;
 
 class MyService
 {
@@ -69,32 +70,8 @@ class MyService
 }
 ```
 
-Instead of using the `#[Target]` attribute, you can also typehint your service/controller
-argument with `FilesystemOperator` and use the camelCase version of your storage
-name as the variable name. However, this practice is discouraged and won't work in
-future Symfony versions:
-
-```php
-use League\Flysystem\FilesystemOperator;
-
-class MyService
-{
-    private FilesystemOperator $storage;
-
-    // The variable name $defaultStorage matters: it needs to be the
-    // camelCase version of the name of your storage (foo.bar.baz -> fooBarBaz)
-    public function __construct(FilesystemOperator $defaultStorage)
-    {
-        $this->storage = $defaultStorage;
-    }
-
-    // ...
-}
-```
-
-**2) Using manual service registration:** in your services, inject the service
-that this bundle creates for each of your storages following the pattern
-`'flysystem.adapter.'.$storageName`:
+**2) Using manual service registration:** in your services, inject the storage service
+directly using its configured name (in this case `default.storage`):
 
 ```yaml
 # config/services.yaml
@@ -103,11 +80,11 @@ services:
 
     App\MyService:
         arguments:
-            $storage: @flysystem.adapter.default.storage
+            $storage: '@default.storage'
 ```
-  
+
 Once you have a FilesystemOperator, you can call methods from the
-[Filesystem API](https://flysystem.thephpleague.com/v2/docs/usage/filesystem-api/)
+[Filesystem API](https://flysystem.thephpleague.com/docs/usage/filesystem-api/)
 to interact with your storage.
 
 If you need to transfer files between the local filesystem and one of your configured storages, the bundle also provides two console commands:
@@ -128,7 +105,8 @@ The `<storage>` argument is the configured Flysystem storage name (for example `
    [Azure](docs/2-cloud-storage-providers.md#azure),
    [Google Cloud Storage](docs/2-cloud-storage-providers.md#google-cloud-storage),
    [DigitalOcean Spaces](docs/2-cloud-storage-providers.md#digitalocean-spaces),
-   [Scaleway Object Storage](docs/2-cloud-storage-providers.md#scaleway-object-storage)
+   [Scaleway Object Storage](docs/2-cloud-storage-providers.md#scaleway-object-storage),
+   [Cloudflare R2](docs/2-cloud-storage-providers.md#cloudflare-r2)
 3. [Interacting with FTP and SFTP servers](docs/3-interacting-with-ftp-and-sftp-servers.md)
 4. [Using a lazy adapter to switch storage backend using an environment variable](docs/4-using-lazy-adapter-to-switch-at-runtime.md)
 5. [Creating a custom adapter](docs/5-creating-a-custom-adapter.md)

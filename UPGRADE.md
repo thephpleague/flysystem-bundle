@@ -4,6 +4,9 @@
   `league/flysystem-azure-blob-storage`), as this package is abandoned. Use
   [`php-oss-for-azure/azure-storage-blob-flysystem-bundle-php`](https://github.com/php-oss-for-azure/azure-storage-blob-flysystem-bundle-php)
   instead, which provides its own adapter that plugs directly into this bundle.
+* Removed the `case_sensitive` and `disable_asserts` storage options, deprecated since 3.5.
+  They had no effect beyond emitting a deprecation notice; simply remove them from your
+  configuration.
 
 # Upgrading from 2.0 to 3.0
 
