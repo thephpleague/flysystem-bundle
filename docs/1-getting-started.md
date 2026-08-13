@@ -2,6 +2,7 @@
 
 - [Installation](#installation)
 - [Basic usage](#basic-usage)
+- [Discovering the available configuration options](#discovering-the-available-configuration-options)
 - [Transferring files with console commands](#transferring-files-with-console-commands)
 - [Using multiple storages to improve readability](#using-multiple-storages-to-improve-readability)
 - [Using memory storage in tests](#using-memory-storage-in-tests)
@@ -76,6 +77,15 @@ services:
 Once you have a FilesystemOperator, you can call methods from the
 [Filesystem API](https://flysystem.thephpleague.com/docs/usage/filesystem-api/)
 to interact with your storage.
+
+## Discovering the available configuration options
+
+Every option, including adapter-specific ones, is declared with a description, a default value
+and whether it's required. Dump the full reference tree instead of reading the source code:
+
+```bash
+bin/console config:dump-reference flysystem
+```
 
 ## Transferring files with console commands
 
@@ -196,8 +206,9 @@ With this configuration, any write operation will throw a suitable exception.
 
 ## Storage options
 
-Beyond the adapter-specific options, every storage accepts a set of general options that
-are passed to the underlying Flysystem `Filesystem` instance, regardless of the adapter used:
+Beyond the adapter-specific options, every storage accepts a set of general options,
+regardless of the adapter used. Most of them are passed to the underlying Flysystem
+`Filesystem` instance:
 
 ```yaml
 # config/packages/flysystem.yaml
@@ -235,6 +246,10 @@ flysystem:
             # don't support it natively (AWS S3, AsyncAws S3, Azure and Google Cloud
             # Storage do support it out of the box)
             temporary_url_generator: 'App\Flysystem\MyTemporaryUrlGenerator'
+
+            # Converts the storage to read-only, see "Using read only to disallow any
+            # write operations" above (requires league/flysystem-read-only)
+            read_only: false
 ```
 
 All of these options are optional: adapters that natively support public/temporary URLs

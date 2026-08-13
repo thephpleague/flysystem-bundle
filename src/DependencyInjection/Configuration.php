@@ -82,7 +82,7 @@ final class Configuration implements ConfigurationInterface
                 ->defaultNull()
                 ->info('Default visibility for directories')
             ->end()
-            ->scalarNode('retain_visibility')
+            ->booleanNode('retain_visibility')
                 ->defaultNull()
                 ->info('Keeps the original file visibility (public/private) when copying or moving.')
             ->end()

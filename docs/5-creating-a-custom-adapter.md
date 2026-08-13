@@ -182,8 +182,8 @@ class Kernel extends BaseKernel
 }
 ```
 
-Once registered, you can use the `debug:config flysystem` command to see your custom adapter
-and all its available options in the configuration tree.
+Once registered, you can use the `config:dump-reference flysystem` command to see your custom
+adapter and all its available options in the configuration tree.
 
 ### Testing your custom builder
 
