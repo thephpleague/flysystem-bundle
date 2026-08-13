@@ -19,6 +19,7 @@ use League\FlysystemBundle\Test\AbstractAdapterDefinitionBuilderTest;
 use MongoDB\Client;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
+use Symfony\Component\DependencyInjection\Reference;
 
 class GridFSAdapterDefinitionBuilderTest extends AbstractAdapterDefinitionBuilderTest
 {
@@ -51,6 +52,7 @@ class GridFSAdapterDefinitionBuilderTest extends AbstractAdapterDefinitionBuilde
             'database' => 'testing',
             'bucket' => 'avatars',
             'prefix' => 'prefix/path',
+            'mimeTypeDetector' => 'my_mime_type_detector',
         ]];
 
         yield 'service' => [[
@@ -71,6 +73,9 @@ class GridFSAdapterDefinitionBuilderTest extends AbstractAdapterDefinitionBuilde
         $this->assertSame('avatars', $bucketDefinition->getArgument(4));
 
         $this->assertSame('prefix/path', $definition->getArgument(1));
+
+        $this->assertInstanceOf(Reference::class, $definition->getArgument(2));
+        $this->assertSame('my_mime_type_detector', (string) $definition->getArgument(2));
     }
 
     public static function provideInvalidOptions(): \Generator

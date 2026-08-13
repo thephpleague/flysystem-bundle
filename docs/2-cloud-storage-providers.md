@@ -60,6 +60,7 @@ flysystem:
                 client: 'aws_client_service' # The service ID of the AsyncAws\S3\S3Client instance
                 bucket: 'bucket_name'
                 prefix: 'optional/path/prefix'
+                mimeTypeDetector: ~ # e.g. App\Flysystem\MyeMimeTypeDetector
 ```
 
 ## AWS SDK S3
@@ -84,6 +85,7 @@ flysystem:
                 bucket: 'bucket_name'
                 prefix: 'optional/path/prefix'
                 streamReads: true
+                mimeTypeDetector: ~ # e.g. App\Flysystem\MyMimeTypeDetector
 ```
 
 ## Google Cloud Storage
@@ -107,6 +109,7 @@ flysystem:
                 bucket: 'bucket_name'
                 prefix: 'optional/path/prefix'
                 streamReads: false
+                mimeTypeDetector: ~ # e.g. App\Flysystem\MyMimeTypeDetector
 ```
 
 ## DigitalOcean Spaces

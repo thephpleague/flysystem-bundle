@@ -53,6 +53,7 @@ final class GridFSAdapterDefinitionBuilder implements AdapterDefinitionBuilderIn
         $resolver->define('mongodb_uri')->allowedTypes('string');
         $resolver->define('mongodb_uri_options')->default([])->allowedTypes('array');
         $resolver->define('mongodb_driver_options')->default([])->allowedTypes('array');
+        $resolver->define('mimeTypeDetector')->default(null)->allowedTypes('string', 'null');
     }
 
     public function addConfiguration(NodeDefinition $node): void
@@ -88,6 +89,10 @@ final class GridFSAdapterDefinitionBuilder implements AdapterDefinitionBuilderIn
                     ->prototype('variable')
                     ->end()
                     ->info('MongoDB driver options')
+                ->end()
+                ->scalarNode('mimeTypeDetector')
+                    ->defaultNull()
+                    ->info('The mime type detector service name')
                 ->end()
             ->end()
         ;
@@ -125,10 +130,16 @@ final class GridFSAdapterDefinitionBuilder implements AdapterDefinitionBuilderIn
             throw new InvalidArgumentException('Flysystem GridFS configuration requires a "bucket" service name, a "mongodb_uri" or a "doctrine_connection" name');
         }
 
+        $mimeTypeDetector = null;
+        if (null !== ($options['mimeTypeDetector'] ?? null)) {
+            $mimeTypeDetector = new Reference($options['mimeTypeDetector']);
+        }
+
         $container
             ->setDefinition($adapterId, new Definition(GridFSAdapter::class))
             ->setArgument(0, $bucket)
-            ->setArgument(1, $options['prefix'] ?? '');
+            ->setArgument(1, $options['prefix'] ?? '')
+            ->setArgument(2, $mimeTypeDetector);
 
         return $adapterId;
     }

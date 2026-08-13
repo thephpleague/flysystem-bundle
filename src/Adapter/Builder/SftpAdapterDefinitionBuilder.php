@@ -92,6 +92,9 @@ final class SftpAdapterDefinitionBuilder implements AdapterDefinitionBuilderInte
         $resolver->setDefault('root', '');
         $resolver->setAllowedTypes('root', 'string');
 
+        $resolver->setDefault('mimeTypeDetector', null);
+        $resolver->setAllowedTypes('mimeTypeDetector', ['string', 'null']);
+
         $resolver->setDefault('directoryPerm', 0744);
         $resolver->setAllowedTypes('directoryPerm', 'scalar');
         $resolver->setDeprecated('directoryPerm', 'league/flysystem-bundle', '3.5', 'The "directoryPerm" option is deprecated, use the "permissions" array option instead.');
@@ -157,6 +160,10 @@ final class SftpAdapterDefinitionBuilder implements AdapterDefinitionBuilderInte
                     ->defaultValue('')
                     ->info('SFTP root directory')
                 ->end()
+                ->scalarNode('mimeTypeDetector')
+                    ->defaultNull()
+                    ->info('The mime type detector service name')
+                ->end()
             ->end()
         ;
 
@@ -183,6 +190,12 @@ final class SftpAdapterDefinitionBuilder implements AdapterDefinitionBuilderInte
         $root = $options['root'] ?? '';
         unset($options['root']);
 
+        $mimeTypeDetector = null;
+        if (null !== ($options['mimeTypeDetector'] ?? null)) {
+            $mimeTypeDetector = new Reference($options['mimeTypeDetector']);
+        }
+        unset($options['mimeTypeDetector']);
+
         // Create main adapter service
         $container
             ->setDefinition($adapterId, new Definition($adapterFqcn))
@@ -193,7 +206,8 @@ final class SftpAdapterDefinitionBuilder implements AdapterDefinitionBuilderInte
                     ->setShared(false)
             )
             ->setArgument(1, $root)
-            ->setArgument(2, $this->createUnixDefinition($options['permissions'] ?? [], $defaultVisibilityForDirectories ?? Visibility::PRIVATE));
+            ->setArgument(2, $this->createUnixDefinition($options['permissions'] ?? [], $defaultVisibilityForDirectories ?? Visibility::PRIVATE))
+            ->setArgument(3, $mimeTypeDetector);
 
         return $adapterId;
     }

@@ -36,6 +36,7 @@ class AsyncAwsAdapterDefinitionBuilderTest extends AbstractAdapterDefinitionBuil
             'client' => 'my_client',
             'bucket' => 'bucket',
             'prefix' => 'prefix/path',
+            'mimeTypeDetector' => 'my_mime_type_detector',
         ]];
     }
 
@@ -47,5 +48,7 @@ class AsyncAwsAdapterDefinitionBuilderTest extends AbstractAdapterDefinitionBuil
         $this->assertSame('bucket', $definition->getArgument(1));
         $this->assertSame('prefix/path', $definition->getArgument(2));
         $this->assertSame(Visibility::PUBLIC, $definition->getArgument(3)->getArgument(0));
+        $this->assertInstanceOf(Reference::class, $definition->getArgument(4));
+        $this->assertSame('my_mime_type_detector', (string) $definition->getArgument(4));
     }
 }

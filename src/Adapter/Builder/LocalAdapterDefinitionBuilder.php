@@ -16,6 +16,7 @@ use League\Flysystem\Visibility;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -55,6 +56,9 @@ final class LocalAdapterDefinitionBuilder implements AdapterDefinitionBuilderInt
 
         $resolver->setDefault('lazy_root_creation', false);
         $resolver->setAllowedTypes('lazy_root_creation', 'scalar');
+
+        $resolver->setDefault('mimeTypeDetector', null);
+        $resolver->setAllowedTypes('mimeTypeDetector', ['string', 'null']);
     }
 
     public function addConfiguration(NodeDefinition $node): void
@@ -80,6 +84,11 @@ final class LocalAdapterDefinitionBuilder implements AdapterDefinitionBuilderInt
                     ->defaultFalse()
                     ->info('Whether to create the root directory lazily')
                 ->end()
+
+                ->scalarNode('mimeTypeDetector')
+                    ->defaultNull()
+                    ->info('The mime type detector service name')
+                ->end()
             ->end()
         ;
 
@@ -91,13 +100,18 @@ final class LocalAdapterDefinitionBuilder implements AdapterDefinitionBuilderInt
     {
         $adapterId = 'flysystem.adapter.'.$storageName;
 
+        $mimeTypeDetector = null;
+        if (null !== ($options['mimeTypeDetector'] ?? null)) {
+            $mimeTypeDetector = new Reference($options['mimeTypeDetector']);
+        }
+
         $container
             ->setDefinition($adapterId, new Definition(LocalFilesystemAdapter::class))
             ->setArgument(0, $options['directory'])
             ->setArgument(1, $this->createUnixDefinition($options['permissions'] ?? [], $defaultVisibilityForDirectories ?? Visibility::PRIVATE))
             ->setArgument(2, $options['lock'] ?? 0)
             ->setArgument(3, ($options['skip_links'] ?? false) ? LocalFilesystemAdapter::SKIP_LINKS : LocalFilesystemAdapter::DISALLOW_LINKS)
-            ->setArgument(4, null)
+            ->setArgument(4, $mimeTypeDetector)
             ->setArgument(5, $options['lazy_root_creation'] ?? false);
 
         return $adapterId;

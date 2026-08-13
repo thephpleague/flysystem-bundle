@@ -37,6 +37,7 @@ class GcloudAdapterDefinitionBuilderTest extends AbstractAdapterDefinitionBuilde
             'prefix' => 'prefix/path',
             'visibility_handler' => UniformBucketLevelAccessVisibility::class,
             'streamReads' => true,
+            'mimeTypeDetector' => 'my_mime_type_detector',
         ]];
     }
 
@@ -56,5 +57,8 @@ class GcloudAdapterDefinitionBuilderTest extends AbstractAdapterDefinitionBuilde
         $visibilityHandlerReference = $definition->getArgument(2);
         $this->assertInstanceOf(Reference::class, $visibilityHandlerReference);
         $this->assertSame(UniformBucketLevelAccessVisibility::class, (string) $visibilityHandlerReference);
+
+        $this->assertInstanceOf(Reference::class, $definition->getArgument(4));
+        $this->assertSame('my_mime_type_detector', (string) $definition->getArgument(4));
     }
 }

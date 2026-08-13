@@ -40,6 +40,7 @@ class AwsAdapterDefinitionBuilderTest extends AbstractAdapterDefinitionBuilderTe
                 'ServerSideEncryption' => 'AES256',
             ],
             'streamReads' => false,
+            'mimeTypeDetector' => 'my_mime_type_detector',
         ]];
     }
 
@@ -51,6 +52,8 @@ class AwsAdapterDefinitionBuilderTest extends AbstractAdapterDefinitionBuilderTe
         $this->assertSame('bucket', $definition->getArgument(1));
         $this->assertSame('prefix/path', $definition->getArgument(2));
         $this->assertSame(Visibility::PUBLIC, $definition->getArgument(3)->getArgument(0));
+        $this->assertInstanceOf(Reference::class, $definition->getArgument(4));
+        $this->assertSame('my_mime_type_detector', (string) $definition->getArgument(4));
         $this->assertSame(['ServerSideEncryption' => 'AES256'], $definition->getArgument(5));
         $this->assertFalse($definition->getArgument(6));
     }

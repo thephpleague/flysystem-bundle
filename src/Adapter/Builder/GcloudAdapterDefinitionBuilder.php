@@ -60,6 +60,9 @@ final class GcloudAdapterDefinitionBuilder implements AdapterDefinitionBuilderIn
 
         $resolver->setDefault('streamReads', false);
         $resolver->setAllowedTypes('streamReads', 'bool');
+
+        $resolver->setDefault('mimeTypeDetector', null);
+        $resolver->setAllowedTypes('mimeTypeDetector', ['string', 'null']);
     }
 
     public function addConfiguration(NodeDefinition $node): void
@@ -86,6 +89,10 @@ final class GcloudAdapterDefinitionBuilder implements AdapterDefinitionBuilderIn
                     ->defaultFalse()
                     ->info('Whether to use streaming for file reads')
                 ->end()
+                ->scalarNode('mimeTypeDetector')
+                    ->defaultNull()
+                    ->info('The mime type detector service name')
+                ->end()
             ->end()
         ;
     }
@@ -106,6 +113,11 @@ final class GcloudAdapterDefinitionBuilder implements AdapterDefinitionBuilderIn
             $visibilityHandlerReference = new Reference($options['visibility_handler']);
         }
 
+        $mimeTypeDetector = null;
+        if (null !== $options['mimeTypeDetector']) {
+            $mimeTypeDetector = new Reference($options['mimeTypeDetector']);
+        }
+
         // Create the adapter
         $container
             ->setDefinition($adapterId, new Definition(GoogleCloudStorageAdapter::class))
@@ -118,7 +130,7 @@ final class GcloudAdapterDefinitionBuilder implements AdapterDefinitionBuilderIn
             ->setArgument(1, $options['prefix'])
             ->setArgument(2, $visibilityHandlerReference)
             ->setArgument(3, Visibility::PRIVATE)
-            ->setArgument(4, null)
+            ->setArgument(4, $mimeTypeDetector)
             ->setArgument(5, $options['streamReads'])
         ;
 

@@ -12,9 +12,11 @@
 namespace Tests\League\FlysystemBundle\Adapter\Builder;
 
 use League\Flysystem\InMemory\InMemoryFilesystemAdapter;
+use League\Flysystem\Visibility;
 use League\FlysystemBundle\Adapter\Builder\MemoryAdapterDefinitionBuilder;
 use League\FlysystemBundle\Test\AbstractAdapterDefinitionBuilderTest;
 use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\Reference;
 
 class MemoryAdapterDefinitionBuilderTest extends AbstractAdapterDefinitionBuilderTest
 {
@@ -25,11 +27,18 @@ class MemoryAdapterDefinitionBuilderTest extends AbstractAdapterDefinitionBuilde
 
     public static function provideValidOptions(): \Generator
     {
-        yield 'full' => [[]];
+        yield 'minimal' => [[]];
+
+        yield 'full' => [[
+            'mimeTypeDetector' => 'my_mime_type_detector',
+        ]];
     }
 
     protected function assertDefinition(Definition $definition): void
     {
         $this->assertSame(InMemoryFilesystemAdapter::class, $definition->getClass());
+        $this->assertSame(Visibility::PUBLIC, $definition->getArgument(0));
+        $this->assertInstanceOf(Reference::class, $definition->getArgument(1));
+        $this->assertSame('my_mime_type_detector', (string) $definition->getArgument(1));
     }
 }
