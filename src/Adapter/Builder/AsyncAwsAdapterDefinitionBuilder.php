@@ -56,6 +56,9 @@ final class AsyncAwsAdapterDefinitionBuilder implements AdapterDefinitionBuilder
 
         $resolver->setDefault('mimeTypeDetector', null);
         $resolver->setAllowedTypes('mimeTypeDetector', ['null', 'string']);
+
+        $resolver->setDefault('forwardedOptions', AsyncAwsS3Adapter::AVAILABLE_OPTIONS);
+        $resolver->setAllowedTypes('forwardedOptions', 'array');
     }
 
     public function addConfiguration(NodeDefinition $node): void
@@ -77,6 +80,11 @@ final class AsyncAwsAdapterDefinitionBuilder implements AdapterDefinitionBuilder
                 ->scalarNode('mimeTypeDetector')
                     ->defaultNull()
                     ->info('The mime type detector service name')
+                ->end()
+                ->arrayNode('forwardedOptions')
+                    ->defaultValue(AsyncAwsS3Adapter::AVAILABLE_OPTIONS)
+                    ->prototype('scalar')->end()
+                    ->info('The list of options to forward to the AsyncAws S3 client')
                 ->end()
             ->end()
         ;
@@ -101,7 +109,8 @@ final class AsyncAwsAdapterDefinitionBuilder implements AdapterDefinitionBuilder
                     ->setArgument(0, $defaultVisibilityForDirectories ?? Visibility::PUBLIC)
                     ->setShared(false)
             )
-            ->setArgument(4, $mimeTypeDetector);
+            ->setArgument(4, $mimeTypeDetector)
+            ->setArgument(5, $options['forwardedOptions']);
 
         return $adapterId;
     }

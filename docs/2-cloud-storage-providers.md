@@ -61,6 +61,7 @@ flysystem:
                 bucket: 'bucket_name'
                 prefix: 'optional/path/prefix'
                 mimeTypeDetector: ~ # e.g. App\Flysystem\MyeMimeTypeDetector
+                forwardedOptions: ['ACL', 'CacheControl', 'Metadata'] # AWS options to forward to the client, defaults to AsyncAwsS3Adapter::AVAILABLE_OPTIONS
 ```
 
 ## AWS SDK S3
@@ -86,6 +87,7 @@ flysystem:
                 prefix: 'optional/path/prefix'
                 streamReads: true
                 mimeTypeDetector: ~ # e.g. App\Flysystem\MyMimeTypeDetector
+                forwardedOptions: ['ACL', 'CacheControl', 'Metadata'] # AWS options to forward to the client, defaults to AwsS3V3Adapter::AVAILABLE_OPTIONS
 ```
 
 ## Google Cloud Storage

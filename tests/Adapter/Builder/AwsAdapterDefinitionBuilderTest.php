@@ -41,6 +41,7 @@ class AwsAdapterDefinitionBuilderTest extends AbstractAdapterDefinitionBuilderTe
             ],
             'streamReads' => false,
             'mimeTypeDetector' => 'my_mime_type_detector',
+            'forwardedOptions' => ['ServerSideEncryption'],
         ]];
     }
 
@@ -56,5 +57,6 @@ class AwsAdapterDefinitionBuilderTest extends AbstractAdapterDefinitionBuilderTe
         $this->assertSame('my_mime_type_detector', (string) $definition->getArgument(4));
         $this->assertSame(['ServerSideEncryption' => 'AES256'], $definition->getArgument(5));
         $this->assertFalse($definition->getArgument(6));
+        $this->assertSame(['ServerSideEncryption'], $definition->getArgument(7));
     }
 }

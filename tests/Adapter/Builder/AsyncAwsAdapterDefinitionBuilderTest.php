@@ -37,6 +37,7 @@ class AsyncAwsAdapterDefinitionBuilderTest extends AbstractAdapterDefinitionBuil
             'bucket' => 'bucket',
             'prefix' => 'prefix/path',
             'mimeTypeDetector' => 'my_mime_type_detector',
+            'forwardedOptions' => ['ServerSideEncryption'],
         ]];
     }
 
@@ -50,5 +51,6 @@ class AsyncAwsAdapterDefinitionBuilderTest extends AbstractAdapterDefinitionBuil
         $this->assertSame(Visibility::PUBLIC, $definition->getArgument(3)->getArgument(0));
         $this->assertInstanceOf(Reference::class, $definition->getArgument(4));
         $this->assertSame('my_mime_type_detector', (string) $definition->getArgument(4));
+        $this->assertSame(['ServerSideEncryption'], $definition->getArgument(5));
     }
 }

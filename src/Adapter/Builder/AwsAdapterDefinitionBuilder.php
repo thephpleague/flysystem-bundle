@@ -61,6 +61,9 @@ final class AwsAdapterDefinitionBuilder implements AdapterDefinitionBuilderInter
 
         $resolver->setDefault('mimeTypeDetector', null);
         $resolver->setAllowedTypes('mimeTypeDetector', ['null', 'string']);
+
+        $resolver->setDefault('forwardedOptions', AwsS3V3Adapter::AVAILABLE_OPTIONS);
+        $resolver->setAllowedTypes('forwardedOptions', 'array');
     }
 
     public function addConfiguration(NodeDefinition $node): void
@@ -93,6 +96,11 @@ final class AwsAdapterDefinitionBuilder implements AdapterDefinitionBuilderInter
                     ->defaultNull()
                     ->info('The mime type detector service name')
                 ->end()
+                ->arrayNode('forwardedOptions')
+                    ->defaultValue(AwsS3V3Adapter::AVAILABLE_OPTIONS)
+                    ->prototype('scalar')->end()
+                    ->info('The list of options to forward to the AWS S3 client')
+                ->end()
             ->end()
         ;
     }
@@ -118,7 +126,8 @@ final class AwsAdapterDefinitionBuilder implements AdapterDefinitionBuilderInter
             )
             ->setArgument(4, $mimeTypeDetector)
             ->setArgument(5, $options['options'])
-            ->setArgument(6, $options['streamReads']);
+            ->setArgument(6, $options['streamReads'])
+            ->setArgument(7, $options['forwardedOptions']);
 
         return $adapterId;
     }
