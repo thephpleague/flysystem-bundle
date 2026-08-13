@@ -96,6 +96,9 @@ final class FtpAdapterDefinitionBuilder implements AdapterDefinitionBuilderInter
         $resolver->setDefault('connectivityChecker', null);
         $resolver->setAllowedTypes('connectivityChecker', ['string', 'null']);
 
+        $resolver->setDefault('mimeTypeDetector', null);
+        $resolver->setAllowedTypes('mimeTypeDetector', ['string', 'null']);
+
         $this->configureUnixOptions($resolver);
     }
 
@@ -168,6 +171,10 @@ final class FtpAdapterDefinitionBuilder implements AdapterDefinitionBuilderInter
                     ->defaultNull()
                     ->info('Connectivity checker service name')
                 ->end()
+                ->scalarNode('mimeTypeDetector')
+                    ->defaultNull()
+                    ->info('The mime type detector service name')
+                ->end()
             ->end()
         ;
 
@@ -192,6 +199,11 @@ final class FtpAdapterDefinitionBuilder implements AdapterDefinitionBuilderInter
             $connectivityChecker = new Reference($options['connectivityChecker']);
         }
 
+        $mimeTypeDetector = null;
+        if (null !== $options['mimeTypeDetector']) {
+            $mimeTypeDetector = new Reference($options['mimeTypeDetector']);
+        }
+
         unset(
             $options['transfer_mode'],
             $options['system_type'],
@@ -199,7 +211,8 @@ final class FtpAdapterDefinitionBuilder implements AdapterDefinitionBuilderInter
             $options['timestamps_on_unix_listings_enabled'],
             $options['recurse_manually'],
             $options['use_raw_list_options'],
-            $options['connectivityChecker']
+            $options['connectivityChecker'],
+            $options['mimeTypeDetector']
         );
 
         $container
@@ -212,7 +225,8 @@ final class FtpAdapterDefinitionBuilder implements AdapterDefinitionBuilderInter
             )
             ->setArgument(1, null)
             ->setArgument(2, $connectivityChecker)
-            ->setArgument(3, $this->createUnixDefinition($options['permissions'] ?? [], $defaultVisibilityForDirectories ?? Visibility::PRIVATE));
+            ->setArgument(3, $this->createUnixDefinition($options['permissions'] ?? [], $defaultVisibilityForDirectories ?? Visibility::PRIVATE))
+            ->setArgument(4, $mimeTypeDetector);
 
         return $adapterId;
     }

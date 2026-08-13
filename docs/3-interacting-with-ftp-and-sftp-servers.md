@@ -41,6 +41,7 @@ flysystem:
                 use_raw_list_options: ~
                 # Service ID of a League\Flysystem\Ftp\ConnectivityChecker implementation
                 connectivityChecker: ~ # e.g. 'App\Flysystem\MyConnectivityChecker'
+                mimeTypeDetector: ~ # e.g. App\Flysystem\MyMimeTypeDetector
                 permissions:
                     file:
                         public: 0o644
@@ -78,6 +79,7 @@ flysystem:
                     hostkey: ['rsa-sha2-256', 'ssh-rsa']
                 root: '/path/to/root'
                 timeout: 10
+                mimeTypeDetector: ~ # e.g. App\Flysystem\MyMimeTypeDetector
                 permissions:
                     file:
                         public: 0o644

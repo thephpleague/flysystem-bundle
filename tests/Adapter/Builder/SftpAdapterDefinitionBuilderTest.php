@@ -16,6 +16,7 @@ use League\Flysystem\Visibility;
 use League\FlysystemBundle\Adapter\Builder\SftpAdapterDefinitionBuilder;
 use League\FlysystemBundle\Test\AbstractAdapterDefinitionBuilderTest;
 use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\Reference;
 
 class SftpAdapterDefinitionBuilderTest extends AbstractAdapterDefinitionBuilderTest
 {
@@ -45,6 +46,7 @@ class SftpAdapterDefinitionBuilderTest extends AbstractAdapterDefinitionBuilderT
                 'hostkey' => ['rsa-sha2-256', 'ssh-rsa'],
             ],
             'root' => '/path/to/root',
+            'mimeTypeDetector' => 'my_mime_type_detector',
         ]];
     }
 
@@ -80,5 +82,7 @@ class SftpAdapterDefinitionBuilderTest extends AbstractAdapterDefinitionBuilderT
         $this->assertSame($expected, $connectionProviderOptions);
         $this->assertSame('/path/to/root', $definition->getArgument(1));
         $this->assertSame(Visibility::PRIVATE, $definition->getArgument(2)->getArgument(1));
+        $this->assertInstanceOf(Reference::class, $definition->getArgument(3));
+        $this->assertSame('my_mime_type_detector', (string) $definition->getArgument(3));
     }
 }

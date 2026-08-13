@@ -7,6 +7,7 @@
 - [Using memory storage in tests](#using-memory-storage-in-tests)
 - [Using read only to disallow any write operations](#using-read-only-to-disallow-any-write-operations)
 - [Storage options](#storage-options)
+- [Using a custom mime type detector](#using-a-custom-mime-type-detector)
 
 ## Installation
 
@@ -240,6 +241,111 @@ flysystem:
 All of these options are optional: adapters that natively support public/temporary URLs
 (such as AWS S3, AsyncAws S3, Azure Blob Storage, Google Cloud Storage and WebDAV for
 public URLs) don't require `public_url` or `public_url_generator` to be configured.
+
+## Using a custom mime type detector
+
+The `aws`, `asyncaws`, `ftp`, `gcloud`, `gridfs`, `local`, `memory` and `sftp` adapters accept
+a `mimeTypeDetector` option to override how mime types are detected when writing files (for
+example when the built-in fileinfo-based detection guesses the wrong type for some of your
+files). It expects a service ID implementing `League\MimeTypeDetection\MimeTypeDetector`
+(from `league/mime-type-detection`, already installed as a Flysystem dependency). When left
+unset, each adapter falls back to its own default detector (usually
+`League\MimeTypeDetection\FinfoMimeTypeDetector`).
+
+### Overriding or adding mime types for specific extensions
+
+The most common need is not to reimplement detection from scratch, but to correct or extend
+the mime type guessed for a few extensions, while keeping the default fileinfo-based behavior
+for everything else. `league/mime-type-detection` provides the building blocks for this:
+`FinfoMimeTypeDetector` accepts an `ExtensionToMimeTypeMap`, and
+`OverridingExtensionToMimeTypeMap` lets you layer your own overrides on top of the package's
+built-in `GeneratedExtensionToMimeTypeMap`.
+
+Since these classes live outside the `App\` namespace, they aren't autoconfigured by Symfony
+and need to be wired explicitly as services, using [named
+arguments](https://symfony.com/doc/current/service_container.html#service-parameter-binding-by-name)
+to only override what's needed:
+
+```yaml
+# config/services.yaml
+services:
+    # ...
+
+    App\Flysystem\MyMimeTypeDetector:
+        class: League\MimeTypeDetection\FinfoMimeTypeDetector
+        arguments:
+            $extensionMap: !service
+                class: League\MimeTypeDetection\OverridingExtensionToMimeTypeMap
+                arguments:
+                    $innerMap: !service
+                        class: League\MimeTypeDetection\GeneratedExtensionToMimeTypeMap
+                    $overrides:
+                        env: 'text/plain'
+                        myapp: 'application/vnd.myapp+json'
+```
+
+Then reference it by its service ID in the adapter configuration:
+
+```yaml
+# config/packages/flysystem.yaml
+
+flysystem:
+    storages:
+        users.storage:
+            local:
+                directory: '%kernel.project_dir%/storage/users'
+                mimeTypeDetector: App\Flysystem\MyMimeTypeDetector
+```
+
+### Implementing a detector from scratch
+
+For more advanced needs (calling an external content-sniffing service, adding caching or
+logging around detection, enforcing a strict allow-list of mime types, ...), implement the
+interface directly:
+
+```php
+// src/Flysystem/MyMimeTypeDetector.php
+namespace App\Flysystem;
+
+use League\MimeTypeDetection\MimeTypeDetector;
+
+class MyMimeTypeDetector implements MimeTypeDetector
+{
+    public function detectMimeType(string $path, $contents): ?string
+    {
+        // ...
+    }
+
+    public function detectMimeTypeFromBuffer(string $contents): ?string
+    {
+        // ...
+    }
+
+    public function detectMimeTypeFromPath(string $path): ?string
+    {
+        // ...
+    }
+
+    public function detectMimeTypeFromFile(string $path): ?string
+    {
+        // ...
+    }
+}
+```
+
+With autowiring enabled (the Symfony default), this service is registered under its own
+class name, so you can reference it directly the same way:
+
+```yaml
+# config/packages/flysystem.yaml
+
+flysystem:
+    storages:
+        users.storage:
+            local:
+                directory: '%kernel.project_dir%/storage/users'
+                mimeTypeDetector: App\Flysystem\MyMimeTypeDetector
+```
 
 ## Next
 

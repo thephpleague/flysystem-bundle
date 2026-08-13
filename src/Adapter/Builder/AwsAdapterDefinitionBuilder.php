@@ -58,6 +58,9 @@ final class AwsAdapterDefinitionBuilder implements AdapterDefinitionBuilderInter
 
         $resolver->setDefault('streamReads', true);
         $resolver->setAllowedTypes('streamReads', 'bool');
+
+        $resolver->setDefault('mimeTypeDetector', null);
+        $resolver->setAllowedTypes('mimeTypeDetector', ['null', 'string']);
     }
 
     public function addConfiguration(NodeDefinition $node): void
@@ -86,6 +89,10 @@ final class AwsAdapterDefinitionBuilder implements AdapterDefinitionBuilderInter
                     ->defaultTrue()
                     ->info('Whether to use streaming for file reads')
                 ->end()
+                ->scalarNode('mimeTypeDetector')
+                    ->defaultNull()
+                    ->info('The mime type detector service name')
+                ->end()
             ->end()
         ;
     }
@@ -93,6 +100,11 @@ final class AwsAdapterDefinitionBuilder implements AdapterDefinitionBuilderInter
     public function createAdapter(ContainerBuilder $container, string $storageName, array $options, ?string $defaultVisibilityForDirectories): ?string
     {
         $adapterId = 'flysystem.adapter.'.$storageName;
+
+        $mimeTypeDetector = null;
+        if (null !== $options['mimeTypeDetector']) {
+            $mimeTypeDetector = new Reference($options['mimeTypeDetector']);
+        }
 
         $container
             ->setDefinition($adapterId, new Definition(AwsS3V3Adapter::class))
@@ -104,7 +116,7 @@ final class AwsAdapterDefinitionBuilder implements AdapterDefinitionBuilderInter
                     ->setArgument(0, $defaultVisibilityForDirectories ?? Visibility::PUBLIC)
                     ->setShared(false)
             )
-            ->setArgument(4, null)
+            ->setArgument(4, $mimeTypeDetector)
             ->setArgument(5, $options['options'])
             ->setArgument(6, $options['streamReads']);
 

@@ -16,6 +16,7 @@ use League\Flysystem\Visibility;
 use League\FlysystemBundle\Adapter\Builder\FtpAdapterDefinitionBuilder;
 use League\FlysystemBundle\Test\AbstractAdapterDefinitionBuilderTest;
 use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\Reference;
 
 class FtpAdapterDefinitionBuilderTest extends AbstractAdapterDefinitionBuilderTest
 {
@@ -47,6 +48,7 @@ class FtpAdapterDefinitionBuilderTest extends AbstractAdapterDefinitionBuilderTe
             'recurse_manually' => false,
             'use_raw_list_options' => true,
             'connectivityChecker' => 'my_checker',
+            'mimeTypeDetector' => 'my_mime_type_detector',
         ]];
     }
 
@@ -84,5 +86,7 @@ class FtpAdapterDefinitionBuilderTest extends AbstractAdapterDefinitionBuilderTe
         $this->assertSame($expected, $definition->getArgument(0)->getArgument(0));
         $this->assertSame('my_checker', (string) $definition->getArgument(2));
         $this->assertSame(Visibility::PRIVATE, $definition->getArgument(3)->getArgument(1));
+        $this->assertInstanceOf(Reference::class, $definition->getArgument(4));
+        $this->assertSame('my_mime_type_detector', (string) $definition->getArgument(4));
     }
 }

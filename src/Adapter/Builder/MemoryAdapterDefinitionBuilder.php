@@ -12,9 +12,11 @@
 namespace League\FlysystemBundle\Adapter\Builder;
 
 use League\Flysystem\InMemory\InMemoryFilesystemAdapter;
+use League\Flysystem\Visibility;
 use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -41,16 +43,20 @@ final class MemoryAdapterDefinitionBuilder implements AdapterDefinitionBuilderIn
      */
     public function configureOptions(OptionsResolver $resolver): void
     {
-        // Memory adapter has no configurable options
+        $resolver->setDefault('mimeTypeDetector', null);
+        $resolver->setAllowedTypes('mimeTypeDetector', ['string', 'null']);
     }
 
     public function addConfiguration(NodeDefinition $node): void
     {
-        // Memory adapter has no configurable options
         $node
             ->children()
+                ->scalarNode('mimeTypeDetector')
+                    ->defaultNull()
+                    ->info('The mime type detector service name')
+                ->end()
             ->end()
-            ->info('In-memory adapter for testing (no configuration options)')
+            ->info('In-memory adapter for testing')
         ;
     }
 
@@ -58,7 +64,15 @@ final class MemoryAdapterDefinitionBuilder implements AdapterDefinitionBuilderIn
     {
         $adapterId = 'flysystem.adapter.'.$storageName;
 
-        $container->setDefinition($adapterId, new Definition(InMemoryFilesystemAdapter::class));
+        $mimeTypeDetector = null;
+        if (null !== ($options['mimeTypeDetector'] ?? null)) {
+            $mimeTypeDetector = new Reference($options['mimeTypeDetector']);
+        }
+
+        $container
+            ->setDefinition($adapterId, new Definition(InMemoryFilesystemAdapter::class))
+            ->setArgument(0, $defaultVisibilityForDirectories ?? Visibility::PUBLIC)
+            ->setArgument(1, $mimeTypeDetector);
 
         return $adapterId;
     }

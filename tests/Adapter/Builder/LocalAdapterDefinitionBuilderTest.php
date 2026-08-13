@@ -16,6 +16,7 @@ use League\Flysystem\Visibility;
 use League\FlysystemBundle\Adapter\Builder\LocalAdapterDefinitionBuilder;
 use League\FlysystemBundle\Test\AbstractAdapterDefinitionBuilderTest;
 use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\Reference;
 
 class LocalAdapterDefinitionBuilderTest extends AbstractAdapterDefinitionBuilderTest
 {
@@ -45,6 +46,7 @@ class LocalAdapterDefinitionBuilderTest extends AbstractAdapterDefinitionBuilder
                 ],
             ],
             'lazy_root_creation' => true,
+            'mimeTypeDetector' => 'my_mime_type_detector',
         ]];
     }
 
@@ -67,6 +69,8 @@ class LocalAdapterDefinitionBuilderTest extends AbstractAdapterDefinitionBuilder
         $this->assertSame(Visibility::PRIVATE, $definition->getArgument(1)->getArgument(1));
         $this->assertSame(LOCK_EX, $definition->getArgument(2));
         $this->assertSame(LocalFilesystemAdapter::SKIP_LINKS, $definition->getArgument(3));
+        $this->assertInstanceOf(Reference::class, $definition->getArgument(4));
+        $this->assertSame('my_mime_type_detector', (string) $definition->getArgument(4));
         $this->assertSame(true, $definition->getArgument(5));
     }
 }

@@ -53,6 +53,9 @@ final class AsyncAwsAdapterDefinitionBuilder implements AdapterDefinitionBuilder
 
         $resolver->setDefault('prefix', '');
         $resolver->setAllowedTypes('prefix', 'string');
+
+        $resolver->setDefault('mimeTypeDetector', null);
+        $resolver->setAllowedTypes('mimeTypeDetector', ['null', 'string']);
     }
 
     public function addConfiguration(NodeDefinition $node): void
@@ -71,6 +74,10 @@ final class AsyncAwsAdapterDefinitionBuilder implements AdapterDefinitionBuilder
                     ->defaultValue('')
                     ->info('Optional path prefix to prepend to all object keys')
                 ->end()
+                ->scalarNode('mimeTypeDetector')
+                    ->defaultNull()
+                    ->info('The mime type detector service name')
+                ->end()
             ->end()
         ;
     }
@@ -78,6 +85,11 @@ final class AsyncAwsAdapterDefinitionBuilder implements AdapterDefinitionBuilder
     public function createAdapter(ContainerBuilder $container, string $storageName, array $options, ?string $defaultVisibilityForDirectories): ?string
     {
         $adapterId = 'flysystem.adapter.'.$storageName;
+
+        $mimeTypeDetector = null;
+        if (null !== $options['mimeTypeDetector']) {
+            $mimeTypeDetector = new Reference($options['mimeTypeDetector']);
+        }
 
         $container
             ->setDefinition($adapterId, new Definition(AsyncAwsS3Adapter::class))
@@ -88,7 +100,8 @@ final class AsyncAwsAdapterDefinitionBuilder implements AdapterDefinitionBuilder
                 (new Definition(PortableVisibilityConverter::class))
                     ->setArgument(0, $defaultVisibilityForDirectories ?? Visibility::PUBLIC)
                     ->setShared(false)
-            );
+            )
+            ->setArgument(4, $mimeTypeDetector);
 
         return $adapterId;
     }
