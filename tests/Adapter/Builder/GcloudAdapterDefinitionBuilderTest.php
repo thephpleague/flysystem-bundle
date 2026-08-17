@@ -35,6 +35,8 @@ class GcloudAdapterDefinitionBuilderTest extends AbstractAdapterDefinitionBuilde
             'client' => 'my_client',
             'bucket' => 'bucket',
             'prefix' => 'prefix/path',
+            'userProject' => 'billing-project-id',
+            'bucketOptions' => ['location' => 'EU'],
             'visibility_handler' => UniformBucketLevelAccessVisibility::class,
             'streamReads' => true,
             'mimeTypeDetector' => 'my_mime_type_detector',
@@ -49,6 +51,8 @@ class GcloudAdapterDefinitionBuilderTest extends AbstractAdapterDefinitionBuilde
         $this->assertInstanceOf(Reference::class, $bucketDefinition->getFactory()[0]);
         $this->assertSame('my_client', (string) $bucketDefinition->getFactory()[0]);
         $this->assertSame('bucket', $bucketDefinition->getFactory()[1]);
+        $this->assertSame('billing-project-id', $bucketDefinition->getArgument(1));
+        $this->assertSame(['location' => 'EU'], $bucketDefinition->getArgument(2));
 
         $this->assertSame('prefix/path', $definition->getArgument(1));
         $this->assertTrue($definition->getArgument(5));

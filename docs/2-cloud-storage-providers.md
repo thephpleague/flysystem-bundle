@@ -110,6 +110,11 @@ flysystem:
                 client: 'gcloud_client_service' # The service ID of the Google\Cloud\Storage\StorageClient instance
                 bucket: 'bucket_name'
                 prefix: 'optional/path/prefix'
+                # The project ID to bill for the request, or true to use the client's project ID
+                userProject: false
+                # Additional options passed to the StorageClient::bucket() factory method,
+                # e.g. pre-filling bucket metadata to skip an API call
+                bucketOptions: { location: 'EU' }
                 streamReads: false
                 mimeTypeDetector: ~ # e.g. App\Flysystem\MyMimeTypeDetector
 ```
