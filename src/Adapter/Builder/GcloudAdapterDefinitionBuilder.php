@@ -55,6 +55,12 @@ final class GcloudAdapterDefinitionBuilder implements AdapterDefinitionBuilderIn
         $resolver->setDefault('prefix', '');
         $resolver->setAllowedTypes('prefix', 'string');
 
+        $resolver->setDefault('userProject', false);
+        $resolver->setAllowedTypes('userProject', ['bool', 'string']);
+
+        $resolver->setDefault('bucketOptions', []);
+        $resolver->setAllowedTypes('bucketOptions', 'array');
+
         $resolver->setDefault('visibility_handler', null);
         $resolver->setAllowedTypes('visibility_handler', ['string', 'null']);
 
@@ -80,6 +86,16 @@ final class GcloudAdapterDefinitionBuilder implements AdapterDefinitionBuilderIn
                 ->scalarNode('prefix')
                     ->defaultValue('')
                     ->info('Optional path prefix to prepend to all object keys')
+                ->end()
+                ->scalarNode('userProject')
+                    ->defaultFalse()
+                    ->info('The project ID to bill for the request, or true to use the client project ID')
+                ->end()
+                ->arrayNode('bucketOptions')
+                    ->defaultValue([])
+                    ->prototype('variable')
+                    ->end()
+                    ->info('Additional options passed to the StorageClient::bucket() factory method (e.g. location)')
                 ->end()
                 ->scalarNode('visibility_handler')
                     ->defaultNull()
@@ -125,6 +141,8 @@ final class GcloudAdapterDefinitionBuilder implements AdapterDefinitionBuilderIn
                 (new Definition(StorageClient::class))
                     ->setFactory([new Reference($options['client']), 'bucket'])
                     ->setArgument(0, $options['bucket'])
+                    ->setArgument(1, $options['userProject'])
+                    ->setArgument(2, $options['bucketOptions'])
                     ->setPublic(false)
             )
             ->setArgument(1, $options['prefix'])
