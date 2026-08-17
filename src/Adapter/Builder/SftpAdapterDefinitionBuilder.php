@@ -77,11 +77,17 @@ final class SftpAdapterDefinitionBuilder implements AdapterDefinitionBuilderInte
         $resolver->setDefault('port', 22);
         $resolver->setAllowedTypes('port', 'scalar');
 
+        $resolver->setDefault('useAgent', false);
+        $resolver->setAllowedTypes('useAgent', 'bool');
+
         $resolver->setDefault('timeout', 90);
         $resolver->setAllowedTypes('timeout', 'scalar');
 
+        $resolver->setDefault('maxTries', 4);
+        $resolver->setAllowedTypes('maxTries', 'scalar');
+
         $resolver->setDefault('hostFingerprint', null);
-        $resolver->setAllowedTypes('hostFingerprint', ['string', 'null']);
+        $resolver->setAllowedTypes('hostFingerprint', ['string', 'array', 'null']);
 
         $resolver->setDefault('connectivityChecker', null);
         $resolver->setAllowedTypes('connectivityChecker', ['string', 'null']);
@@ -94,6 +100,12 @@ final class SftpAdapterDefinitionBuilder implements AdapterDefinitionBuilderInte
 
         $resolver->setDefault('mimeTypeDetector', null);
         $resolver->setAllowedTypes('mimeTypeDetector', ['string', 'null']);
+
+        $resolver->setDefault('detect_mime_type_using_path', false);
+        $resolver->setAllowedTypes('detect_mime_type_using_path', 'bool');
+
+        $resolver->setDefault('disconnect_on_destruct', false);
+        $resolver->setAllowedTypes('disconnect_on_destruct', 'bool');
 
         $resolver->setDefault('directoryPerm', 0744);
         $resolver->setAllowedTypes('directoryPerm', 'scalar');
@@ -138,13 +150,21 @@ final class SftpAdapterDefinitionBuilder implements AdapterDefinitionBuilderInte
                     ->defaultValue(22)
                     ->info('SFTP port number')
                 ->end()
+                ->booleanNode('useAgent')
+                    ->defaultFalse()
+                    ->info('Use the SSH agent for authentication')
+                ->end()
                 ->integerNode('timeout')
                     ->defaultValue(90)
                     ->info('Connection timeout in seconds')
                 ->end()
-                ->scalarNode('hostFingerprint')
+                ->integerNode('maxTries')
+                    ->defaultValue(4)
+                    ->info('Maximum number of connection attempts')
+                ->end()
+                ->variableNode('hostFingerprint')
                     ->defaultNull()
-                    ->info('Host fingerprint for verification')
+                    ->info('Host fingerprint for verification (a string, or an array of accepted fingerprints)')
                 ->end()
                 ->scalarNode('connectivityChecker')
                     ->defaultNull()
@@ -163,6 +183,14 @@ final class SftpAdapterDefinitionBuilder implements AdapterDefinitionBuilderInte
                 ->scalarNode('mimeTypeDetector')
                     ->defaultNull()
                     ->info('The mime type detector service name')
+                ->end()
+                ->booleanNode('detect_mime_type_using_path')
+                    ->defaultFalse()
+                    ->info('Detect mime type using the file path instead of its content')
+                ->end()
+                ->booleanNode('disconnect_on_destruct')
+                    ->defaultFalse()
+                    ->info('Disconnect the SFTP connection when the adapter is destructed')
                 ->end()
             ->end()
         ;
@@ -196,6 +224,12 @@ final class SftpAdapterDefinitionBuilder implements AdapterDefinitionBuilderInte
         }
         unset($options['mimeTypeDetector']);
 
+        $detectMimeTypeUsingPath = $options['detect_mime_type_using_path'] ?? false;
+        unset($options['detect_mime_type_using_path']);
+
+        $disconnectOnDestruct = $options['disconnect_on_destruct'] ?? false;
+        unset($options['disconnect_on_destruct']);
+
         // Create main adapter service
         $container
             ->setDefinition($adapterId, new Definition($adapterFqcn))
@@ -207,7 +241,9 @@ final class SftpAdapterDefinitionBuilder implements AdapterDefinitionBuilderInte
             )
             ->setArgument(1, $root)
             ->setArgument(2, $this->createUnixDefinition($options['permissions'] ?? [], $defaultVisibilityForDirectories ?? Visibility::PRIVATE))
-            ->setArgument(3, $mimeTypeDetector);
+            ->setArgument(3, $mimeTypeDetector)
+            ->setArgument(4, $detectMimeTypeUsingPath)
+            ->setArgument(5, $disconnectOnDestruct);
 
         return $adapterId;
     }

@@ -93,11 +93,17 @@ final class FtpAdapterDefinitionBuilder implements AdapterDefinitionBuilderInter
         $resolver->setDefault('use_raw_list_options', null);
         $resolver->setAllowedTypes('use_raw_list_options', ['null', 'bool']);
 
+        $resolver->setDefault('connectionProvider', null);
+        $resolver->setAllowedTypes('connectionProvider', ['string', 'null']);
+
         $resolver->setDefault('connectivityChecker', null);
         $resolver->setAllowedTypes('connectivityChecker', ['string', 'null']);
 
         $resolver->setDefault('mimeTypeDetector', null);
         $resolver->setAllowedTypes('mimeTypeDetector', ['string', 'null']);
+
+        $resolver->setDefault('detect_mime_type_using_path', false);
+        $resolver->setAllowedTypes('detect_mime_type_using_path', 'bool');
 
         $this->configureUnixOptions($resolver);
     }
@@ -167,6 +173,10 @@ final class FtpAdapterDefinitionBuilder implements AdapterDefinitionBuilderInter
                     ->defaultNull()
                     ->info('Use raw list options')
                 ->end()
+                ->scalarNode('connectionProvider')
+                    ->defaultNull()
+                    ->info('Connection provider service name')
+                ->end()
                 ->scalarNode('connectivityChecker')
                     ->defaultNull()
                     ->info('Connectivity checker service name')
@@ -174,6 +184,10 @@ final class FtpAdapterDefinitionBuilder implements AdapterDefinitionBuilderInter
                 ->scalarNode('mimeTypeDetector')
                     ->defaultNull()
                     ->info('The mime type detector service name')
+                ->end()
+                ->booleanNode('detect_mime_type_using_path')
+                    ->defaultFalse()
+                    ->info('Detect mime type using the file path instead of its content')
                 ->end()
             ->end()
         ;
@@ -194,6 +208,11 @@ final class FtpAdapterDefinitionBuilder implements AdapterDefinitionBuilderInter
         $options['recurseManually'] = $options['recurse_manually'];
         $options['useRawListOptions'] = $options['use_raw_list_options'];
 
+        $connectionProvider = null;
+        if (null !== $options['connectionProvider']) {
+            $connectionProvider = new Reference($options['connectionProvider']);
+        }
+
         $connectivityChecker = null;
         if (null !== $options['connectivityChecker']) {
             $connectivityChecker = new Reference($options['connectivityChecker']);
@@ -204,6 +223,8 @@ final class FtpAdapterDefinitionBuilder implements AdapterDefinitionBuilderInter
             $mimeTypeDetector = new Reference($options['mimeTypeDetector']);
         }
 
+        $detectMimeTypeUsingPath = $options['detect_mime_type_using_path'];
+
         unset(
             $options['transfer_mode'],
             $options['system_type'],
@@ -211,8 +232,10 @@ final class FtpAdapterDefinitionBuilder implements AdapterDefinitionBuilderInter
             $options['timestamps_on_unix_listings_enabled'],
             $options['recurse_manually'],
             $options['use_raw_list_options'],
+            $options['connectionProvider'],
             $options['connectivityChecker'],
-            $options['mimeTypeDetector']
+            $options['mimeTypeDetector'],
+            $options['detect_mime_type_using_path']
         );
 
         $container
@@ -223,10 +246,11 @@ final class FtpAdapterDefinitionBuilder implements AdapterDefinitionBuilderInter
                     ->addArgument($options)
                     ->setShared(false)
             )
-            ->setArgument(1, null)
+            ->setArgument(1, $connectionProvider)
             ->setArgument(2, $connectivityChecker)
             ->setArgument(3, $this->createUnixDefinition($options['permissions'] ?? [], $defaultVisibilityForDirectories ?? Visibility::PRIVATE))
-            ->setArgument(4, $mimeTypeDetector);
+            ->setArgument(4, $mimeTypeDetector)
+            ->setArgument(5, $detectMimeTypeUsingPath);
 
         return $adapterId;
     }

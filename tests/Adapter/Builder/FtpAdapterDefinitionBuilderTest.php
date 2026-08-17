@@ -47,8 +47,10 @@ class FtpAdapterDefinitionBuilderTest extends AbstractAdapterDefinitionBuilderTe
             'system_type' => 'unix',
             'recurse_manually' => false,
             'use_raw_list_options' => true,
+            'connectionProvider' => 'my_connection_provider',
             'connectivityChecker' => 'my_checker',
             'mimeTypeDetector' => 'my_mime_type_detector',
+            'detect_mime_type_using_path' => true,
         ]];
     }
 
@@ -84,9 +86,12 @@ class FtpAdapterDefinitionBuilderTest extends AbstractAdapterDefinitionBuilderTe
 
         $this->assertSame(FtpAdapter::class, $definition->getClass());
         $this->assertSame($expected, $definition->getArgument(0)->getArgument(0));
+        $this->assertInstanceOf(Reference::class, $definition->getArgument(1));
+        $this->assertSame('my_connection_provider', (string) $definition->getArgument(1));
         $this->assertSame('my_checker', (string) $definition->getArgument(2));
         $this->assertSame(Visibility::PRIVATE, $definition->getArgument(3)->getArgument(1));
         $this->assertInstanceOf(Reference::class, $definition->getArgument(4));
         $this->assertSame('my_mime_type_detector', (string) $definition->getArgument(4));
+        $this->assertTrue($definition->getArgument(5));
     }
 }

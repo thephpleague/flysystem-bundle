@@ -39,9 +39,13 @@ flysystem:
                 timestamps_on_unix_listings_enabled: false
                 recurse_manually: true
                 use_raw_list_options: ~
+                # Service ID of a League\Flysystem\Ftp\ConnectionProvider implementation
+                connectionProvider: ~ # e.g. 'App\Flysystem\MyConnectionProvider'
                 # Service ID of a League\Flysystem\Ftp\ConnectivityChecker implementation
                 connectivityChecker: ~ # e.g. 'App\Flysystem\MyConnectivityChecker'
                 mimeTypeDetector: ~ # e.g. App\Flysystem\MyMimeTypeDetector
+                # Detect the mime type using the file path instead of its content
+                detect_mime_type_using_path: false
                 permissions:
                     file:
                         public: 0o644
@@ -74,12 +78,21 @@ flysystem:
                 password: 'password'
                 privateKey: 'path/to/or/contents/of/privatekey'
                 passphrase: 'privatekey_passphrase'
-                hostFingerprint: 'host_fingerprint'
+                # Use the SSH agent for authentication instead of a password/private key
+                useAgent: false
+                # A single fingerprint or a list of accepted fingerprints
+                hostFingerprint: 'host_fingerprint' # or ['host_fingerprint_1', 'host_fingerprint_2']
                 preferredAlgorithms:
                     hostkey: ['rsa-sha2-256', 'ssh-rsa']
                 root: '/path/to/root'
                 timeout: 10
+                # Maximum number of connection attempts
+                maxTries: 4
                 mimeTypeDetector: ~ # e.g. App\Flysystem\MyMimeTypeDetector
+                # Detect the mime type using the file path instead of its content
+                detect_mime_type_using_path: false
+                # Disconnect the SFTP connection when the adapter is destructed
+                disconnect_on_destruct: false
                 permissions:
                     file:
                         public: 0o644
