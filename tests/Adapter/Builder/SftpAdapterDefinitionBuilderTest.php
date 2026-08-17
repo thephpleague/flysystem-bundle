@@ -39,14 +39,18 @@ class SftpAdapterDefinitionBuilderTest extends AbstractAdapterDefinitionBuilderT
             'privateKey' => '/path/to/or/contents/of/privatekey',
             'passphrase' => null,
             'port' => 22,
+            'useAgent' => false,
             'timeout' => 30,
-            'hostFingerprint' => null,
+            'maxTries' => 2,
+            'hostFingerprint' => ['aa:bb:cc:dd', 'ee:ff:00:11'],
             'connectivityChecker' => 'my_service_check',
             'preferredAlgorithms' => [
                 'hostkey' => ['rsa-sha2-256', 'ssh-rsa'],
             ],
             'root' => '/path/to/root',
             'mimeTypeDetector' => 'my_mime_type_detector',
+            'detect_mime_type_using_path' => true,
+            'disconnect_on_destruct' => true,
         ]];
     }
 
@@ -59,8 +63,10 @@ class SftpAdapterDefinitionBuilderTest extends AbstractAdapterDefinitionBuilderT
             'privateKey' => '/path/to/or/contents/of/privatekey',
             'passphrase' => null,
             'port' => 22,
+            'useAgent' => false,
             'timeout' => 30,
-            'hostFingerprint' => null,
+            'maxTries' => 2,
+            'hostFingerprint' => ['aa:bb:cc:dd', 'ee:ff:00:11'],
             'preferredAlgorithms' => [
                 'hostkey' => ['rsa-sha2-256', 'ssh-rsa'],
             ],
@@ -84,5 +90,7 @@ class SftpAdapterDefinitionBuilderTest extends AbstractAdapterDefinitionBuilderT
         $this->assertSame(Visibility::PRIVATE, $definition->getArgument(2)->getArgument(1));
         $this->assertInstanceOf(Reference::class, $definition->getArgument(3));
         $this->assertSame('my_mime_type_detector', (string) $definition->getArgument(3));
+        $this->assertTrue($definition->getArgument(4));
+        $this->assertTrue($definition->getArgument(5));
     }
 }
