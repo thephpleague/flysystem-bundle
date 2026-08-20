@@ -62,7 +62,7 @@ final class AwsAdapterDefinitionBuilder implements AdapterDefinitionBuilderInter
         $resolver->setDefault('mimeTypeDetector', null);
         $resolver->setAllowedTypes('mimeTypeDetector', ['null', 'string']);
 
-        $resolver->setDefault('forwardedOptions', AwsS3V3Adapter::AVAILABLE_OPTIONS);
+        $resolver->setDefault('forwardedOptions', class_exists(AwsS3V3Adapter::class) ? AwsS3V3Adapter::AVAILABLE_OPTIONS : []);
         $resolver->setAllowedTypes('forwardedOptions', 'array');
     }
 
@@ -97,7 +97,7 @@ final class AwsAdapterDefinitionBuilder implements AdapterDefinitionBuilderInter
                     ->info('The mime type detector service name')
                 ->end()
                 ->arrayNode('forwardedOptions')
-                    ->defaultValue(AwsS3V3Adapter::AVAILABLE_OPTIONS)
+                    ->defaultValue(class_exists(AwsS3V3Adapter::class) ? AwsS3V3Adapter::AVAILABLE_OPTIONS : [])
                     ->prototype('scalar')->end()
                     ->info('The list of options to forward to the AWS S3 client')
                 ->end()
