@@ -117,7 +117,48 @@ flysystem:
                 bucketOptions: { location: 'EU' }
                 streamReads: false
                 mimeTypeDetector: ~ # e.g. App\Flysystem\MyMimeTypeDetector
+                visibility_handler: ~ # e.g. 'flysystem.adapter.gcloud.visibility.uniform', see below
 ```
+
+### Visibility handler
+
+The `gcloud` adapter delegates the translation between Flysystem's `public`/`private` visibility
+and Google Cloud Storage ACLs to a *visibility handler*
+(`League\Flysystem\GoogleCloudStorage\VisibilityHandler`). The `visibility_handler` option lets
+you choose which one to use, by passing a service id or a FQCN.
+
+When left to its default (`~`/`null`), the underlying adapter falls back to
+`PortableVisibilityHandler`, which manages **per-object ACLs**. This is the right choice for
+buckets using fine-grained access control, but it will fail with an error such as:
+
+```
+Cannot get legacy ACL for an object when uniform bucket-level access is enabled for this bucket.
+```
+
+if your bucket has **Uniform bucket-level access** enabled, since GCS disables per-object ACLs
+entirely in that mode (access is managed via IAM instead). When that's the case, switch to the
+no-op `UniformBucketLevelAccessVisibility` handler instead:
+
+```yaml
+flysystem:
+    storages:
+        users.storage:
+            gcloud:
+                client: 'gcloud_client_service'
+                bucket: 'bucket_name'
+                visibility_handler: 'flysystem.adapter.gcloud.visibility.uniform'
+```
+
+The bundle registers both built-in handlers as services, usable directly as `visibility_handler`
+values (either by their alias or by their FQCN):
+
+| Service id                                               | Class                                | Use case                                                            |
+|----------------------------------------------------------|--------------------------------------|---------------------------------------------------------------------|
+| `flysystem.adapter.gcloud.visibility.portable` (default) | `PortableVisibilityHandler`          | Buckets using fine-grained (per-object) access control              |
+| `flysystem.adapter.gcloud.visibility.uniform`            | `UniformBucketLevelAccessVisibility` | Buckets with Uniform bucket-level access enabled (ACLs are a no-op) |
+
+You can also register your own service implementing `League\Flysystem\GoogleCloudStorage\VisibilityHandler` and reference its service
+id in `visibility_handler`, for example to manage visibility through custom IAM policy bindings.
 
 ## DigitalOcean Spaces
 
